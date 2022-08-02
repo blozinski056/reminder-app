@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import "./App.css"
+import Tile from "./components/Tile.js"
 
-function App() {
+export default function App() {
+  // [formData, setFormData] = React.useState(null);
+  
+
+  // createReminder(): opens form, then creates tile
+  function createReminder() {
+
+    createTile();
+  }
+
+  // createTile(): makes new object passing in data from form
+  function createTile() {
+
+    return (<Tile />)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div className="container">
+      
+      {/* Navigation */}
+      <nav>
+        <h1 className="nav-title">RemindMe</h1>
+        <button className="nav-new-reminder" onClick={createReminder}>+ New Reminder</button>
+      </nav>
+        
+      {/* Form */}
 
-export default App;
+      <div className="tiles-container">
+        {/* Tiles */}
+      </div>
+    </div>
+  )
+}
