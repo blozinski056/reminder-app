@@ -1,66 +1,118 @@
 * {
   margin: 0;
   font-family: 'Overpass', sans-serif;
-  background-color: darkseagreen;
   color: rgb(200, 255, 200);
+  box-sizing: border-box;
+}
+
+body {
+  background-color: darkseagreen;
 }
 
 .container {
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 30px 40px;
 }
 
-/*******/
-/* Nav */
-/*******/
-nav {
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  margin: 30px 0 30px 40px;
-  width: 270px;
-  height: auto;
-}
-
-.nav-title {
+.title {
   font-size: 50px;
-  /* text-shadow: 3px 3px rgb(116, 151, 116); */
   -webkit-text-stroke: 1px rgb(100, 129, 100);
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
 }
 
-.nav-new-reminder {
+/*********/
+/* Modal */
+/*********/
+
+/* Modal Button */
+.modal-button {
   width: 250px;
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
-  /* box-shadow: 0 0 5px rgb(100, 129, 100); */
   background-color: rgb(200, 255, 200);
   font-size: 20px;
   color: rgb(100, 129, 100);
   transition: 0.3s ease;
-}
-
-.nav-new-reminder {
   height: 40px;
   padding-top: 5px;
   cursor: pointer;
 }
 
-.nav-new-reminder:hover {
-  /* background-color: rgb(205, 255, 205); */
+.modal-button:hover {
   color: rgb(100, 129, 100);
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translateX(-1px) translateY(-1px);
   transition: 0.3s ease;
 }
 
-.nav-new-reminder:active {
+.modal-button:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(100, 129, 100, 0.8);
+}
+
+.modal-form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+
+  top: 50%;
+  left: 50%;
+  height: auto;
+  width: auto;
+  transform: translate(-50%, -50%);
+  /* background-color: rgb(85, 138, 85); */
+  padding: 50px;
+  border-radius: 10px;
+}
+
+.modal-component {
+  margin-bottom: 10px;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border-radius: 5px;
+  border: solid 2px rgb(100, 129, 100);
+  outline: none;
+  font-size: 15px;
+}
+
+.modal-component.reminder {
+  width: 300px;
+  height: 30px;
+}
+
+.modal-component.description {
+  width: 300px;
+  height: 70px;
+  resize: none;
+}
+
+.modal-component.datetime {
+  width: 200px;
+  height: 25px;
+  font-size: 15px;
+}
+
+.modal-component.submit {
+  cursor: pointer;
+  width: 70px;
+  height: 25px;
+  font-size: 15px;
+}
+
 
 /*********/
 /* Tiles */
@@ -68,11 +120,24 @@ nav {
 .tiles-container {
   align-self: center;
   display: grid;
-  width: calc(100vw - 80px);
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
   height: auto;
-  grid-template-rows: repeat(5, auto);
+  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-rows: repeat(auto-fit, auto);
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
   background-color: rgb(200, 255, 200);
+  padding: 20px;
+  gap: 20px;
 }
 
+.tile {
+  align-self: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+  background-color: rgb(158, 231, 207);
+  border: solid 1px rgb(120, 175, 157);
+}

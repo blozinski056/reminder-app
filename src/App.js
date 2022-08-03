@@ -1,37 +1,57 @@
 import React from "react"
+import {nanoid} from "nanoid"
+
 import "./App.css"
 import Tile from "./components/Tile.js"
+import Modal from "./components/Modal.js"
 
 export default function App() {
-  // [formData, setFormData] = React.useState(null);
-  
+  const [modal, setModal] = React.useState(false)
+  const [infoTiles, setInfoTiles] = React.useState([])
+  const tiles = infoTiles.map(tile => {
+    return (
+      <Tile 
+        info={tile}
+      />
+    )
+  })
 
-  // createReminder(): opens form, then creates tile
-  function createReminder() {
-
-    createTile();
+  function toggleModal() {
+    setModal(!modal);
   }
 
-  // createTile(): makes new object passing in data from form
-  function createTile() {
+  // Creates new info object and adds it to info tiles array
+  function createTileInfo(r, d, dt) {
+    const newInfo = {
+      id: nanoid(),
+      reminder: r,
+      description: d,
+      dateTime: dt
+    }
 
-    return (<Tile />)
+    setInfoTiles(prevInfoTiles => [newInfo, ...prevInfoTiles])
   }
+
+  console.log(infoTiles)
 
   return (
     <div className="container">
-      
-      {/* Navigation */}
-      <nav>
-        <h1 className="nav-title">RemindMe</h1>
-        <button className="nav-new-reminder" onClick={createReminder}>+ New Reminder</button>
-      </nav>
+      <h1 className="title">RemindMe</h1>
+      <button className="modal-button" onClick={toggleModal}>+ New Reminder</button>
         
       {/* Form */}
-
-      <div className="tiles-container">
-        {/* Tiles */}
-      </div>
+      {modal && 
+        <Modal 
+          onClose={toggleModal}
+          createInfo={createTileInfo}
+        />
+      }
+      
+      {infoTiles.length > 0 &&
+        <div className="tiles-container">
+          {tiles}
+        </div>
+      }
     </div>
   )
 }
