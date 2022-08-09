@@ -8,10 +8,14 @@ import Modal from "./components/Modal.js"
 export default function App() {
   const [modal, setModal] = React.useState(false)
   const [infoTiles, setInfoTiles] = React.useState([])
-  const tiles = infoTiles.map(tile => {
+  const tiles = infoTiles.map((tile) => {
+
     return (
-      <Tile 
-        info={tile}
+      <Tile
+        key={tile.id}
+        reminder={tile.reminder}
+        description={tile.description}
+        dateTime={tile.dateTime}
       />
     )
   })
@@ -31,8 +35,6 @@ export default function App() {
 
     setInfoTiles(prevInfoTiles => [newInfo, ...prevInfoTiles])
   }
-
-  console.log(infoTiles)
 
   return (
     <div className="container">

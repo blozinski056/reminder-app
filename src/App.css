@@ -44,7 +44,7 @@ body {
   color: rgb(100, 129, 100);
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translateX(-1px) translateY(-1px);
-  transition: 0.3s ease;
+  transition: 0.2s ease;
 }
 
 .modal-button:active {
@@ -62,21 +62,42 @@ body {
   background-color: rgb(100, 129, 100, 0.8);
 }
 
-.modal-form {
+.modal-content {
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
-
-  top: 50%;
+  justify-content: center;
+  top: 15%;
   left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal-component.exit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  transform: rotate(45deg);
+  font-size: 30px;
+  padding-top: 6px;
+  padding-left: 6px;
+  cursor: pointer;
+
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
   height: auto;
   width: auto;
-  transform: translate(-50%, -50%);
-  /* background-color: rgb(85, 138, 85); */
-  padding: 50px;
   border-radius: 10px;
+  z-index: 1;
 }
 
 .modal-component {
@@ -111,6 +132,7 @@ body {
   width: 70px;
   height: 25px;
   font-size: 15px;
+  padding-top: 3px;
 }
 
 
@@ -140,4 +162,39 @@ body {
   border-radius: 5px;
   background-color: rgb(158, 231, 207);
   border: solid 1px rgb(120, 175, 157);
+  padding: 5px;
+}
+
+.tile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+}
+
+.tile-details {
+  overflow-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+
+.tile-details.reminder {
+  font-size: 15px;
+  color: rgb(100, 129, 100);
+}
+
+.tile-details.datetime {
+  font-size: 12px;
+  color: rgba(100, 129, 100, 0.541);
+}
+
+.tile-details.description {
+  margin-top: 10px;
+  font-size: 15px;
+  color: rgb(100, 129, 100);
+  height: 100%;
 }
