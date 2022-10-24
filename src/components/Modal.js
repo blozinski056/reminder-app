@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function Modal(props) {
+export default function Modal({setModal, createTileInfo}) {
   function getDateTime() {
     let today = new Date();
     let tzOffset = today.getTimezoneOffset() * 60000; //offset in milliseconds
@@ -17,9 +17,9 @@ export default function Modal(props) {
     const remValue = document.querySelector(".modal-component.reminder")
     const descValue = document.querySelector(".modal-component.description")
     const dtValue = document.querySelector(".modal-component.datetime")
-    props.createInfo(remValue.value, descValue.value, dtValue.value)
+    createTileInfo(remValue.value, descValue.value, dtValue.value)
 
-    props.onClose();
+    setModal(false);
   }
   
   return (
@@ -27,7 +27,7 @@ export default function Modal(props) {
       <div className="modal-overlay"></div>
       
       <div className="modal-content">
-        <button className="modal-component exit" onClick={props.onClose}>+</button>
+        <button className="modal-component exit" onClick={() => setModal(false)}>+</button>
 
         <form className="modal-form" onSubmit={submitClose}>
           <input
