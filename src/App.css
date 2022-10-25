@@ -22,6 +22,10 @@ body {
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
 }
 
+.empty {
+  margin-top: 20px;
+}
+
 /*********/
 /* Modal */
 /*********/
@@ -125,6 +129,16 @@ body {
   resize: none;
 }
 
+.modal-component.description::-webkit-scrollbar {
+  background-color: darkseagreen;
+  width: 5px;
+}
+
+.modal-component.description::-webkit-scrollbar-thumb {
+background-color:rgb(100, 129, 100);
+border-radius: 3px;
+}
+
 .modal-component.datetime {
   width: 200px;
   height: 25px;
@@ -191,33 +205,64 @@ body {
   width: 100%;
 }
 
-.tile-details {
-  overflow-wrap: break-word;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 8;
-  -webkit-box-orient: vertical;
-}
-
-.tile-details.reminder {
+.tile-reminder {
   font-size: 15px;
+  height: 1rem;
   color: rgb(100, 129, 100);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.tile-details.datetime {
+.tile-datetime {
   font-size: 12px;
   color: rgba(100, 129, 100, 0.541);
 }
 
-.tile-details.description {
-  margin-top: 10px;
+.tile-description {
+  max-height: 60%;
   font-size: 15px;
   color: rgb(100, 129, 100);
-  height: 100%;
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
 }
 
-.tile.exit {
+.tile.delete {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  right: -15px;
+  top: -15px;
+  color: rgb(100, 129, 100);
+}
+
+.tile.delete > img {
+  height: 20px;
+  width: 20px;
+}
+
+/****************/
+/* Detail Modal */
+/****************/
+.dm-content {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.dm-exit {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -226,10 +271,120 @@ body {
   border-radius: 15px;
   transform: rotate(45deg);
   font-size: 30px;
-  padding-top: 10px;
-  padding-left: 5px;
+  padding-top: 6px;
+  padding-left: 6px;
   cursor: pointer;
-  right: -15px;
-  top: -15px;
   color: rgb(100, 129, 100);
+  background-color: rgb(206, 252, 236);
+  z-index: 10;
+}
+
+.dm-details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 300px;
+  height: auto;
+  margin-top: 20px;
+  background-color: rgb(158, 231, 207);
+  padding: 10px;
+  border-radius: 5px;
+  border: solid 1px rgb(120, 175, 157);
+}
+
+.dm-reminder {
+  color: rgb(100, 129, 100);
+  width: 100%;
+  max-height: 2.5em;
+  overflow-wrap: break-word;
+  overflow: auto;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+.dm-datetime {
+  color: rgba(100, 129, 100, 0.541);
+}
+
+.dm-description {
+  color: rgb(100, 129, 100);
+  margin-top: 10px;
+  width: 100%;
+  height: 10.5em;
+  overflow-wrap: break-word;
+  overflow: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+}
+
+.dm-button-container {
+  width: 100%;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.dm-reminder::-webkit-scrollbar,
+.dm-description::-webkit-scrollbar {
+  background-color: rgb(206, 252, 236);
+  width: 5px;
+}
+
+.dm-reminder::-webkit-scrollbar-thumb,
+.dm-description::-webkit-scrollbar-thumb {
+background-color:rgb(100, 129, 100);
+border-radius: 3px;
+}
+
+.dm-edit, .dm-delete, .dm-save, .dm-cancel {
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(206, 252, 236);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 4px;
+}
+
+.dm-edit > img,
+.dm-delete > img,
+.dm-save > img,
+.dm-cancel > img {
+  height: 20px;
+  width: 20px;
+}
+
+/* Editing Form */
+
+.dm-form {
+  width: 100%;
+  color: rgb(100, 129, 100);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dm-form.description {
+  resize: none;
+}
+
+.dm-cancel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.dm-save {
+  align-self: flex-end;
+}
+
+.dm-form.datetime {
+  flex-direction: row;
 }
