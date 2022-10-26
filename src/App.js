@@ -23,14 +23,17 @@ export default function App() {
         setDetModal={setDetModal}
         setDetails={setDetails}
         convertDT={convertDT}
+        getDateTime={getDateTime}
       />
     )
   })
 
   function getDateTime() {
     let today = new Date();
-    let tzOffset = today.getTimezoneOffset() * 60000; //offset in milliseconds
-    let localISOTime = (new Date(Date.now() - tzOffset)).toISOString().slice(0, -8);
+    // offset is positive if local tz is behind, negative if ahead; convert to ms
+    let tzOffset = today.getTimezoneOffset() * 60000;
+    // .now() - offset gets to local time from UTC
+    let localISOTime = (new Date(Date.now() - tzOffset)).toISOString();
 
     return (
       localISOTime
@@ -70,9 +73,9 @@ export default function App() {
   function updateTile(dets) {
     let newList = [];
     infoTiles.forEach((tile) => {
-      if(tile.props.id === dets.id) {
+      if(tile.id === dets.id) {
         newList.unshift({
-          id: tile.props.id, 
+          id: nanoid(), 
           reminder: dets.reminder, 
           description: dets.description, 
           dateTime: dets.dateTime

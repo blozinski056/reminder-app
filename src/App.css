@@ -135,14 +135,15 @@ body {
 }
 
 .modal-component.description::-webkit-scrollbar-thumb {
-background-color:rgb(100, 129, 100);
-border-radius: 3px;
+  background-color:rgb(100, 129, 100);
+  border-radius: 3px;
 }
 
 .modal-component.datetime {
   width: 200px;
   height: 25px;
   font-size: 15px;
+  cursor: text;
 }
 
 .modal-component.submit {
@@ -197,6 +198,7 @@ border-radius: 3px;
 }
 
 .tile-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -245,6 +247,18 @@ border-radius: 3px;
 .tile.delete > img {
   height: 20px;
   width: 20px;
+}
+
+.tile-remaining {
+  color: rgb(100, 129, 100);
+  position: absolute;
+  bottom: 0;
+  /* left: 0; */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  text-align: center;
 }
 
 /****************/
@@ -297,10 +311,9 @@ border-radius: 3px;
 .dm-reminder {
   color: rgb(100, 129, 100);
   width: 100%;
-  max-height: 2.5em;
-  overflow-wrap: break-word;
+  max-height: 1.5em;
   overflow: auto;
-  overflow-x: hidden;
+  overflow-y: hidden;
   margin: 0;
 }
 
@@ -327,16 +340,23 @@ border-radius: 3px;
   margin-top: 10px;
 }
 
+.dm-button-container > h5 {
+  color:rgb(100, 129, 100);
+  text-align: center;
+}
+
 .dm-reminder::-webkit-scrollbar,
 .dm-description::-webkit-scrollbar {
   background-color: rgb(206, 252, 236);
   width: 5px;
+  height: 5px;
+  cursor: pointer;
 }
 
 .dm-reminder::-webkit-scrollbar-thumb,
 .dm-description::-webkit-scrollbar-thumb {
-background-color:rgb(100, 129, 100);
-border-radius: 3px;
+  background-color:rgb(100, 129, 100);
+  border-radius: 3px;
 }
 
 .dm-edit, .dm-delete, .dm-save, .dm-cancel {
@@ -371,10 +391,6 @@ border-radius: 3px;
   gap: 10px;
 }
 
-.dm-form.description {
-  resize: none;
-}
-
 .dm-cancel {
   position: absolute;
   top: 10px;
@@ -387,4 +403,45 @@ border-radius: 3px;
 
 .dm-form.datetime {
   flex-direction: row;
+  cursor: text;
+}
+
+.dm-form.description {
+  resize: none;
+  height: 8rem;
+}
+
+.dm-form.reminder {
+  height: 1.5rem;
+}
+
+.reminder::-webkit-scrollbar {
+  background-color: rgb(206, 252, 236);
+  height: 5px;
+  width: 5px;
+  cursor: pointer;
+}
+
+.dm-form.reminder::-webkit-scrollbar-thumb {
+  background-color:rgb(100, 129, 100);
+  border-radius: 3px;
+  height: 5px;
+}
+
+.dm-form.reminder,
+.dm-form.description,
+.dm-form.datetime {
+  background-color: rgb(206, 252, 236);
+  border: solid 1px rgb(100, 129, 100);
+}
+
+.dm-form.description::-webkit-scrollbar {
+  background-color: rgb(206, 252, 236);
+  width: 5px;
+  cursor: pointer;
+}
+
+.dm-form.description::-webkit-scrollbar-thumb {
+  background-color:rgb(100, 129, 100);
+  border-radius: 3px;
 }

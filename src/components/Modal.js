@@ -1,20 +1,13 @@
 import React from "react"
 
 export default function Modal({setModal, createTileInfo, getDateTime}) {
+  const minDate = new Date((new Date(getDateTime()).getTime() + 60000)).toISOString().slice(0, -8);
   function submitClose(e) {
     e.preventDefault();
-
-    const reminder = document.querySelector(".modal-component.reminder")
-    const description = document.querySelector(".modal-component.description")
-    const dt = document.querySelector(".modal-component.datetime")
-
-    // converts date-time object to string with date leading
-    // const dtObj = new Date(dt.value);
-    // const date = dtObj.toDateString();
-    // const time = dtObj.toLocaleTimeString("en-US", {timeStyle: "short"});
-    // const dtString = date + ", " + time;
-
-    createTileInfo(reminder.value, description.value, dt.value);
+    const reminder = document.querySelector(".modal-component.reminder").value
+    const description = document.querySelector(".modal-component.description").value
+    const dt = document.querySelector(".modal-component.datetime").value
+    createTileInfo(reminder, description, dt);
     setModal(false);
   }
   
@@ -38,7 +31,8 @@ export default function Modal({setModal, createTileInfo, getDateTime}) {
           <input
             className="modal-component datetime"
             type="datetime-local"
-            min={getDateTime()}
+            min={minDate}
+            defaultValue={minDate}
             required="required"
           />
           <input
