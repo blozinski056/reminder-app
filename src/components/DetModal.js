@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function DetModal({details, setDetails, setDetModal, removeTile, updateTile, getDateTime, convertDT}) {
+export default function DetModal({details, setDetModal, removeTile, updateTile, getDateTime, convertDT}) {
   let t = setInterval(() => setTimeLeft(timeRemaining), 1000);
   const minDate = new Date((new Date(getDateTime()).getTime() + 60000)).toISOString().slice(0, -8);
   const [editing, setEditing] = React.useState(false);
@@ -49,17 +49,12 @@ export default function DetModal({details, setDetails, setDetModal, removeTile, 
 
   function submit(e) {
     e.preventDefault();
-
     const remVal = document.querySelector(".dm-form.reminder").value;
     const descVal = document.querySelector(".dm-form.description").value;
     const dtVal = document.querySelector(".dm-form.datetime").value;
     const newDets = {id: details.id, reminder: remVal, description: descVal, dateTime: dtVal};
-
-    // update details
-    setDetails(newDets);
     // update list of tiles
     updateTile(newDets);
-    setEditing(false);
   }
 
   React.useEffect(() => {

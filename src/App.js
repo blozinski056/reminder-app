@@ -74,17 +74,20 @@ export default function App() {
     let newList = [];
     infoTiles.forEach((tile) => {
       if(tile.id === dets.id) {
-        newList.unshift({
+        const updatedTile = {
           id: nanoid(), 
           reminder: dets.reminder, 
           description: dets.description, 
           dateTime: dets.dateTime
-        });
+        }
+        newList.unshift(updatedTile);
+        setDetails(updatedTile);
       } else {
         newList.push(tile);
       }
     })
     setInfoTiles(newList);
+    setDetModal(false);
   }
 
   return (
