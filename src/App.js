@@ -5,12 +5,21 @@ import "./App.css"
 import Tile from "./components/Tile.js"
 import Modal from "./components/Modal.js"
 import DetModal from "./components/DetModal.js"
+import Login from "./components/Login.js"
 
 export default function App() {
   const [modal, setModal] = React.useState(false)
+  const [login, setLogin] = React.useState(false)
+  const [showSignOut, setShowSignOut] = React.useState(false)
   const [detModal, setDetModal] = React.useState(false);
   const [details, setDetails] = React.useState({id: "", reminder: "", description: "", dateTime: ""})
   const [infoTiles, setInfoTiles] = React.useState([])
+  const loginSavedTile = {
+    id: "yzrLAOCzjZ-ArYRrJtcDv", 
+    reminder: "Check out my LinkedIn!",
+    description: "https://www.linkedin.com/in/bryce-lozinski/",
+    dateTime: new Date()
+  }
   const tiles = infoTiles.map((tile) => {
     return (
       <Tile
@@ -90,11 +99,28 @@ export default function App() {
     setDetModal(false);
   }
 
+  function contains(details) {
+    if(infoTiles.length === 0) { return false }
+    return infoTiles.some((tile) => tile.id === details.id)
+  }
+
   return (
     <div className="container">
-      <h1 className="title">RemindMe</h1>
-      <button className="modal-button" onClick={() => setModal(true)}>+ New Reminder</button>
-        
+      <div className="header-container">
+        <h1 className="title">RemindMe</h1>
+        <button className="modal-button" onClick={() => setModal(true)}>+ New Reminder</button>
+        {!showSignOut && <button className="login-button" onClick={() => setLogin(true)}>Login</button>}
+        {showSignOut && <button className="login-button" onClick={() => setShowSignOut(false)}>Sign Out</button>}
+        {login &&
+          <Login 
+            setLogin={setLogin}
+            setShowSignOut={setShowSignOut}
+            contains={contains}
+            loginSavedTile={loginSavedTile}
+            setInfoTiles={setInfoTiles}
+          />
+        }
+      </div>
       {/* Form */}
       {modal && 
         <Modal 
@@ -103,7 +129,6 @@ export default function App() {
           getDateTime={getDateTime}
         />
       }
-
       {detModal &&
         <DetModal
           details={details}
@@ -114,14 +139,12 @@ export default function App() {
           getDateTime={getDateTime}
           convertDT={convertDT}
         />
-      }
-      
+      }      
       {infoTiles.length > 0 &&
         <div className="tiles-container">
           {tiles}
         </div>
       }
-
       {infoTiles.length === 0 &&
         <h1 className="empty">No more reminders!</h1>
       }

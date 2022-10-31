@@ -26,6 +26,182 @@ body {
   margin-top: 20px;
 }
 
+.header-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: auto;
+}
+
+/*********/
+/* Login */
+/*********/
+.login {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  justify-self: flex-end;
+}
+
+.login-button {
+  position: relative;
+  height: 40px;
+  width: 70px;
+  justify-self: flex-end;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  color: rgb(100, 129, 100);
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translateX(-1px) translateY(-1px);
+  transition: 0.2s ease;
+}
+
+.login-overlay {
+  position: fixed;
+  background-color: transparent;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.login-incorrect {
+  color:red;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+
+.login-incorrect.hidden {
+  opacity: 0;
+}
+
+@keyframes drop {
+  0% {
+    transform: scaleY(0%);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(100%);
+    opacity: 1;
+  }
+}
+
+.login-dropdown {
+  position: fixed;
+  right: 40px;
+  top: 85px;
+  height: 200px;
+  width: 300px;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border: solid 1px rgb(100, 129, 100);
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation: drop 0.2s ease-in;
+  transform-origin: 0px -20px;
+}
+
+@keyframes dropArrow {
+  0% {
+    transform: scaleY(0%) rotate(45deg);
+  }
+  100% {
+    transform: scaleY(100%) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+.login-arrow {
+  position: fixed;
+  top: 75px;
+  right: 50px;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(200, 255, 200);
+  border-top: solid 1px rgb(100, 129, 100);
+  border-left: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  transform: rotate(45deg);
+  opacity: 0;
+  z-index: 11;
+
+  animation: dropArrow 0.2s ease-in forwards;
+  animation-delay: 100ms;
+}
+
+.login-arrow-coverup {
+  position: fixed;
+  top: 85px;
+  right: 45px;
+  height: 50px;
+  width: 50px;
+  background-color: rgb(200, 255, 200);
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 12;
+
+  animation: drop 0.2s ease-in forwards;
+  animation-delay: 100ms;
+  transform-origin: top;
+}
+
+.input {
+  position: relative;
+  height: 30px;
+  width: 200px;
+  margin-bottom: 15px;
+}
+
+.login-username, .login-password {
+  height: 30px;
+  width: 200px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  color: rgb(100, 129, 100);
+  border-radius: 10px;
+  padding-left: 10px;
+  outline: none;
+}
+
+.input span {
+  position: absolute;
+  left: 0;
+  padding: 8px;
+  padding-left: 10px;
+  font-size: 12px;
+  color: rgb(100, 129, 100);
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input input:focus ~ span,
+.input input:valid ~ span
+{
+  transform: translateY(-7px);
+  background-color: rgb(200, 255, 200);
+  margin-left: 10px;
+  padding: 0;
+}
+
+.login-signin {
+  color: rgb(100, 129, 100);
+  border: none;
+  background-color: rgb(200, 255, 200);
+  cursor: pointer;
+}
+
 /*********/
 /* Modal */
 /*********/
@@ -42,6 +218,8 @@ body {
   height: 40px;
   padding-top: 5px;
   cursor: pointer;
+  grid-row-start: 2;
+  grid-column-start: 1;
 }
 
 .modal-button:hover {
@@ -99,7 +277,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
   height: auto;
   width: auto;
   border-radius: 10px;
@@ -183,7 +360,6 @@ body {
   background-color: rgb(158, 231, 207);
   border: solid 1px rgb(120, 175, 157);
   padding: 5px;
-  /* box-shadow: 3px 3px 5px rgb(100, 129, 100); */
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -205,7 +381,6 @@ body {
 
 .tile:hover {
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  /* box-shadow: 5px 5px 7px rgb(100, 129, 100); */
   transform: translate(-1px, -1px);
   transition: all 0.3s ease;
 }
@@ -266,7 +441,6 @@ body {
   color: rgb(100, 129, 100);
   position: absolute;
   bottom: 0;
-  /* left: 0; */
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -327,7 +501,9 @@ body {
   max-height: 1.5em;
   overflow: auto;
   overflow-y: hidden;
+  white-space: nowrap;
   margin: 0;
+  font-size: 25px;
 }
 
 .dm-datetime {

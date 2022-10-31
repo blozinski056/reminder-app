@@ -4,6 +4,16 @@ export default function Tile({id, reminder, description, dateTime, removeTile, s
   const [timeLeft, setTimeLeft] = React.useState(timeRemaining);
   let t = setInterval(() => setTimeLeft(timeRemaining), 1000);
 
+  React.useEffect(() => {
+    if(timeLeft === "!!!") {
+      clearInterval(t);
+      t = null;
+      document.querySelector(`[name="tile-remaining${id}"]`).style.color = "red";
+      document.querySelector(`[name="tile-datetime${id}"]`).style.color = "red";
+      document.querySelector(`[name="tile${id}"]`).style.border = "solid 3px red";
+    }
+  }, [timeLeft])
+
   function timeRemaining() {
     // need seconds to be tracked
     let now = new Date(getDateTime().slice(0, -5));
@@ -12,11 +22,6 @@ export default function Tile({id, reminder, description, dateTime, removeTile, s
     // convert time to minutes
     let minBtwn = timeBtwn / 60000;
     if(timeBtwn <= 0) {
-      clearInterval(t);
-      t = null;
-      document.querySelector(`[name="tile-remaining${id}"]`).style.color = "red";
-      document.querySelector(`[name="tile-datetime${id}"]`).style.color = "red";
-      document.querySelector(`[name="tile${id}"]`).style.border = "solid 3px red";
       return("!!!")
     } else {
       let mins = Math.ceil(minBtwn % 60);
