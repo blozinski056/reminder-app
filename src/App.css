@@ -51,13 +51,17 @@ body {
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
   cursor: pointer;
+  z-index: 6;
 }
 
 .login-button:hover {
-  color: rgb(100, 129, 100);
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translateX(-1px) translateY(-1px);
   transition: 0.2s ease;
+}
+
+.login-button:active {
+  box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
 
 .login-overlay {
@@ -223,7 +227,6 @@ body {
 }
 
 .modal-button:hover {
-  color: rgb(100, 129, 100);
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translateX(-1px) translateY(-1px);
   transition: 0.2s ease;
@@ -237,12 +240,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgb(100, 129, 100, 0.8);
-  z-index: 5;
+  background-color: rgb(100, 129, 100, 0.9);
+  z-index: 10;
 }
 
 .modal-content {
@@ -254,7 +255,7 @@ body {
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 11;
 }
 
 .modal-component.exit {
@@ -269,7 +270,6 @@ body {
   padding-top: 6px;
   padding-left: 6px;
   cursor: pointer;
-  z-index: 10;
 }
 
 .modal-form {
@@ -280,8 +280,6 @@ body {
   height: auto;
   width: auto;
   border-radius: 10px;
-  z-index: 1;
-  z-index: 10;
 }
 
 .modal-component {
@@ -292,7 +290,6 @@ body {
   border: solid 2px rgb(100, 129, 100);
   outline: none;
   font-size: 15px;
-  z-index: 10;
 }
 
 .modal-component.reminder {

@@ -109,7 +109,7 @@ export default function App() {
       <div className="header-container">
         <h1 className="title">RemindMe</h1>
         <button className="modal-button" onClick={() => setModal(true)}>+ New Reminder</button>
-        {!showSignOut && <button className="login-button" onClick={() => setLogin(true)}>Login</button>}
+        {!showSignOut && <button className="login-button" onClick={() => setLogin(prevLogin => !prevLogin)}>Login</button>}
         {showSignOut && <button className="login-button" onClick={() => setShowSignOut(false)}>Sign Out</button>}
         {login &&
           <Login 
