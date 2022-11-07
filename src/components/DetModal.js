@@ -18,9 +18,6 @@ export default function DetModal({details, setDetModal, removeTile, updateTile, 
         clearInterval(t);
         t = null;
       }
-      // document.querySelector(`[name="dm-remaining${details.id}"]`).style.color = "red";
-      // document.querySelector(`[name="tile-datetime${id}"]`).style.color = "red";
-      // document.querySelector(`[name="tile${id}"]`).style.border = "solid 3px red";
       return("!!!")
     } else {
       let mins = Math.ceil(minBtwn % 60);
@@ -63,7 +60,7 @@ export default function DetModal({details, setDetModal, removeTile, updateTile, 
     } else if(editing === false) {
       document.querySelector(`[name="dm-remaining${details.id}"]`).style.color = "rgb(100, 129, 100)";
     }
-  }, [timeLeft, editing])
+  }, [timeLeft, editing, details.id])
 
   return (
     <div className="det-modal">
