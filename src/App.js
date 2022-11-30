@@ -2,41 +2,35 @@ import React from "react"
 import {nanoid} from "nanoid"
 
 import "./App.css"
+import Navbar from "./components/Navbar"
+import ReminderWall from "./components/ReminderWall"
+import Modal from "./components/Modal"
+import DetailModal from "./components/DetailModal"
 import Tile from "./components/Tile.js"
-import Modal from "./components/Modal.js"
-import DetModal from "./components/DetModal.js"
-import Login from "./components/Login.js"
 
 export default function App() {
-  const [modal, setModal] = React.useState(false)
-  const [login, setLogin] = React.useState(false)
-  const [showSignOut, setShowSignOut] = React.useState(false)
-  const [detModal, setDetModal] = React.useState(false);
+  const [modal, setModal] = React.useState(0);
+  const [tileList, setTileList] = React.useState([]);
   const [details, setDetails] = React.useState({id: "", reminder: "", description: "", dateTime: ""})
-  const [infoTiles, setInfoTiles] = React.useState([])
-  const loginSavedTile = {
-    id: "yzrLAOCzjZ-ArYRrJtcDv", 
-    reminder: "Check out my LinkedIn!",
-    description: "https://www.linkedin.com/in/bryce-lozinski/",
-    dateTime: new Date()
-  }
-  const tiles = infoTiles.map((tile) => {
+  const tiles = tileList.map((tile) => {
     return (
-      <Tile
+      <Tile 
         key={tile.id}
         id={tile.id}
         reminder={tile.reminder}
         description={tile.description}
         dateTime={tile.dateTime}
-        removeTile={removeTile}
-        setDetModal={setDetModal}
-        setDetails={setDetails}
-        convertDT={convertDT}
         getDateTime={getDateTime}
+        removeTile={removeTile}
+        convertDT={convertDT}
+        setDetails={setDetails}
+        setModal={setModal}
+        timeRemaining={timeRemaining}
       />
     )
   })
 
+  // Turns current date and time to ISOString
   function getDateTime() {
     let today = new Date();
     // offset is positive if local tz is behind, negative if ahead; convert to ms
@@ -49,39 +43,31 @@ export default function App() {
     )
   }
 
-  function convertDT(dt) {
-    const dtObj = new Date(dt);
-    const date = dtObj.toDateString();
-    const time = dtObj.toLocaleTimeString("en-US", {timeStyle: "short"});
-    return (
-      date + ", " + time
-    )
-  }
-
   // Creates new info object and adds it to info tiles array
-  function createTileInfo(r, d, dt) {
-    const newInfo = {
+  function createTile(r, d, dt) {
+    const newtile = {
       id: nanoid(),
       reminder: r,
       description: d,
       dateTime: dt
     }
-    setInfoTiles(prevInfoTiles => [newInfo, ...prevInfoTiles])
+    setTileList(prevTileList => [newtile, ...prevTileList]);
   }
 
+  // Removes tile from list based on its ID number
   function removeTile(idNum) {
     const newTileList = [];
-    infoTiles.forEach((tile) => {
+    tileList.forEach((tile) => {
       if(tile.id !== idNum) {
         newTileList.push(tile);
       }
     })
-    setInfoTiles(newTileList);
+    setTileList(newTileList);
   }
 
   function updateTile(dets) {
     let newList = [];
-    infoTiles.forEach((tile) => {
+    tileList.forEach((tile) => {
       if(tile.id === dets.id) {
         const updatedTile = {
           id: nanoid(), 
@@ -95,58 +81,83 @@ export default function App() {
         newList.push(tile);
       }
     })
-    setInfoTiles(newList);
-    setDetModal(false);
+    setTileList(newList);
+    setModal(0);
   }
 
-  function contains(details) {
-    if(infoTiles.length === 0) { return false }
-    return infoTiles.some((tile) => tile.id === details.id)
+  // Converts the dateTime to a string
+  function convertDT(dt) {
+    const dtObj = new Date(dt);
+    const date = dtObj.toDateString();
+    const time = dtObj.toLocaleTimeString("en-US", {timeStyle: "short"});
+    return (
+      date + ", " + time
+    )
+  }
+
+  // Returns amount of time remaining
+  function timeRemaining(dt) {
+    // need seconds to be tracked
+    let now = new Date(getDateTime().slice(0, -5));
+    // returns time in milliseconds
+    let timeBtwn = (new Date(dt)).getTime() - now.getTime();
+    // convert time to minutes
+    let minBtwn = timeBtwn / 60000;
+
+    if(timeBtwn <= 0) {
+      return("!!!");
+    } else {
+      let mins = Math.ceil(minBtwn % 60);
+      let hrs = Math.floor(minBtwn / 60 % 24);
+      let days = Math.floor(minBtwn / (60 * 24));
+      if(mins === 60) {
+        mins = 0;
+        hrs++;
+      }
+      if(hrs === 24) {
+        hrs = 0;
+        days++;
+      }
+      let timeString = "";
+      if(days > 0) { timeString = timeString + days + "d "; }
+      if(hrs > 0) { timeString = timeString + hrs + "h "; }
+      if(mins > 0) { timeString = timeString + mins + "m"; }
+      return(timeString);
+    }
   }
 
   return (
     <div className="container">
-      <div className="header-container">
-        <h1 className="title">RemindMe</h1>
-        <button className="modal-button" onClick={() => setModal(true)}>+ New Reminder</button>
-        {!showSignOut && <button className="login-button" onClick={() => setLogin(prevLogin => !prevLogin)}>Login</button>}
-        {showSignOut && <button className="login-button" onClick={() => setShowSignOut(false)}>Sign Out</button>}
-        {login &&
-          <Login 
-            setLogin={setLogin}
-            setShowSignOut={setShowSignOut}
-            contains={contains}
-            loginSavedTile={loginSavedTile}
-            setInfoTiles={setInfoTiles}
-          />
-        }
-      </div>
-      {/* Form */}
-      {modal && 
+      <Navbar 
+        setModal={setModal}
+      />
+
+      <ReminderWall 
+        tiles={tiles}
+      />
+
+      {modal !== 0 &&
+        <div className="modal-background"></div>
+      }
+
+      {modal === 1 &&
         <Modal 
           setModal={setModal}
-          createTileInfo={createTileInfo}
           getDateTime={getDateTime}
+          createTile={createTile}
         />
       }
-      {detModal &&
-        <DetModal
+
+      {modal === 2 &&
+        <DetailModal 
+          setModal={setModal}
           details={details}
-          setDetails={setDetails}
-          setDetModal={setDetModal}
-          removeTile={removeTile}
-          updateTile={updateTile}
           getDateTime={getDateTime}
           convertDT={convertDT}
+          removeTile={removeTile}
+          updateTile={updateTile}
+          timeRemaining={timeRemaining}
         />
-      }      
-      {infoTiles.length > 0 &&
-        <div className="tiles-container">
-          {tiles}
-        </div>
-      }
-      {infoTiles.length === 0 &&
-        <h1 className="empty">No more reminders!</h1>
       }
     </div>
   )

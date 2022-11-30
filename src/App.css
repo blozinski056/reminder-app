@@ -1,398 +1,186 @@
+@-webkit-keyframes appear {
+  0% {
+    background-color: rgb(182, 255, 182);
+  }
+  100% {
+    background-color: rgb(158, 231, 207);
+  }
+}
+@keyframes appear {
+  0% {
+    background-color: rgb(182, 255, 182);
+  }
+  100% {
+    background-color: rgb(158, 231, 207);
+  }
+}
 * {
   margin: 0;
-  font-family: 'Overpass', sans-serif;
+  font-family: "Overpass", sans-serif;
   color: rgb(200, 255, 200);
   box-sizing: border-box;
 }
 
 body {
   background-color: darkseagreen;
+  overflow: hidden;
 }
 
 .container {
-  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 30px 40px;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
 }
 
-.title {
+nav {
+  width: 100%;
+  height: 100px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  padding: 0 5vw;
+}
+nav .new-reminder, nav h1, nav .login {
+  transform: translateY(20px);
+}
+nav .new-reminder {
+  justify-self: flex-start;
+  color: rgb(100, 129, 100);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 5px 10px;
+  padding-top: 7px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+nav .new-reminder:hover {
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translate(-1px, 19px);
+  transition: 0.2s ease;
+}
+nav .new-reminder:active {
+  box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
+}
+nav h1 {
   font-size: 50px;
   -webkit-text-stroke: 1px rgb(100, 129, 100);
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
+  cursor: default;
 }
-
-.empty {
-  margin-top: 20px;
-}
-
-.header-container {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: auto;
-}
-
-/*********/
-/* Login */
-/*********/
-.login {
-  grid-row-start: 2;
-  grid-column-start: 2;
+nav .login {
   justify-self: flex-end;
-}
-
-.login-button {
-  position: relative;
-  height: 40px;
-  width: 70px;
-  justify-self: flex-end;
-  background-color: rgb(200, 255, 200);
   color: rgb(100, 129, 100);
-  border: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  cursor: pointer;
-  z-index: 6;
-}
-
-.login-button:hover {
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  transform: translateX(-1px) translateY(-1px);
-  transition: 0.2s ease;
-}
-
-.login-button:active {
-  box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
-}
-
-.login-overlay {
-  position: fixed;
-  background-color: transparent;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  z-index: 5;
-}
-
-.login-incorrect {
-  color:red;
-  margin-bottom: 10px;
-  pointer-events: none;
-}
-
-.login-incorrect.hidden {
-  opacity: 0;
-}
-
-@keyframes drop {
-  0% {
-    transform: scaleY(0%);
-    opacity: 0;
-  }
-  100% {
-    transform: scaleY(100%);
-    opacity: 1;
-  }
-}
-
-.login-dropdown {
-  position: fixed;
-  right: 40px;
-  top: 85px;
-  height: 200px;
-  width: 300px;
-  background-color: rgb(200, 255, 200);
-  color: rgb(100, 129, 100);
-  border: solid 1px rgb(100, 129, 100);
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  border-radius: 10px;
-  padding: 20px;
-  z-index: 10;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  animation: drop 0.2s ease-in;
-  transform-origin: 0px -20px;
-}
-
-@keyframes dropArrow {
-  0% {
-    transform: scaleY(0%) rotate(45deg);
-  }
-  100% {
-    transform: scaleY(100%) rotate(45deg);
-    opacity: 1;
-  }
-}
-
-.login-arrow {
-  position: fixed;
-  top: 75px;
-  right: 50px;
-  height: 40px;
-  width: 40px;
-  background-color: rgb(200, 255, 200);
-  border-top: solid 1px rgb(100, 129, 100);
-  border-left: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  transform: rotate(45deg);
-  opacity: 0;
-  z-index: 11;
-
-  animation: dropArrow 0.2s ease-in forwards;
-  animation-delay: 100ms;
-}
-
-.login-arrow-coverup {
-  position: fixed;
-  top: 85px;
-  right: 45px;
-  height: 50px;
-  width: 50px;
-  background-color: rgb(200, 255, 200);
-  border-radius: 10px;
-  opacity: 0;
-  z-index: 12;
-
-  animation: drop 0.2s ease-in forwards;
-  animation-delay: 100ms;
-  transform-origin: top;
-}
-
-.input {
-  position: relative;
-  height: 30px;
-  width: 200px;
-  margin-bottom: 15px;
-}
-
-.login-username, .login-password {
-  height: 30px;
-  width: 200px;
-  background-color: rgb(200, 255, 200);
-  border: solid 1px rgb(100, 129, 100);
-  color: rgb(100, 129, 100);
-  border-radius: 10px;
-  padding-left: 10px;
-  outline: none;
-}
-
-.input span {
-  position: absolute;
-  left: 0;
-  padding: 8px;
-  padding-left: 10px;
-  font-size: 12px;
-  color: rgb(100, 129, 100);
-  pointer-events: none;
-  transition: 0.5s;
-}
-
-.input input:focus ~ span,
-.input input:valid ~ span
-{
-  transform: translateY(-7px);
-  background-color: rgb(200, 255, 200);
-  margin-left: 10px;
-  padding: 0;
-}
-
-.login-signin {
-  color: rgb(100, 129, 100);
-  border: none;
-  background-color: rgb(200, 255, 200);
-  cursor: pointer;
-}
-
-/*********/
-/* Modal */
-/*********/
-
-/* Modal Button */
-.modal-button {
-  width: 250px;
-  border: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  background-color: rgb(200, 255, 200);
   font-size: 20px;
-  color: rgb(100, 129, 100);
+  font-weight: 700;
+  padding: 5px 10px;
+  padding-top: 7px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
   transition: 0.3s ease;
-  height: 40px;
-  padding-top: 5px;
   cursor: pointer;
-  grid-row-start: 2;
-  grid-column-start: 1;
 }
-
-.modal-button:hover {
+nav .login:hover {
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  transform: translateX(-1px) translateY(-1px);
+  transform: translate(-1px, 19px);
   transition: 0.2s ease;
 }
-
-.modal-button:active {
+nav .login:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(100, 129, 100, 0.9);
-  z-index: 10;
-}
-
-.modal-content {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 11;
-}
-
-.modal-component.exit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  transform: rotate(45deg);
-  font-size: 30px;
-  padding-top: 6px;
-  padding-left: 6px;
-  cursor: pointer;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: auto;
-  width: auto;
-  border-radius: 10px;
-}
-
-.modal-component {
-  margin-bottom: 10px;
-  background-color: rgb(200, 255, 200);
-  color: rgb(100, 129, 100);
-  border-radius: 5px;
-  border: solid 2px rgb(100, 129, 100);
-  outline: none;
-  font-size: 15px;
-}
-
-.modal-component.reminder {
-  width: 300px;
-  height: 30px;
-}
-
-.modal-component.description {
-  width: 300px;
-  height: 70px;
-  resize: none;
-}
-
-.modal-component.description::-webkit-scrollbar {
-  background-color: darkseagreen;
-  width: 5px;
-}
-
-.modal-component.description::-webkit-scrollbar-thumb {
-  background-color:rgb(100, 129, 100);
-  border-radius: 3px;
-}
-
-.modal-component.datetime {
-  width: 200px;
-  height: 25px;
-  font-size: 15px;
-  cursor: text;
-}
-
-.modal-component.submit {
-  cursor: pointer;
-  width: 70px;
-  height: 25px;
-  font-size: 15px;
-  padding-top: 3px;
-}
-
-
-/*********/
-/* Tiles */
-/*********/
-.tiles-container {
-  align-self: center;
-  display: grid;
-  align-items: center;
-  margin-top: 20px;
+section {
   width: 100%;
-  height: auto;
-  grid-template-columns: repeat(auto-fill, 200px);
-  grid-template-rows: repeat(auto-fit, auto);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+section .empty {
+  transform: translateY(-10vh);
+  cursor: default;
+}
+section .tile-container {
+  width: 90vw;
+  height: 85vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-rows: repeat(auto-fit, 300px);
+  row-gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
   background-color: rgb(200, 255, 200);
   padding: 20px;
-  justify-content: space-between;
-  row-gap: 30px;
 }
 
 .tile {
+  width: 300px;
+  height: 300px;
   align-self: center;
-  width: 200px;
-  height: 200px;
-  border-radius: 5px;
+  justify-self: center;
   background-color: rgb(158, 231, 207);
   border: solid 1px rgb(120, 175, 157);
+  border-radius: 5px;
   padding: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   position: relative;
-  animation-name: appear;  
-  animation-duration: 2.5s;
-  animation-delay: 0s;
+  -webkit-animation-name: appear;
+          animation-name: appear;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
 }
-
-@keyframes appear {
-  0% {
-    background-color: rgb(182, 255, 182);
-    box-shadow: 5px 5px 10px rgb(100, 129, 100);
-  }
-  100% {
-    background-color: rgb(158, 231, 207);
-    box-shadow: none;
-  }
-}
-
 .tile:hover {
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translate(-1px, -1px);
+  transition: all 0.2s ease;
+}
+.tile .delete {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 15px;
+  cursor: pointer;
+  right: -15px;
+  top: -15px;
+  color: rgb(100, 129, 100);
+  background-color: rgb(158, 231, 207);
+  border: solid 1px rgb(120, 175, 157);
+}
+.tile .delete img {
+  width: 20px;
+  height: 20px;
+}
+.tile .delete:hover {
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translate(-1px, -1px);
   transition: all 0.3s ease;
 }
-
-.tile-content {
-  position: relative;
+.tile .tile-content {
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: flex-start;
   height: 100%;
-  width: 100%;
+  position: relative;
 }
-
-.tile-reminder {
+.tile .tile-content .tile-reminder {
   font-size: 15px;
   height: 1rem;
   color: rgb(100, 129, 100);
@@ -400,41 +188,20 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.tile-datetime {
+.tile .tile-content .tile-datetime {
   font-size: 12px;
-  color: rgba(100, 129, 100, 0.541);
+  color: rgb(100, 129, 100);
+  opacity: 0.5;
 }
-
-.tile-description {
-  max-height: 60%;
+.tile .tile-content .tile-description {
+  height: 70%;
   font-size: 15px;
   color: rgb(100, 129, 100);
   overflow: hidden;
   white-space: pre;
   text-overflow: ellipsis;
 }
-
-.tile.delete {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  cursor: pointer;
-  right: -15px;
-  top: -15px;
-  color: rgb(100, 129, 100);
-}
-
-.tile.delete > img {
-  height: 20px;
-  width: 20px;
-}
-
-.tile-remaining {
+.tile .tile-content .tile-remaining {
   color: rgb(100, 129, 100);
   position: absolute;
   bottom: 0;
@@ -445,189 +212,265 @@ body {
   text-align: center;
 }
 
-/****************/
-/* Detail Modal */
-/****************/
-.dm-content {
+.modal-background {
+  width: 100vw;
+  height: 100vh;
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  background-color: rgba(30, 30, 30, 0.5);
+}
+
+.modal .modal-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-15vh);
+  z-index: 6;
+}
+.modal .modal-content .modal-exit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  transform: rotate(45deg);
+  font-size: 40px;
+  padding-top: 6px;
+  padding-left: 6px;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border: solid 2px rgb(100, 129, 100);
+  border-radius: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.modal .modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+}
+.modal .modal-content form .modal-reminder,
+.modal .modal-content form .modal-description,
+.modal .modal-content form .modal-datetime,
+.modal .modal-content form .modal-submit {
+  margin-bottom: 10px;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border-radius: 10px;
+  border: solid 2px rgb(100, 129, 100);
+  font-size: 20px;
+  outline: none;
+}
+.modal .modal-content form .modal-reminder {
+  width: 500px;
+  height: 50px;
+  overflow-x: auto;
+}
+.modal .modal-content form .modal-description {
+  width: 500px;
+  height: 200px;
+  resize: none;
+}
+.modal .modal-content form .modal-description::-webkit-scrollbar {
+  width: 7px;
+}
+.modal .modal-content form .modal-description::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 129, 100);
+  border-radius: 3px;
+}
+.modal .modal-content form .modal-description::-webkit-scrollbar-track {
+  margin: 10px 0;
+}
+.modal .modal-content form .modal-datetime {
+  width: 250px;
+  height: 50px;
+  cursor: text;
+}
+.modal .modal-content form .modal-submit {
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+  padding-top: 3px;
+}
+
+.detail-modal .dm-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 6;
 }
-
-.dm-exit {
+.detail-modal .dm-exit {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
   transform: rotate(45deg);
-  font-size: 30px;
-  padding-top: 6px;
+  font-size: 50px;
+  padding-top: 9px;
   padding-left: 6px;
-  cursor: pointer;
   color: rgb(100, 129, 100);
   background-color: rgb(206, 252, 236);
-  z-index: 10;
+  cursor: pointer;
+  z-index: 6;
 }
-
-.dm-details {
-  position: relative;
+.detail-modal .dm-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  width: 300px;
-  height: auto;
+  justify-content: flex-start;
+  width: 500px;
+  height: 500px;
+  position: relative;
   margin-top: 20px;
   background-color: rgb(158, 231, 207);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: solid 1px rgb(120, 175, 157);
 }
-
-.dm-reminder {
-  color: rgb(100, 129, 100);
+.detail-modal .dm-details .dm-cancel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.detail-modal .dm-details .dm-save {
+  align-self: flex-end;
+}
+.detail-modal .dm-details .dm-edit, .detail-modal .dm-details .dm-delete, .detail-modal .dm-details .dm-save, .detail-modal .dm-details .dm-cancel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(206, 252, 236);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+}
+.detail-modal .dm-details .dm-edit > img,
+.detail-modal .dm-details .dm-delete > img,
+.detail-modal .dm-details .dm-save > img,
+.detail-modal .dm-details .dm-cancel > img {
+  width: 30px;
+  height: 30px;
+}
+.detail-modal .dm-details form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-height: 1.5em;
+  color: rgb(100, 129, 100);
+  gap: 10px;
+}
+.detail-modal .dm-details form .dm-form-reminder {
+  height: 50px;
+}
+.detail-modal .dm-details form .dm-form-description {
+  resize: none;
+  height: 10em;
+}
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar {
+  width: 7px;
+}
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 129, 100);
+  border-radius: 5px;
+}
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-track {
+  margin: 10px 0;
+}
+.detail-modal .dm-details form .dm-form-datetime {
+  flex-direction: row;
+  cursor: text;
+}
+.detail-modal .dm-details form .dm-form-reminder,
+.detail-modal .dm-details form .dm-form-description,
+.detail-modal .dm-details form .dm-form-datetime {
+  background-color: rgb(206, 252, 236);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  color: rgb(100, 129, 100);
+  font-size: 30px;
+  width: 100%;
+}
+.detail-modal .dm-details .dm-reminder,
+.detail-modal .dm-details .dm-datetime,
+.detail-modal .dm-details .dm-description,
+.detail-modal .dm-details .dm-button-container {
+  font-size: 30px;
+  width: 100%;
+}
+.detail-modal .dm-details .dm-reminder {
+  color: rgb(100, 129, 100);
   overflow: auto;
   overflow-y: hidden;
   white-space: nowrap;
   margin: 0;
-  font-size: 25px;
 }
-
-.dm-datetime {
-  color: rgba(100, 129, 100, 0.541);
+.detail-modal .dm-details .dm-reminder::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: rgb(206, 252, 236);
+  cursor: pointer;
 }
-
-.dm-description {
+.detail-modal .dm-details .dm-reminder::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 129, 100);
+  border-radius: 3px;
+}
+.detail-modal .dm-details .dm-datetime {
+  color: rgb(100, 129, 100);
+  opacity: 0.5;
+}
+.detail-modal .dm-details .dm-description {
   color: rgb(100, 129, 100);
   margin-top: 10px;
-  width: 100%;
-  height: 10.5em;
+  height: 10em;
   overflow-wrap: break-word;
   overflow: auto;
   overflow-x: hidden;
   white-space: pre-wrap;
 }
-
-.dm-button-container {
-  width: 100%;
-  align-self: center;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.dm-button-container > h5 {
-  color:rgb(100, 129, 100);
-  text-align: center;
-}
-
-.dm-reminder::-webkit-scrollbar,
-.dm-description::-webkit-scrollbar {
-  background-color: rgb(206, 252, 236);
+.detail-modal .dm-details .dm-description::-webkit-scrollbar {
   width: 5px;
   height: 5px;
+  background-color: rgb(206, 252, 236);
   cursor: pointer;
 }
-
-.dm-reminder::-webkit-scrollbar-thumb,
-.dm-description::-webkit-scrollbar-thumb {
-  background-color:rgb(100, 129, 100);
+.detail-modal .dm-details .dm-description::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 129, 100);
   border-radius: 3px;
 }
-
-.dm-edit, .dm-delete, .dm-save, .dm-cancel {
-  cursor: pointer;
-  height: 35px;
-  width: 35px;
-  margin: 0;
-  padding: 0;
+.detail-modal .dm-details .dm-button-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(206, 252, 236);
-  border: solid 1px rgb(100, 129, 100);
-  border-radius: 4px;
-}
-
-.dm-edit > img,
-.dm-delete > img,
-.dm-save > img,
-.dm-cancel > img {
-  height: 20px;
-  width: 20px;
-}
-
-/* Editing Form */
-
-.dm-form {
-  width: 100%;
-  color: rgb(100, 129, 100);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.dm-cancel {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-.dm-save {
-  align-self: flex-end;
-}
-
-.dm-form.datetime {
   flex-direction: row;
-  cursor: text;
+  align-items: flex-end;
+  justify-content: space-between;
+  bottom: 0;
+  position: absolute;
+  align-self: center;
+  padding: 10px;
 }
-
-.dm-form.description {
-  resize: none;
-  height: 8rem;
-}
-
-.dm-form.reminder {
-  height: 1.5rem;
-}
-
-.reminder::-webkit-scrollbar {
-  background-color: rgb(206, 252, 236);
-  height: 5px;
-  width: 5px;
-  cursor: pointer;
-}
-
-.dm-form.reminder::-webkit-scrollbar-thumb {
-  background-color:rgb(100, 129, 100);
-  border-radius: 3px;
-  height: 5px;
-}
-
-.dm-form.reminder,
-.dm-form.description,
-.dm-form.datetime {
-  background-color: rgb(206, 252, 236);
-  border: solid 1px rgb(100, 129, 100);
-}
-
-.dm-form.description::-webkit-scrollbar {
-  background-color: rgb(206, 252, 236);
-  width: 5px;
-  cursor: pointer;
-}
-
-.dm-form.description::-webkit-scrollbar-thumb {
-  background-color:rgb(100, 129, 100);
-  border-radius: 3px;
-}
+.detail-modal .dm-details .dm-button-container h5 {
+  color: rgb(100, 129, 100);
+  text-align: center;
+}/*# sourceMappingURL=App.css.map */

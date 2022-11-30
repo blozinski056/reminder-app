@@ -1,0 +1,506 @@
+///////////////////////
+// VARIABLES AND MIXINS
+///////////////////////
+$light-green: rgb(200, 255, 200);
+$dark-green: rgb(100, 129, 100);
+$bg-color: darkseagreen;
+
+@mixin flexbox($fd: row, $ai: center, $jc: center) {
+  display: flex;
+  flex-direction: $fd;
+  align-items: $ai;
+  justify-content: $jc;
+}
+
+@mixin w-h($w: 50px, $h: 50px) {
+  width: $w;
+  height: $h;
+}
+
+@keyframes appear {
+  0% {
+    background-color: rgb(182, 255, 182);
+  }
+  100% {
+    background-color: rgb(158, 231, 207);
+  }
+}
+
+/////////
+// STYLES
+/////////
+* {
+  margin: 0;
+  font-family: 'Overpass', sans-serif;
+  color: $light-green;
+  box-sizing: border-box;
+  // border: solid 1px gray;
+}
+
+body {
+  background-color: $bg-color;
+  overflow: hidden;
+}
+
+.container {
+  @include flexbox($fd: column);
+  @include w-h(100vw, 100vh);
+}
+
+/////////
+// Navbar
+/////////
+nav {
+  @include w-h(100%, 100px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  padding: 0 5vw;
+
+  .new-reminder, h1, .login {
+    transform: translateY(20px);
+  }
+
+  .new-reminder {
+    justify-self: flex-start;
+    color: $dark-green;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 10px;
+    padding-top: 7px;
+    background-color: $light-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 3px 3px 5px $dark-green;
+      transform: translate(-1px, 19px);
+      transition: 0.2s ease;
+    }
+
+    &:active {
+      box-shadow: inset 3px 3px 5px $dark-green;
+    }
+  }
+
+  h1 {
+    font-size: 50px;
+    -webkit-text-stroke: 1px $dark-green;
+    text-shadow: 3px 3px 5px $dark-green;
+    cursor: default;
+  }
+
+  .login {
+    justify-self: flex-end;
+    color: $dark-green;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 10px;
+    padding-top: 7px;
+    background-color: $light-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 3px 3px 5px $dark-green;
+      transform: translate(-1px, 19px);
+      transition: 0.2s ease;
+    }
+
+    &:active {
+      box-shadow: inset 3px 3px 5px $dark-green;
+    }
+  }
+}
+///////////////
+// ReminderWall
+///////////////
+section {
+  @include w-h(100%, 100%);
+  @include flexbox($ai: center, $jc: center);
+
+  .empty {
+    transform: translateY(-10vh);
+    cursor: default;
+  }
+
+  .tile-container {
+    @include w-h(90vw, 85vh);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-template-rows: repeat(auto-fit, 300px);
+    row-gap: 20px;
+
+    align-items: flex-start;
+    justify-content: space-between;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    background-color: $light-green;
+    padding: 20px;
+  }
+}
+
+///////
+// Tile
+///////
+.tile {
+  @include w-h(300px, 300px);
+  align-self: center;
+  justify-self: center;
+  background-color: rgb(158, 231, 207);
+  border: solid 1px rgb(120, 175, 157);
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+  position: relative;
+  animation-name: appear;  
+  animation-duration: 1.5s;
+  animation-delay: 0s;
+
+  &:hover {
+    box-shadow: 3px 3px 5px $dark-green;
+    transform: translate(-1px, -1px);
+    transition: all 0.2s ease;
+  }
+
+  .delete {
+    @include flexbox;
+    @include w-h(30px, 30px);
+    position: absolute;
+    border-radius: 15px;
+    cursor: pointer;
+    right: -15px;
+    top: -15px;
+    color: $dark-green;
+    background-color: rgb(158, 231, 207);
+    border: solid 1px rgb(120, 175, 157);
+
+    img {
+      @include w-h(20px, 20px);
+    }
+
+    &:hover {
+      box-shadow: 3px 3px 5px $dark-green;
+      transform: translate(-1px, -1px);
+      transition: all 0.3s ease;
+    }
+  }
+
+  .tile-content {
+    @include flexbox(column, left, flex-start);
+    height: 100%;
+    position: relative;
+
+    .tile-reminder {
+      font-size: 15px;
+      height: 1rem;
+      color: $dark-green;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .tile-datetime {
+      font-size: 12px;
+      color: $dark-green;
+      opacity: 0.5;
+    }
+
+    .tile-description {
+      height: 70%;
+      font-size: 15px;
+      color: $dark-green;
+      overflow: hidden;
+      white-space: pre;
+      text-overflow: ellipsis;
+    }
+
+    .tile-remaining {
+      color: rgb(100, 129, 100);
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+}
+
+.modal-background {
+  @include w-h(100vw, 100vh);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  background-color: rgba(30, 30, 30, 0.5); // FOR TESTING
+}
+
+////////
+// Modal
+////////
+.modal {
+  .modal-content {
+    @include flexbox($fd: column);
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-15vh);
+    z-index: 6;
+
+    .modal-exit {
+      @include flexbox;
+      @include w-h(40px, 40px);
+      transform: rotate(45deg);
+      font-size: 40px;
+      padding-top: 6px;
+      padding-left: 6px;
+      background-color: $light-green;
+      color: $dark-green;
+      border: solid 2px $dark-green;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    form {
+      @include flexbox(column, center, flex-start);
+      border-radius: 10px;
+
+      .modal-reminder,
+      .modal-description,
+      .modal-datetime,
+      .modal-submit {
+        margin-bottom: 10px;
+        background-color: $light-green;
+        color: $dark-green;
+        border-radius: 10px;
+        border: solid 2px $dark-green;
+        font-size: 20px;
+        outline: none;
+      }
+
+      .modal-reminder {
+        @include w-h(500px, 50px);
+        overflow-x: auto;
+      }
+
+      .modal-description {
+        @include w-h(500px, 200px);
+        resize: none;
+
+        &::-webkit-scrollbar {
+          width: 7px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $dark-green;
+          border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-track {
+          margin: 10px 0;
+        }
+      }
+
+      .modal-datetime {
+        @include w-h(250px, 50px);
+        cursor: text;
+      }
+
+      .modal-submit {
+        @include w-h(100px, 50px);
+        cursor: pointer;
+        padding-top: 3px;
+      }
+    }
+  }
+}
+
+//////////////
+// DetailModal
+//////////////
+.detail-modal {
+  .dm-content {
+    @include flexbox($fd: column);
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+  }
+
+  .dm-exit {
+    @include flexbox;
+    @include w-h(50px, 50px);
+    border-radius: 25px;
+    transform: rotate(45deg);
+    font-size: 50px;
+    padding-top: 9px;
+    padding-left: 6px;
+    color: $dark-green;
+    background-color: rgb(206, 252, 236);
+    cursor: pointer;
+    z-index: 6;
+  }
+
+  .dm-details {
+    @include flexbox(column, flex-start, flex-start);
+    @include w-h(500px, 500px);
+    position: relative;
+    margin-top: 20px;
+    background-color: rgb(158, 231, 207);
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px rgb(120, 175, 157);
+
+    // When editing details
+    .dm-cancel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .dm-save {
+      align-self: flex-end;
+    }
+
+    .dm-edit, .dm-delete, .dm-save, .dm-cancel {
+      @include flexbox;
+      @include w-h(60px, 60px);
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(206, 252, 236);
+      border: solid 1px $dark-green;
+      border-radius: 10px;
+    }
+    
+    .dm-edit > img,
+    .dm-delete > img,
+    .dm-save > img,
+    .dm-cancel > img {
+      @include w-h(30px, 30px);
+    }
+
+    form {
+      @include flexbox($fd: column);
+      width: 100%;
+      color: $dark-green;
+      gap: 10px;
+
+      .dm-form-reminder {
+        height: 50px;
+      }
+
+      .dm-form-description {
+        resize: none;
+        height: 10em;
+
+        &::-webkit-scrollbar {
+          width: 7px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $dark-green;
+          border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+          margin: 10px 0;
+        }
+      }
+
+      .dm-form-datetime {
+        flex-direction: row;
+        cursor: text;
+      }
+
+      .dm-form-reminder,
+      .dm-form-description,
+      .dm-form-datetime {
+        background-color: rgb(206, 252, 236);
+        border: solid 1px $dark-green;
+        border-radius: 10px;
+        color: $dark-green;
+        font-size: 30px;
+        width: 100%;
+    }
+    }
+
+    // When viewing details
+    .dm-reminder,
+    .dm-datetime,
+    .dm-description,
+    .dm-button-container {
+      font-size: 30px;
+      width: 100%;
+    }
+
+    .dm-reminder {
+      color: $dark-green;
+      overflow: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      margin: 0;
+
+      &::-webkit-scrollbar {
+        @include w-h(5px, 5px);
+        background-color: rgb(206, 252, 236);
+        cursor: pointer;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color:$dark-green;
+        border-radius: 3px;
+      }
+    }
+  
+    .dm-datetime {
+      color: $dark-green;
+      opacity: 0.5;
+    }
+  
+    .dm-description {
+      color: $dark-green;
+      margin-top: 10px;
+      height: 10em;
+      overflow-wrap: break-word;
+      overflow: auto;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+
+      &::-webkit-scrollbar {
+        @include w-h(5px, 5px);
+        background-color: rgb(206, 252, 236);
+        cursor: pointer;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color:$dark-green;
+        border-radius: 3px;
+      }
+    }
+  
+    .dm-button-container {
+      @include flexbox($ai: flex-end, $jc: space-between);
+      bottom: 0;
+      position: absolute;
+      align-self: center;
+      padding: 10px;
+
+      h5 {
+        color:rgb(100, 129, 100);
+        text-align: center;
+      }
+    }
+  }
+}
