@@ -8,14 +8,7 @@ export default function Navbar({setModal, loggedIn, setLoggedIn}) {
         + New Reminder
       </button>
       <h1 className="title">RemindMe</h1>
-      {/* <button className="login">Login</button> */}
-
-      {!loggedIn && 
-        <button className="login-button" onClick={() => setLoggedIn(prevLogin => !prevLogin)}>Login</button>
-      }
-      {loggedIn && 
-        <button className="login-button" onClick={() => setLoggedIn(false)}>Sign Out</button>
-      }
+      <button className="login-button" onClick={() => setLoggedIn(prevLogin => !prevLogin)}>Login</button>
     </nav>
   )
 }

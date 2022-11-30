@@ -14,6 +14,42 @@
     background-color: rgb(158, 231, 207);
   }
 }
+@-webkit-keyframes drop {
+  0% {
+    transform: scaleY(0%);
+  }
+  100% {
+    transform: scaleY(100%);
+    opacity: 1;
+  }
+}
+@keyframes drop {
+  0% {
+    transform: scaleY(0%);
+  }
+  100% {
+    transform: scaleY(100%);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes dropArrow {
+  0% {
+    transform: scaleY(0%) rotate(45deg);
+  }
+  100% {
+    transform: scaleY(100%) rotate(45deg);
+    opacity: 1;
+  }
+}
+@keyframes dropArrow {
+  0% {
+    transform: scaleY(0%) rotate(45deg);
+  }
+  100% {
+    transform: scaleY(100%) rotate(45deg);
+    opacity: 1;
+  }
+}
 * {
   margin: 0;
   font-family: "Overpass", sans-serif;
@@ -44,7 +80,7 @@ nav {
   align-items: center;
   padding: 0 5vw;
 }
-nav .new-reminder, nav h1, nav .login {
+nav .new-reminder, nav h1, nav .login-button {
   transform: translateY(20px);
 }
 nav .new-reminder {
@@ -94,6 +130,118 @@ nav .login-button:hover {
 }
 nav .login-button:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
+}
+
+.login .login-overlay {
+  position: fixed;
+  background-color: transparent;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+.login .login-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 200px;
+  position: fixed;
+  top: 108px;
+  right: 5vw;
+  background-color: rgb(200, 255, 200);
+  color: rgb(100, 129, 100);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  padding: 20px;
+  opacity: 0;
+  z-index: 10;
+  -webkit-animation: drop 0.2s ease-in forwards;
+          animation: drop 0.2s ease-in forwards;
+  transform-origin: 0px -20px;
+}
+.login .login-dropdown .login-incorrect {
+  color: red;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+.login .login-dropdown .login-incorrect.hidden {
+  opacity: 0;
+}
+.login .login-dropdown .input {
+  width: 200px;
+  height: 30px;
+  position: relative;
+  margin-bottom: 15px;
+}
+.login .login-dropdown .login-username, .login .login-dropdown .login-password {
+  width: 200px;
+  height: 30px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  color: rgb(100, 129, 100);
+  border-radius: 10px;
+  padding-left: 10px;
+  outline: none;
+  z-index: 13;
+}
+.login .login-dropdown .input span {
+  position: absolute;
+  left: 0;
+  padding: 8px;
+  padding-left: 10px;
+  font-size: 12px;
+  color: rgb(100, 129, 100);
+  pointer-events: none;
+  transition: 0.5s;
+}
+.login .login-dropdown .input input:focus ~ span,
+.login .login-dropdown .input input:valid ~ span {
+  transform: translateY(-7px);
+  background-color: rgb(200, 255, 200);
+  margin-left: 10px;
+  padding: 0;
+}
+.login .login-dropdown .login-signin {
+  color: rgb(100, 129, 100);
+  border: none;
+  background-color: rgb(200, 255, 200);
+  cursor: pointer;
+}
+.login .login-arrow {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  top: 85px;
+  right: 5vw;
+  background-color: rgb(200, 255, 200);
+  border-top: solid 1px rgb(100, 129, 100);
+  border-left: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 11;
+  -webkit-animation: dropArrow 0.2s ease-in forwards;
+          animation: dropArrow 0.2s ease-in forwards;
+  transform-origin: top left;
+}
+.login .login-arrow-coverup {
+  width: 60px;
+  height: 30px;
+  position: fixed;
+  top: 108px;
+  right: 5.5vw;
+  background-color: rgb(200, 255, 200);
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 12;
+  -webkit-animation: drop 0.2s ease-in forwards;
+          animation: drop 0.2s ease-in forwards;
+  -webkit-animation-delay: 50ms;
+          animation-delay: 50ms;
+  transform-origin: top;
 }
 
 section {

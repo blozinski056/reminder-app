@@ -26,6 +26,26 @@ $bg-color: darkseagreen;
   }
 }
 
+@keyframes drop {
+  0% {
+    transform: scaleY(0%);
+  }
+  100% {
+    transform: scaleY(100%);
+    opacity: 1;
+  }
+}
+
+@keyframes dropArrow {
+  0% {
+    transform: scaleY(0%) rotate(45deg);
+  }
+  100% {
+    transform: scaleY(100%) rotate(45deg);
+    opacity: 1;
+  }
+}
+
 /////////
 // STYLES
 /////////
@@ -58,7 +78,7 @@ nav {
   align-items: center;
   padding: 0 5vw;
 
-  .new-reminder, h1, .login {
+  .new-reminder, h1, .login-button {
     transform: translateY(20px);
   }
 
@@ -117,6 +137,127 @@ nav {
     }
   }
 }
+
+////////
+// Login
+////////
+.login {
+  .login-overlay {
+    position: fixed;
+    background-color: transparent;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 5;
+  }
+
+  .login-dropdown {
+    @include flexbox($fd: column);
+    @include w-h(300px, 200px);
+    position: fixed;
+    top: 108px;
+    right: 5vw;
+    background-color: $light-green;
+    color: $dark-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px $dark-green;
+    padding: 20px;
+    opacity: 0;
+    z-index: 10;
+  
+    animation: drop 0.2s ease-in forwards;
+    transform-origin: 0px -20px;
+
+    
+    .login-incorrect {
+      color:red;
+      margin-bottom: 10px;
+      pointer-events: none;
+    }
+
+    .login-incorrect.hidden {
+      opacity: 0;
+    }
+
+    .input {
+      @include w-h(200px, 30px);
+      position: relative;
+      margin-bottom: 15px;
+    }
+    
+    .login-username, .login-password {
+      @include w-h(200px, 30px);
+      background-color: $light-green;
+      border: solid 1px $dark-green;
+      color: $dark-green;
+      border-radius: 10px;
+      padding-left: 10px;
+      outline: none;
+      z-index: 13;
+    }
+    
+    .input span {
+      position: absolute;
+      left: 0;
+      padding: 8px;
+      padding-left: 10px;
+      font-size: 12px;
+      color: $dark-green;
+      pointer-events: none;
+      transition: 0.5s;
+    }
+    
+    .input input:focus ~ span,
+    .input input:valid ~ span
+    {
+      transform: translateY(-7px);
+      background-color: $light-green;
+      margin-left: 10px;
+      padding: 0;
+    }
+    
+    .login-signin {
+      color: $dark-green;
+      border: none;
+      background-color: $light-green;
+      cursor: pointer;
+    }
+  }
+
+  .login-arrow {
+    @include w-h(40px, 40px);
+    position: fixed;
+    top: 85px;
+    right: 5vw;
+    background-color: $light-green;
+    border-top: solid 1px $dark-green;
+    border-left: solid 1px $dark-green;
+    border-radius: 10px;
+    opacity: 0;
+    z-index: 11;
+  
+    animation: dropArrow 0.2s ease-in forwards;
+    transform-origin: top left;
+  }
+
+  .login-arrow-coverup {
+    @include w-h(60px, 30px);
+    position: fixed;
+    top: 108px;
+    right: 5.5vw;
+    background-color: $light-green;
+    border-radius: 10px;
+    opacity: 0;
+    z-index: 12;
+  
+    animation: drop 0.2s ease-in forwards;
+    animation-delay: 50ms;
+    transform-origin: top;
+  }
+}
+
 ///////////////
 // ReminderWall
 ///////////////
