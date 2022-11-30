@@ -6,7 +6,7 @@ export default function Login({setLoggedIn}) {
   React.useEffect(() => {
     fetch("/api")
       .then(res => res.json())
-      .then(data => setLoginCreds(data));
+      .then(data => setLoginCreds(data.users));
   }, [])
   
   function close() {
@@ -17,19 +17,25 @@ export default function Login({setLoggedIn}) {
     e.preventDefault();
     const un = document.querySelector(".login-username").value;
     const pw = document.querySelector(".login-password").value;
-    // with backend: pull from database
-    if(un === "admin" && pw === "admin") {
-      document.querySelector(".login-incorrect").classList.add("hidden");
-      // with backend: pull user's reminders from database and compare with list
-      // without database: using a premade tile 'loginSavedTile'
-      // if(!contains(loginSavedTile)) {
-      //   setInfoTiles(prevTiles => [loginSavedTile, ...prevTiles]);
-      // }
-      // setShowSignOut(true);
-      setLoggedIn(false);
+    let verified = false;
+
+    loginCreds.forEach((user) => {
+      console.log(`${user.username}, ${user.password}`);
+      if(user.username === un && user.password === pw) {
+        verified = true;
+      }
+    })
+
+    if(!verified) {
+      document.querySelector(".login-incorrect").classList.remove("reveal");
+      setTimeout(() => {
+        document.querySelector(".login-incorrect").classList.add("reveal");
+      }, 100);
     } else {
-      document.querySelector(".login-incorrect").classList.remove("hidden");
+      // show login popup
+      // remove form element
     }
+
   }
 
   return (

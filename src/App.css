@@ -50,6 +50,28 @@
     opacity: 1;
   }
 }
+@-webkit-keyframes reveal {
+  0% {
+    transform: scale(0%, 0%);
+  }
+  80% {
+    transform: scale(130%, 130%);
+  }
+  100% {
+    transform: scale(100%, 100%);
+  }
+}
+@keyframes reveal {
+  0% {
+    transform: scale(0%, 0%);
+  }
+  80% {
+    transform: scale(130%, 130%);
+  }
+  100% {
+    transform: scale(100%, 100%);
+  }
+}
 * {
   margin: 0;
   font-family: "Overpass", sans-serif;
@@ -167,9 +189,12 @@ nav .login-button:active {
   color: red;
   margin-bottom: 10px;
   pointer-events: none;
-}
-.login .login-dropdown .login-incorrect.hidden {
   opacity: 0;
+}
+.login .login-dropdown .login-incorrect.reveal {
+  opacity: 1;
+  -webkit-animation: reveal 0.1s ease-in forwards;
+          animation: reveal 0.1s ease-in forwards;
 }
 .login .login-dropdown .input {
   width: 200px;

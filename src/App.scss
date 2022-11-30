@@ -46,6 +46,18 @@ $bg-color: darkseagreen;
   }
 }
 
+@keyframes reveal {
+  0% {
+    transform: scale(0%, 0%);
+  }
+  80% {
+    transform: scale(130%, 130%);
+  }
+  100% {
+    transform: scale(100%, 100%);
+  }
+}
+
 /////////
 // STYLES
 /////////
@@ -175,10 +187,12 @@ nav {
       color:red;
       margin-bottom: 10px;
       pointer-events: none;
+      opacity: 0;
     }
 
-    .login-incorrect.hidden {
-      opacity: 0;
+    .login-incorrect.reveal {
+      opacity: 1;
+      animation: reveal 0.1s ease-in forwards;
     }
 
     .input {
