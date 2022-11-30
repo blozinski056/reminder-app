@@ -1,6 +1,14 @@
 import React from "react"
 
 export default function Login({setLoggedIn}) {
+  const [loginCreds, setLoginCreds] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("/api")
+      .then(res => res.json())
+      .then(data => setLoginCreds(data));
+  }, [])
+  
   function close() {
     setLoggedIn(false);
   }
