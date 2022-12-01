@@ -3,23 +3,26 @@ const app = express()
 
 app.get("/api", (req, res) => {
   res.json({"users": [
-    {username: "userOne",
+    {
+      username: "userOne",
       password: "IamUSERone",
-      notes: {
-
-      }
+      notes: [
+      
+      ]
     }, 
-    {username: "userTwo",
+    {
+      username: "userTwo",
       password: "123456",
-      notes: {
+      notes: [
 
-      }
+      ]
     }, 
-    {username: "userThree",
+    {
+      username: "userThree",
       password: "000000",
-      notes: {
-        
-      }
+      notes: [
+
+      ]
     }
   ]})
   // res.json({"users": ["userOne", "userTwo", "userThree"]})

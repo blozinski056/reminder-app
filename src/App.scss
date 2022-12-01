@@ -46,7 +46,7 @@ $bg-color: darkseagreen;
   }
 }
 
-@keyframes reveal {
+@keyframes reveal1 {
   0% {
     transform: scale(0%, 0%);
   }
@@ -55,6 +55,15 @@ $bg-color: darkseagreen;
   }
   100% {
     transform: scale(100%, 100%);
+  }
+}
+
+@keyframes reveal2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -90,7 +99,7 @@ nav {
   align-items: center;
   padding: 0 5vw;
 
-  .new-reminder, h1, .login-button {
+  .new-reminder, .title, .login-button {
     transform: translateY(20px);
   }
 
@@ -118,7 +127,7 @@ nav {
     }
   }
 
-  h1 {
+  .title {
     font-size: 50px;
     -webkit-text-stroke: 1px $dark-green;
     text-shadow: 3px 3px 5px $dark-green;
@@ -148,127 +157,149 @@ nav {
       box-shadow: inset 3px 3px 5px $dark-green;
     }
   }
-}
 
-////////
-// Login
-////////
-.login {
-  .login-overlay {
+  .login {
     position: fixed;
-    background-color: transparent;
-    height: 100vh;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    z-index: 5;
-  }
-
-  .login-dropdown {
-    @include flexbox($fd: column);
-    @include w-h(300px, 200px);
-    position: fixed;
-    top: 108px;
-    right: 5vw;
-    background-color: $light-green;
-    color: $dark-green;
-    border: solid 1px $dark-green;
-    border-radius: 10px;
-    box-shadow: 3px 3px 5px $dark-green;
-    padding: 20px;
-    opacity: 0;
     z-index: 10;
-  
-    animation: drop 0.2s ease-in forwards;
-    transform-origin: 0px -20px;
 
-    
-    .login-incorrect {
-      color:red;
-      margin-bottom: 10px;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .login-incorrect.reveal {
-      opacity: 1;
-      animation: reveal 0.1s ease-in forwards;
-    }
-
-    .input {
-      @include w-h(200px, 30px);
-      position: relative;
-      margin-bottom: 15px;
-    }
-    
-    .login-username, .login-password {
-      @include w-h(200px, 30px);
-      background-color: $light-green;
-      border: solid 1px $dark-green;
-      color: $dark-green;
-      border-radius: 10px;
-      padding-left: 10px;
-      outline: none;
-      z-index: 13;
-    }
-    
-    .input span {
-      position: absolute;
+    .login-overlay {
+      position: fixed;
+      background-color: transparent;
+      height: 100vh;
+      width: 100vw;
+      top: 0;
       left: 0;
-      padding: 8px;
-      padding-left: 10px;
-      font-size: 12px;
-      color: $dark-green;
-      pointer-events: none;
-      transition: 0.5s;
+      z-index: 5;
     }
-    
-    .input input:focus ~ span,
-    .input input:valid ~ span
-    {
-      transform: translateY(-7px);
-      background-color: $light-green;
-      margin-left: 10px;
-      padding: 0;
-    }
-    
-    .login-signin {
-      color: $dark-green;
-      border: none;
-      background-color: $light-green;
-      cursor: pointer;
-    }
-  }
-
-  .login-arrow {
-    @include w-h(40px, 40px);
-    position: fixed;
-    top: 85px;
-    right: 5vw;
-    background-color: $light-green;
-    border-top: solid 1px $dark-green;
-    border-left: solid 1px $dark-green;
-    border-radius: 10px;
-    opacity: 0;
-    z-index: 11;
   
-    animation: dropArrow 0.2s ease-in forwards;
-    transform-origin: top left;
-  }
-
-  .login-arrow-coverup {
-    @include w-h(60px, 30px);
-    position: fixed;
-    top: 108px;
-    right: 5.5vw;
-    background-color: $light-green;
-    border-radius: 10px;
-    opacity: 0;
-    z-index: 12;
+    .login-arrow {
+      @include w-h(40px, 40px);
+      position: fixed;
+      top: 85px;
+      right: 5vw;
+      background-color: $light-green;
+      border-top: solid 1px $dark-green;
+      border-left: solid 1px $dark-green;
+      border-radius: 10px;
+      box-shadow: -1px -1px 6px $dark-green;
+      opacity: 0;
+      z-index: 11;
+    
+      animation: dropArrow 0.2s ease-in forwards;
+      transform-origin: top left;
+    }
   
-    animation: drop 0.2s ease-in forwards;
-    animation-delay: 50ms;
-    transform-origin: top;
+    .login-arrow-coverup {
+      @include w-h(65px, 35px);
+      position: fixed;
+      top: 109px;
+      right: 5.5vw;
+      background-color: $light-green;
+      border-radius: 10px;
+      opacity: 0;
+      z-index: 12;
+    
+      animation: drop 0.2s ease-in forwards;
+      animation-delay: 50ms;
+      transform-origin: top;
+    }
+  
+    .dropdown-container {
+      @include flexbox($fd: column);
+      @include w-h(300px, 200px);
+      position: fixed;
+      top: 108px;
+      right: 5vw;
+      background-color: $light-green;
+      color: $dark-green;
+      border: solid 1px $dark-green;
+      border-radius: 10px;
+      box-shadow: 3px 3px 9px 3px $dark-green;
+      padding: 20px;
+      z-index: 10;
+  
+      animation: drop 0.2s ease-in forwards;
+      transform-origin: 0px -20px;
+    }
+  
+    .login-verified.reveal2 {
+      font-size: 30px;
+      color: $dark-green;
+      text-align: center;
+      animation: reveal2 2s ease-out;
+  
+      span {
+        color: rgb(158, 231, 207);
+        -webkit-text-stroke: 1px $dark-green;
+      }
+    }
+  
+    .login-form {
+      @include flexbox($fd: column);
+      @include w-h(300px, 200px);
+      position: absolute;
+      top: 0;
+      left: 0;
+    
+      animation: drop 0.2s ease-in forwards;
+      transform-origin: 0px -20px;
+      
+      .login-incorrect {
+        color:red;
+        margin-bottom: 10px;
+        pointer-events: none;
+        opacity: 0;
+      }
+  
+      .login-incorrect.reveal1 {
+        opacity: 1;
+        animation: reveal1 0.1s ease-in forwards;
+      }
+  
+      .input {
+        @include w-h(200px, 30px);
+        position: relative;
+        margin-bottom: 15px;
+      }
+      
+      .login-username, .login-password {
+        @include w-h(200px, 30px);
+        background-color: $light-green;
+        border: solid 1px $dark-green;
+        color: $dark-green;
+        border-radius: 10px;
+        padding-left: 10px;
+        outline: none;
+        z-index: 13;
+      }
+      
+      .input span {
+        position: absolute;
+        left: 0;
+        padding: 8px;
+        padding-left: 10px;
+        font-size: 12px;
+        color: $dark-green;
+        pointer-events: none;
+        transition: 0.5s;
+      }
+      
+      .input input:focus ~ span,
+      .input input:valid ~ span
+      {
+        transform: translateY(-7px);
+        background-color: $light-green;
+        margin-left: 10px;
+        padding: 0;
+      }
+      
+      .login-signin {
+        color: $dark-green;
+        border: none;
+        background-color: $light-green;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -290,6 +321,7 @@ section {
     grid-template-columns: repeat(auto-fill, 300px);
     grid-template-rows: repeat(auto-fit, 300px);
     row-gap: 20px;
+    overflow-y: auto;
 
     align-items: flex-start;
     justify-content: space-between;
@@ -297,6 +329,19 @@ section {
     border-radius: 10px;
     background-color: $light-green;
     padding: 20px;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $dark-green;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 10px 0;
+    }
   }
 }
 
@@ -311,6 +356,7 @@ section {
   border: solid 1px rgb(120, 175, 157);
   border-radius: 5px;
   padding: 5px;
+  z-index: 5;
   cursor: pointer;
 
   transition: all 0.2s ease;
@@ -390,6 +436,10 @@ section {
   }
 }
 
+////////
+// Modal
+////////
+
 .modal-background {
   @include w-h(100vw, 100vh);
   position: fixed;
@@ -399,9 +449,6 @@ section {
   background-color: rgba(30, 30, 30, 0.5); // FOR TESTING
 }
 
-////////
-// Modal
-////////
 .modal {
   .modal-content {
     @include flexbox($fd: column);

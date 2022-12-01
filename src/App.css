@@ -50,7 +50,7 @@
     opacity: 1;
   }
 }
-@-webkit-keyframes reveal {
+@-webkit-keyframes reveal1 {
   0% {
     transform: scale(0%, 0%);
   }
@@ -61,7 +61,7 @@
     transform: scale(100%, 100%);
   }
 }
-@keyframes reveal {
+@keyframes reveal1 {
   0% {
     transform: scale(0%, 0%);
   }
@@ -70,6 +70,22 @@
   }
   100% {
     transform: scale(100%, 100%);
+  }
+}
+@-webkit-keyframes reveal2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes reveal2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 * {
@@ -102,7 +118,7 @@ nav {
   align-items: center;
   padding: 0 5vw;
 }
-nav .new-reminder, nav h1, nav .login-button {
+nav .new-reminder, nav .title, nav .login-button {
   transform: translateY(20px);
 }
 nav .new-reminder {
@@ -126,7 +142,7 @@ nav .new-reminder:hover {
 nav .new-reminder:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
-nav h1 {
+nav .title {
   font-size: 50px;
   -webkit-text-stroke: 1px rgb(100, 129, 100);
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
@@ -153,8 +169,11 @@ nav .login-button:hover {
 nav .login-button:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
-
-.login .login-overlay {
+nav .login {
+  position: fixed;
+  z-index: 10;
+}
+nav .login .login-overlay {
   position: fixed;
   background-color: transparent;
   height: 100vh;
@@ -163,7 +182,40 @@ nav .login-button:active {
   left: 0;
   z-index: 5;
 }
-.login .login-dropdown {
+nav .login .login-arrow {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  top: 85px;
+  right: 5vw;
+  background-color: rgb(200, 255, 200);
+  border-top: solid 1px rgb(100, 129, 100);
+  border-left: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  box-shadow: -1px -1px 6px rgb(100, 129, 100);
+  opacity: 0;
+  z-index: 11;
+  -webkit-animation: dropArrow 0.2s ease-in forwards;
+          animation: dropArrow 0.2s ease-in forwards;
+  transform-origin: top left;
+}
+nav .login .login-arrow-coverup {
+  width: 65px;
+  height: 35px;
+  position: fixed;
+  top: 109px;
+  right: 5.5vw;
+  background-color: rgb(200, 255, 200);
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 12;
+  -webkit-animation: drop 0.2s ease-in forwards;
+          animation: drop 0.2s ease-in forwards;
+  -webkit-animation-delay: 50ms;
+          animation-delay: 50ms;
+  transform-origin: top;
+}
+nav .login .dropdown-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,32 +229,56 @@ nav .login-button:active {
   color: rgb(100, 129, 100);
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  box-shadow: 3px 3px 9px 3px rgb(100, 129, 100);
   padding: 20px;
-  opacity: 0;
   z-index: 10;
   -webkit-animation: drop 0.2s ease-in forwards;
           animation: drop 0.2s ease-in forwards;
   transform-origin: 0px -20px;
 }
-.login .login-dropdown .login-incorrect {
+nav .login .login-verified.reveal2 {
+  font-size: 30px;
+  color: rgb(100, 129, 100);
+  text-align: center;
+  -webkit-animation: reveal2 2s ease-out;
+          animation: reveal2 2s ease-out;
+}
+nav .login .login-verified.reveal2 span {
+  color: rgb(158, 231, 207);
+  -webkit-text-stroke: 1px rgb(100, 129, 100);
+}
+nav .login .login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: drop 0.2s ease-in forwards;
+          animation: drop 0.2s ease-in forwards;
+  transform-origin: 0px -20px;
+}
+nav .login .login-form .login-incorrect {
   color: red;
   margin-bottom: 10px;
   pointer-events: none;
   opacity: 0;
 }
-.login .login-dropdown .login-incorrect.reveal {
+nav .login .login-form .login-incorrect.reveal1 {
   opacity: 1;
-  -webkit-animation: reveal 0.1s ease-in forwards;
-          animation: reveal 0.1s ease-in forwards;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
 }
-.login .login-dropdown .input {
+nav .login .login-form .input {
   width: 200px;
   height: 30px;
   position: relative;
   margin-bottom: 15px;
 }
-.login .login-dropdown .login-username, .login .login-dropdown .login-password {
+nav .login .login-form .login-username, nav .login .login-form .login-password {
   width: 200px;
   height: 30px;
   background-color: rgb(200, 255, 200);
@@ -213,7 +289,7 @@ nav .login-button:active {
   outline: none;
   z-index: 13;
 }
-.login .login-dropdown .input span {
+nav .login .login-form .input span {
   position: absolute;
   left: 0;
   padding: 8px;
@@ -223,50 +299,18 @@ nav .login-button:active {
   pointer-events: none;
   transition: 0.5s;
 }
-.login .login-dropdown .input input:focus ~ span,
-.login .login-dropdown .input input:valid ~ span {
+nav .login .login-form .input input:focus ~ span,
+nav .login .login-form .input input:valid ~ span {
   transform: translateY(-7px);
   background-color: rgb(200, 255, 200);
   margin-left: 10px;
   padding: 0;
 }
-.login .login-dropdown .login-signin {
+nav .login .login-form .login-signin {
   color: rgb(100, 129, 100);
   border: none;
   background-color: rgb(200, 255, 200);
   cursor: pointer;
-}
-.login .login-arrow {
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  top: 85px;
-  right: 5vw;
-  background-color: rgb(200, 255, 200);
-  border-top: solid 1px rgb(100, 129, 100);
-  border-left: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  opacity: 0;
-  z-index: 11;
-  -webkit-animation: dropArrow 0.2s ease-in forwards;
-          animation: dropArrow 0.2s ease-in forwards;
-  transform-origin: top left;
-}
-.login .login-arrow-coverup {
-  width: 60px;
-  height: 30px;
-  position: fixed;
-  top: 108px;
-  right: 5.5vw;
-  background-color: rgb(200, 255, 200);
-  border-radius: 10px;
-  opacity: 0;
-  z-index: 12;
-  -webkit-animation: drop 0.2s ease-in forwards;
-          animation: drop 0.2s ease-in forwards;
-  -webkit-animation-delay: 50ms;
-          animation-delay: 50ms;
-  transform-origin: top;
 }
 
 section {
@@ -288,12 +332,23 @@ section .tile-container {
   grid-template-columns: repeat(auto-fill, 300px);
   grid-template-rows: repeat(auto-fit, 300px);
   row-gap: 20px;
+  overflow-y: auto;
   align-items: flex-start;
   justify-content: space-between;
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
   background-color: rgb(200, 255, 200);
   padding: 20px;
+}
+section .tile-container::-webkit-scrollbar {
+  width: 7px;
+}
+section .tile-container::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 129, 100);
+  border-radius: 3px;
+}
+section .tile-container::-webkit-scrollbar-track {
+  margin: 10px 0;
 }
 
 .tile {
@@ -305,6 +360,7 @@ section .tile-container {
   border: solid 1px rgb(120, 175, 157);
   border-radius: 5px;
   padding: 5px;
+  z-index: 5;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;

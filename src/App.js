@@ -7,14 +7,12 @@ import ReminderWall from "./components/ReminderWall"
 import Modal from "./components/Modal"
 import DetailModal from "./components/DetailModal"
 import Tile from "./components/Tile.js"
-import Login from "./components/Login"
 
 
 export default function App() {
   const [modal, setModal] = React.useState(0);
   const [tileList, setTileList] = React.useState([]);
   const [details, setDetails] = React.useState({id: "", reminder: "", description: "", dateTime: ""})
-  const [loggedIn, setLoggedIn] = React.useState(false);
   const tiles = tileList.map((tile) => {
     return (
       <Tile 
@@ -85,7 +83,6 @@ export default function App() {
       }
     })
     setTileList(newList);
-    setModal(0);
   }
 
   // Converts the dateTime to a string
@@ -133,15 +130,13 @@ export default function App() {
     <div className="container">
       <Navbar 
         setModal={setModal}
-        loggedIn={loggedIn}
-        setLoggedIn={setLoggedIn}
       />
 
-      {loggedIn &&
+      {/* {!loggedIn &&
         <Login 
           setLoggedIn={setLoggedIn}
         />
-      }
+      } */}
 
       <ReminderWall 
         tiles={tiles}

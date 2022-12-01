@@ -36,6 +36,8 @@ export default function DetailModal({setModal, details, getDateTime, convertDT, 
     const newDets = {id: details.id, reminder: remVal, description: descVal, dateTime: dtVal};
     // update list of tiles
     updateTile(newDets);
+    setEditing(false);
+    setTimeLeft(timeRemaining(dtVal));
   }
 
   return (
