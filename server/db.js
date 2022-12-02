@@ -8,3 +8,5 @@ const pool = new Pool({
 });
 
 module.exports = pool;
+
+// contains login information for pg database to query from
