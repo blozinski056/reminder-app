@@ -1,15 +1,18 @@
-import React from "react"
+import React from "react";
 
-export default function Modal({setModal, getDateTime, createTile}) {
+export default function Modal({ setModal, getDateTime, createTile }) {
   // Gets current date and time
-  const minDate = new Date((new Date(getDateTime()).getTime() + 60000)).toISOString().slice(0, -8);
+  const minDate = new Date(new Date(getDateTime()).getTime() + 60000)
+    .toISOString()
+    .slice(0, -8);
 
   // Collects info for the new tile
   function submitClose(e) {
     e.preventDefault();
-    const reminder = document.querySelector(".modal-reminder").value
-    const description = document.querySelector(".modal-description").value
-    const dt = document.querySelector(".modal-datetime").value
+    const reminder = document.querySelector(".modal-reminder").value;
+    const description = document.querySelector(".modal-description").value;
+    const dt = document.querySelector(".modal-datetime").value;
+    console.log(dt);
     createTile(reminder, description, dt);
     setModal(0);
   }
@@ -17,7 +20,12 @@ export default function Modal({setModal, getDateTime, createTile}) {
   return (
     <div className="modal">
       <div className="modal-content">
-        <button className="modal-exit" onClick={() => setModal(0)}>+</button>
+        <button
+          className="modal-exit"
+          onClick={() => setModal(0)}
+        >
+          +
+        </button>
         <form onSubmit={submitClose}>
           <input
             className="modal-reminder"
@@ -44,5 +52,5 @@ export default function Modal({setModal, getDateTime, createTile}) {
         </form>
       </div>
     </div>
-  )
+  );
 }
