@@ -2,6 +2,7 @@ import React from "react";
 import { nanoid } from "nanoid";
 
 import "./App.css";
+import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar";
 import ReminderWall from "./components/ReminderWall";
 import Modal from "./components/Modal";
@@ -9,6 +10,8 @@ import DetailModal from "./components/DetailModal";
 import Tile from "./components/Tile.js";
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [username, setUsername] = React.useState("");
   const [modal, setModal] = React.useState(0);
   const [tileList, setTileList] = React.useState([]);
   const [details, setDetails] = React.useState({
@@ -133,13 +136,14 @@ export default function App() {
 
   return (
     <div className="container">
-      <Navbar setModal={setModal} />
-
-      {/* {!loggedIn &&
-        <Login 
+      {!loggedIn && (
+        <HomePage
           setLoggedIn={setLoggedIn}
+          setUsername={setUsername}
         />
-      } */}
+      )}
+
+      <Navbar setModal={setModal} />
 
       <ReminderWall tiles={tiles} />
 

@@ -109,6 +109,107 @@ body {
   height: 100vh;
 }
 
+.homepage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  padding-top: 10%;
+  grid-template-columns: 500px 500px;
+  grid-template-rows: 200px 300px;
+  grid-row-gap: solid 5px black;
+  background-color: darkseagreen;
+  z-index: 20;
+}
+.homepage .homepage-title {
+  font-size: 100px;
+  font-weight: 700;
+  -webkit-text-stroke: 1px rgb(100, 129, 100);
+  text-shadow: 3px 3px 5px rgb(100, 129, 100);
+  cursor: default;
+  grid-row: 1/2;
+  grid-column: 1/3;
+  text-align: center;
+}
+.homepage h1 {
+  font-weight: 900;
+  -webkit-text-stroke: 1px rgb(100, 129, 100);
+}
+.homepage form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.homepage input {
+  width: 200px;
+  height: 40px;
+  position: relative;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  color: rgb(100, 129, 100);
+  font-weight: 700;
+  outline: none;
+}
+.homepage input::-moz-placeholder {
+  opacity: 0.7;
+  font-weight: 500;
+}
+.homepage input:-ms-input-placeholder {
+  opacity: 0.7;
+  font-weight: 500;
+}
+.homepage input::placeholder {
+  opacity: 0.7;
+  font-weight: 500;
+}
+.homepage .login-button,
+.homepage .signup-button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+}
+.homepage .login-incorrect,
+.homepage .signup-incorrect {
+  color: red;
+  margin-bottom: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+.homepage .login-incorrect.reveal1,
+.homepage .signup-incorrect.reveal1 {
+  opacity: 1;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
+}
+.homepage .homepage-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.homepage .homepage-login .login-incorrect {
+  color: red;
+  margin-bottom: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+.homepage .homepage-login .login-incorrect.reveal1 {
+  opacity: 1;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
+}
+.homepage .homepage-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 nav {
   width: 100%;
   height: 100px;
@@ -118,7 +219,8 @@ nav {
   align-items: center;
   padding: 0 5vw;
 }
-nav .new-reminder, nav .title, nav .login-button {
+nav .new-reminder,
+nav .title {
   transform: translateY(20px);
 }
 nav .new-reminder {
@@ -147,27 +249,6 @@ nav .title {
   -webkit-text-stroke: 1px rgb(100, 129, 100);
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
   cursor: default;
-}
-nav .login-button {
-  justify-self: flex-end;
-  color: rgb(100, 129, 100);
-  font-size: 20px;
-  font-weight: 700;
-  padding: 5px 10px;
-  padding-top: 7px;
-  background-color: rgb(200, 255, 200);
-  border: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  transition: 0.3s ease;
-  cursor: pointer;
-}
-nav .login-button:hover {
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  transform: translate(-1px, 19px);
-  transition: 0.2s ease;
-}
-nav .login-button:active {
-  box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
 nav .login {
   position: fixed;
@@ -246,71 +327,6 @@ nav .login .login-verified.reveal2 {
 nav .login .login-verified.reveal2 span {
   color: rgb(158, 231, 207);
   -webkit-text-stroke: 1px rgb(100, 129, 100);
-}
-nav .login .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 300px;
-  height: 200px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-animation: drop 0.2s ease-in forwards;
-          animation: drop 0.2s ease-in forwards;
-  transform-origin: 0px -20px;
-}
-nav .login .login-form .login-incorrect {
-  color: red;
-  margin-bottom: 10px;
-  pointer-events: none;
-  opacity: 0;
-}
-nav .login .login-form .login-incorrect.reveal1 {
-  opacity: 1;
-  -webkit-animation: reveal1 0.1s ease-in forwards;
-          animation: reveal1 0.1s ease-in forwards;
-}
-nav .login .login-form .input {
-  width: 200px;
-  height: 30px;
-  position: relative;
-  margin-bottom: 15px;
-}
-nav .login .login-form .login-username, nav .login .login-form .login-password {
-  width: 200px;
-  height: 30px;
-  background-color: rgb(200, 255, 200);
-  border: solid 1px rgb(100, 129, 100);
-  color: rgb(100, 129, 100);
-  border-radius: 10px;
-  padding-left: 10px;
-  outline: none;
-  z-index: 13;
-}
-nav .login .login-form .input span {
-  position: absolute;
-  left: 0;
-  padding: 8px;
-  padding-left: 10px;
-  font-size: 12px;
-  color: rgb(100, 129, 100);
-  pointer-events: none;
-  transition: 0.5s;
-}
-nav .login .login-form .input input:focus ~ span,
-nav .login .login-form .input input:valid ~ span {
-  transform: translateY(-7px);
-  background-color: rgb(200, 255, 200);
-  margin-left: 10px;
-  padding: 0;
-}
-nav .login .login-form .login-signin {
-  color: rgb(100, 129, 100);
-  border: none;
-  background-color: rgb(200, 255, 200);
-  cursor: pointer;
 }
 
 section {
@@ -581,7 +597,10 @@ section .tile-container::-webkit-scrollbar-track {
 .detail-modal .dm-details .dm-save {
   align-self: flex-end;
 }
-.detail-modal .dm-details .dm-edit, .detail-modal .dm-details .dm-delete, .detail-modal .dm-details .dm-save, .detail-modal .dm-details .dm-cancel {
+.detail-modal .dm-details .dm-edit,
+.detail-modal .dm-details .dm-delete,
+.detail-modal .dm-details .dm-save,
+.detail-modal .dm-details .dm-cancel {
   display: flex;
   flex-direction: row;
   align-items: center;

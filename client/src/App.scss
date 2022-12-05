@@ -72,7 +72,7 @@ $bg-color: darkseagreen;
 /////////
 * {
   margin: 0;
-  font-family: 'Overpass', sans-serif;
+  font-family: "Overpass", sans-serif;
   color: $light-green;
   box-sizing: border-box;
   // border: solid 1px gray;
@@ -88,6 +88,99 @@ body {
   @include w-h(100vw, 100vh);
 }
 
+///////////
+// HomePage
+///////////
+.homepage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  padding-top: 10%;
+  grid-template-columns: 500px 500px;
+  grid-template-rows: 200px 300px;
+  grid-row-gap: solid 5px black;
+  background-color: $bg-color;
+  z-index: 20;
+
+  .homepage-title {
+    font-size: 100px;
+    font-weight: 700;
+    -webkit-text-stroke: 1px $dark-green;
+    text-shadow: 3px 3px 5px $dark-green;
+    cursor: default;
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+    text-align: center;
+  }
+
+  h1 {
+    font-weight: 900;
+    -webkit-text-stroke: 1px $dark-green;
+  }
+
+  form {
+    @include flexbox($fd: column);
+  }
+
+  input {
+    @include w-h(200px, 40px);
+    position: relative;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: $light-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    color: $dark-green;
+    font-weight: 700;
+    outline: none;
+
+    &::placeholder {
+      opacity: 0.7;
+      font-weight: 500;
+    }
+  }
+
+  .login-button,
+  .signup-button {
+    width: fit-content;
+    cursor: pointer;
+  }
+
+  .login-incorrect,
+  .signup-incorrect {
+    color: red;
+    margin-bottom: 5px;
+    pointer-events: none;
+    opacity: 0;
+
+    &.reveal1 {
+      opacity: 1;
+      animation: reveal1 0.1s ease-in forwards;
+    }
+  }
+
+  .homepage-login {
+    @include flexbox($fd: column);
+
+    .login-incorrect {
+      color: red;
+      margin-bottom: 5px;
+      pointer-events: none;
+      opacity: 0;
+
+      &.reveal1 {
+        opacity: 1;
+        animation: reveal1 0.1s ease-in forwards;
+      }
+    }
+  }
+
+  .homepage-signup {
+    @include flexbox($fd: column);
+  }
+}
+
 /////////
 // Navbar
 /////////
@@ -99,7 +192,8 @@ nav {
   align-items: center;
   padding: 0 5vw;
 
-  .new-reminder, .title, .login-button {
+  .new-reminder,
+  .title {
     transform: translateY(20px);
   }
 
@@ -134,30 +228,6 @@ nav {
     cursor: default;
   }
 
-  .login-button {
-    justify-self: flex-end;
-    color: $dark-green;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 5px 10px;
-    padding-top: 7px;
-    background-color: $light-green;
-    border: solid 1px $dark-green;
-    border-radius: 10px;
-    transition: 0.3s ease;
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 3px 3px 5px $dark-green;
-      transform: translate(-1px, 19px);
-      transition: 0.2s ease;
-    }
-
-    &:active {
-      box-shadow: inset 3px 3px 5px $dark-green;
-    }
-  }
-
   .login {
     position: fixed;
     z-index: 10;
@@ -171,7 +241,7 @@ nav {
       left: 0;
       z-index: 5;
     }
-  
+
     .login-arrow {
       @include w-h(40px, 40px);
       position: fixed;
@@ -184,11 +254,11 @@ nav {
       box-shadow: -1px -1px 6px $dark-green;
       opacity: 0;
       z-index: 11;
-    
+
       animation: dropArrow 0.2s ease-in forwards;
       transform-origin: top left;
     }
-  
+
     .login-arrow-coverup {
       @include w-h(65px, 35px);
       position: fixed;
@@ -198,12 +268,12 @@ nav {
       border-radius: 10px;
       opacity: 0;
       z-index: 12;
-    
+
       animation: drop 0.2s ease-in forwards;
       animation-delay: 50ms;
       transform-origin: top;
     }
-  
+
     .dropdown-container {
       @include flexbox($fd: column);
       @include w-h(300px, 200px);
@@ -217,89 +287,89 @@ nav {
       box-shadow: 3px 3px 9px 3px $dark-green;
       padding: 20px;
       z-index: 10;
-  
+
       animation: drop 0.2s ease-in forwards;
       transform-origin: 0px -20px;
     }
-  
+
     .login-verified.reveal2 {
       font-size: 30px;
       color: $dark-green;
       text-align: center;
       animation: reveal2 2s ease-out;
-  
+
       span {
         color: rgb(158, 231, 207);
         -webkit-text-stroke: 1px $dark-green;
       }
     }
-  
-    .login-form {
-      @include flexbox($fd: column);
-      @include w-h(300px, 200px);
-      position: absolute;
-      top: 0;
-      left: 0;
-    
-      animation: drop 0.2s ease-in forwards;
-      transform-origin: 0px -20px;
-      
-      .login-incorrect {
-        color:red;
-        margin-bottom: 10px;
-        pointer-events: none;
-        opacity: 0;
-      }
-  
-      .login-incorrect.reveal1 {
-        opacity: 1;
-        animation: reveal1 0.1s ease-in forwards;
-      }
-  
-      .input {
-        @include w-h(200px, 30px);
-        position: relative;
-        margin-bottom: 15px;
-      }
-      
-      .login-username, .login-password {
-        @include w-h(200px, 30px);
-        background-color: $light-green;
-        border: solid 1px $dark-green;
-        color: $dark-green;
-        border-radius: 10px;
-        padding-left: 10px;
-        outline: none;
-        z-index: 13;
-      }
-      
-      .input span {
-        position: absolute;
-        left: 0;
-        padding: 8px;
-        padding-left: 10px;
-        font-size: 12px;
-        color: $dark-green;
-        pointer-events: none;
-        transition: 0.5s;
-      }
-      
-      .input input:focus ~ span,
-      .input input:valid ~ span
-      {
-        transform: translateY(-7px);
-        background-color: $light-green;
-        margin-left: 10px;
-        padding: 0;
-      }
-      
-      .login-signin {
-        color: $dark-green;
-        border: none;
-        background-color: $light-green;
-        cursor: pointer;
-      }
-    }
+
+    // .login-form {
+    //   @include flexbox($fd: column);
+    //   @include w-h(300px, 200px);
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+
+    //   animation: drop 0.2s ease-in forwards;
+    //   transform-origin: 0px -20px;
+
+    //   .login-incorrect {
+    //     color: red;
+    //     margin-bottom: 10px;
+    //     pointer-events: none;
+    //     opacity: 0;
+    //   }
+
+    //   .login-incorrect.reveal1 {
+    //     opacity: 1;
+    //     animation: reveal1 0.1s ease-in forwards;
+    //   }
+
+    //   .input {
+    //     @include w-h(200px, 30px);
+    //     position: relative;
+    //     margin-bottom: 15px;
+    //   }
+
+    //   .login-username,
+    //   .login-password {
+    //     @include w-h(200px, 30px);
+    //     background-color: $light-green;
+    //     border: solid 1px $dark-green;
+    //     color: $dark-green;
+    //     border-radius: 10px;
+    //     padding-left: 10px;
+    //     outline: none;
+    //     z-index: 13;
+    //   }
+
+    //   .input span {
+    //     position: absolute;
+    //     left: 0;
+    //     padding: 8px;
+    //     padding-left: 10px;
+    //     font-size: 12px;
+    //     color: $dark-green;
+    //     pointer-events: none;
+    //     transition: 0.5s;
+    //   }
+
+    //   .input input:focus ~ span,
+    //   .input input:valid ~ span {
+    //     transform: translateY(-7px);
+    //     background-color: $light-green;
+    //     margin-left: 10px;
+    //     padding: 0;
+    //   }
+
+    //   .login-signin {
+    //     color: $dark-green;
+    //     border: none;
+    //     background-color: $light-green;
+    //     cursor: pointer;
+    //   }
+    // }
   }
 }
 
@@ -361,7 +431,7 @@ section {
 
   transition: all 0.2s ease;
   position: relative;
-  animation-name: appear;  
+  animation-name: appear;
   animation-duration: 1.5s;
   animation-delay: 0s;
 
@@ -575,7 +645,10 @@ section {
       align-self: flex-end;
     }
 
-    .dm-edit, .dm-delete, .dm-save, .dm-cancel {
+    .dm-edit,
+    .dm-delete,
+    .dm-save,
+    .dm-cancel {
       @include flexbox;
       @include w-h(60px, 60px);
       cursor: pointer;
@@ -585,7 +658,7 @@ section {
       border: solid 1px $dark-green;
       border-radius: 10px;
     }
-    
+
     .dm-edit > img,
     .dm-delete > img,
     .dm-save > img,
@@ -635,7 +708,7 @@ section {
         color: $dark-green;
         font-size: 30px;
         width: 100%;
-    }
+      }
     }
 
     // When viewing details
@@ -661,16 +734,16 @@ section {
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color:$dark-green;
+        background-color: $dark-green;
         border-radius: 3px;
       }
     }
-  
+
     .dm-datetime {
       color: $dark-green;
       opacity: 0.5;
     }
-  
+
     .dm-description {
       color: $dark-green;
       margin-top: 10px;
@@ -687,11 +760,11 @@ section {
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color:$dark-green;
+        background-color: $dark-green;
         border-radius: 3px;
       }
     }
-  
+
     .dm-button-container {
       @include flexbox($ai: flex-end, $jc: space-between);
       bottom: 0;
@@ -700,7 +773,7 @@ section {
       padding: 10px;
 
       h5 {
-        color:rgb(100, 129, 100);
+        color: rgb(100, 129, 100);
         text-align: center;
       }
     }

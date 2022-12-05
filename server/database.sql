@@ -3,7 +3,8 @@ CREATE DATABASE reminderapp;
 CREATE TABLE users(
   username VARCHAR(255),
   password VARCHAR(255),
-  PRIMARY KEY (username)
+  PRIMARY KEY (username),
+  UNIQUE (username)
 );
 
 CREATE TABLE notes(
