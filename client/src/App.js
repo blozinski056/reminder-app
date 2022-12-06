@@ -37,6 +37,118 @@ export default function App() {
     );
   });
 
+  React.useEffect(() => {
+    if (!username) {
+      return;
+    }
+    setTileList([]);
+    getNotes(username);
+  }, [username, loggedIn]);
+
+  // Populate existing notes based on user
+  async function getNotes(un) {
+    try {
+      const response = await fetch(`http://localhost:5000/users/${un}/notes`);
+      const jsonData = await response.json();
+      const newTiles = [];
+      jsonData.forEach((data) => {
+        newTiles.push({
+          id: data.id,
+          reminder: data.reminder,
+          description: data.description,
+          dateTime: data.datetime,
+        });
+      });
+      setTileList(newTiles);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  function signOut() {
+    setLoggedIn(false);
+    setTileList([]);
+  }
+
+  // Creates new info object and adds it to info tiles array
+  async function createTile(r, d, dt) {
+    const newtile = {
+      id: nanoid(),
+      reminder: r,
+      description: d,
+      dateTime: dt,
+    };
+    try {
+      const body = newtile;
+      await fetch(`http://localhost:5000/users/${username}/notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      setTileList((prevTileList) => [newtile, ...prevTileList]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  // Removes tile from list based on its ID number
+  async function removeTile(idNum) {
+    const newTileList = [];
+    tileList.forEach((tile) => {
+      // check if tile matches ID of tile to remove
+      if (tile.id !== idNum) {
+        newTileList.push(tile);
+      }
+    });
+    setTileList(newTileList);
+
+    try {
+      await fetch(`http://localhost:5000/users/${username}/notes/${idNum}`, {
+        method: "DELETE",
+      });
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  // Updating a tile
+  async function updateTile(dets) {
+    let newList = [];
+    const updatedTile = {
+      id: nanoid(),
+      reminder: dets.reminder,
+      description: dets.description,
+      dateTime: dets.dateTime,
+    };
+
+    try {
+      const body = {
+        newId: updatedTile.id,
+        reminder: dets.reminder,
+        description: dets.description,
+        dateTime: dets.dateTime,
+      };
+      await fetch(`http://localhost:5000/users/${username}/notes/${dets.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      tileList.forEach((tile) => {
+        if (tile.id === dets.id) {
+          // add to the front so edited note is at the top of UI
+          newList.unshift(updatedTile);
+          setDetails(updatedTile);
+        } else {
+          newList.push(tile);
+        }
+      });
+      setTileList(newList);
+      setModal(2);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   // Turns current date and time to ISOString
   function getDateTime() {
     let today = new Date();
@@ -46,47 +158,6 @@ export default function App() {
     let localISOTime = new Date(Date.now() - tzOffset).toISOString();
 
     return localISOTime;
-  }
-
-  // Creates new info object and adds it to info tiles array
-  function createTile(r, d, dt) {
-    const newtile = {
-      id: nanoid(),
-      reminder: r,
-      description: d,
-      dateTime: dt,
-    };
-    setTileList((prevTileList) => [newtile, ...prevTileList]);
-  }
-
-  // Removes tile from list based on its ID number
-  function removeTile(idNum) {
-    const newTileList = [];
-    tileList.forEach((tile) => {
-      if (tile.id !== idNum) {
-        newTileList.push(tile);
-      }
-    });
-    setTileList(newTileList);
-  }
-
-  function updateTile(dets) {
-    let newList = [];
-    tileList.forEach((tile) => {
-      if (tile.id === dets.id) {
-        const updatedTile = {
-          id: nanoid(),
-          reminder: dets.reminder,
-          description: dets.description,
-          dateTime: dets.dateTime,
-        };
-        newList.unshift(updatedTile);
-        setDetails(updatedTile);
-      } else {
-        newList.push(tile);
-      }
-    });
-    setTileList(newList);
   }
 
   // Converts the dateTime to a string
@@ -136,37 +207,36 @@ export default function App() {
 
   return (
     <div className="container">
-      {!loggedIn && (
-        <HomePage
-          setLoggedIn={setLoggedIn}
-          setUsername={setUsername}
-        />
-      )}
+      {loggedIn ? (
+        <>
+          <Navbar setModal={setModal} username={username} signOut={signOut} />
 
-      <Navbar setModal={setModal} />
+          <ReminderWall tiles={tiles} />
 
-      <ReminderWall tiles={tiles} />
+          {modal !== 0 && <div className="modal-background"></div>}
 
-      {modal !== 0 && <div className="modal-background"></div>}
+          {modal === 1 && (
+            <Modal
+              setModal={setModal}
+              getDateTime={getDateTime}
+              createTile={createTile}
+            />
+          )}
 
-      {modal === 1 && (
-        <Modal
-          setModal={setModal}
-          getDateTime={getDateTime}
-          createTile={createTile}
-        />
-      )}
-
-      {modal === 2 && (
-        <DetailModal
-          setModal={setModal}
-          details={details}
-          getDateTime={getDateTime}
-          convertDT={convertDT}
-          removeTile={removeTile}
-          updateTile={updateTile}
-          timeRemaining={timeRemaining}
-        />
+          {modal === 2 && (
+            <DetailModal
+              setModal={setModal}
+              details={details}
+              getDateTime={getDateTime}
+              convertDT={convertDT}
+              removeTile={removeTile}
+              updateTile={updateTile}
+              timeRemaining={timeRemaining}
+            />
+          )}
+        </>
+      ) : (
+        <HomePage setLoggedIn={setLoggedIn} setUsername={setUsername} />
       )}
     </div>
   );

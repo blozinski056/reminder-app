@@ -117,7 +117,6 @@ body {
   padding-top: 10%;
   grid-template-columns: 500px 500px;
   grid-template-rows: 200px 300px;
-  grid-row-gap: solid 5px black;
   background-color: darkseagreen;
   z-index: 20;
 }
@@ -131,6 +130,13 @@ body {
   grid-column: 1/3;
   text-align: center;
 }
+.homepage .homepage-login,
+.homepage .homepage-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .homepage h1 {
   font-weight: 900;
   -webkit-text-stroke: 1px rgb(100, 129, 100);
@@ -139,7 +145,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .homepage input {
   width: 200px;
@@ -182,32 +188,10 @@ body {
 }
 .homepage .login-incorrect.reveal1,
 .homepage .signup-incorrect.reveal1 {
-  opacity: 1;
-  -webkit-animation: reveal1 0.1s ease-in forwards;
-          animation: reveal1 0.1s ease-in forwards;
-}
-.homepage .homepage-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.homepage .homepage-login .login-incorrect {
   color: red;
-  margin-bottom: 5px;
-  pointer-events: none;
-  opacity: 0;
-}
-.homepage .homepage-login .login-incorrect.reveal1 {
   opacity: 1;
   -webkit-animation: reveal1 0.1s ease-in forwards;
           animation: reveal1 0.1s ease-in forwards;
-}
-.homepage .homepage-signup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 nav {
@@ -220,11 +204,37 @@ nav {
   padding: 0 5vw;
 }
 nav .new-reminder,
-nav .title {
+nav .title,
+nav .account-container {
   transform: translateY(20px);
+}
+nav .account-container {
+  justify-self: flex-end;
+}
+nav .account-container h3 {
+  margin-right: 3vw;
+  -webkit-text-stroke: 1px rgb(100, 129, 100);
+  text-shadow: 3px 3px 5px rgb(100, 129, 100);
+}
+nav .account-container span {
+  -webkit-text-stroke: 1px rgb(100, 129, 100);
+  text-shadow: 2px 2px 3px rgb(100, 129, 100);
 }
 nav .new-reminder {
   justify-self: flex-start;
+}
+nav .new-reminder:hover {
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translate(-1px, 19px);
+  transition: 0.2s ease;
+}
+nav .sign-out:hover {
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translate(-1px, -1px);
+  transition: 0.2s ease;
+}
+nav .new-reminder,
+nav .sign-out {
   color: rgb(100, 129, 100);
   font-size: 20px;
   font-weight: 700;
@@ -236,12 +246,8 @@ nav .new-reminder {
   transition: 0.3s ease;
   cursor: pointer;
 }
-nav .new-reminder:hover {
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  transform: translate(-1px, 19px);
-  transition: 0.2s ease;
-}
-nav .new-reminder:active {
+nav .new-reminder:active,
+nav .sign-out:active {
   box-shadow: inset 3px 3px 5px rgb(100, 129, 100);
 }
 nav .title {
@@ -250,83 +256,11 @@ nav .title {
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
   cursor: default;
 }
-nav .login {
-  position: fixed;
-  z-index: 10;
-}
-nav .login .login-overlay {
-  position: fixed;
-  background-color: transparent;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  z-index: 5;
-}
-nav .login .login-arrow {
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  top: 85px;
-  right: 5vw;
-  background-color: rgb(200, 255, 200);
-  border-top: solid 1px rgb(100, 129, 100);
-  border-left: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  box-shadow: -1px -1px 6px rgb(100, 129, 100);
-  opacity: 0;
-  z-index: 11;
-  -webkit-animation: dropArrow 0.2s ease-in forwards;
-          animation: dropArrow 0.2s ease-in forwards;
-  transform-origin: top left;
-}
-nav .login .login-arrow-coverup {
-  width: 65px;
-  height: 35px;
-  position: fixed;
-  top: 109px;
-  right: 5.5vw;
-  background-color: rgb(200, 255, 200);
-  border-radius: 10px;
-  opacity: 0;
-  z-index: 12;
-  -webkit-animation: drop 0.2s ease-in forwards;
-          animation: drop 0.2s ease-in forwards;
-  -webkit-animation-delay: 50ms;
-          animation-delay: 50ms;
-  transform-origin: top;
-}
-nav .login .dropdown-container {
+nav .account-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 200px;
-  position: fixed;
-  top: 108px;
-  right: 5vw;
-  background-color: rgb(200, 255, 200);
-  color: rgb(100, 129, 100);
-  border: solid 1px rgb(100, 129, 100);
-  border-radius: 10px;
-  box-shadow: 3px 3px 9px 3px rgb(100, 129, 100);
-  padding: 20px;
-  z-index: 10;
-  -webkit-animation: drop 0.2s ease-in forwards;
-          animation: drop 0.2s ease-in forwards;
-  transform-origin: 0px -20px;
-}
-nav .login .login-verified.reveal2 {
-  font-size: 30px;
-  color: rgb(100, 129, 100);
-  text-align: center;
-  -webkit-animation: reveal2 2s ease-out;
-          animation: reveal2 2s ease-out;
-}
-nav .login .login-verified.reveal2 span {
-  color: rgb(158, 231, 207);
-  -webkit-text-stroke: 1px rgb(100, 129, 100);
 }
 
 section {
@@ -514,16 +448,35 @@ section .tile-container::-webkit-scrollbar-track {
   border: solid 2px rgb(100, 129, 100);
   font-size: 20px;
   outline: none;
+  padding: 10px;
 }
 .modal .modal-content form .modal-reminder {
   width: 500px;
   height: 50px;
   overflow-x: auto;
 }
+.modal .modal-content form .modal-reminder::-moz-placeholder {
+  opacity: 0.7;
+}
+.modal .modal-content form .modal-reminder:-ms-input-placeholder {
+  opacity: 0.7;
+}
+.modal .modal-content form .modal-reminder::placeholder {
+  opacity: 0.7;
+}
 .modal .modal-content form .modal-description {
   width: 500px;
   height: 200px;
   resize: none;
+}
+.modal .modal-content form .modal-description::-moz-placeholder {
+  opacity: 0.7;
+}
+.modal .modal-content form .modal-description:-ms-input-placeholder {
+  opacity: 0.7;
+}
+.modal .modal-content form .modal-description::placeholder {
+  opacity: 0.7;
 }
 .modal .modal-content form .modal-description::-webkit-scrollbar {
   width: 7px;
@@ -536,7 +489,7 @@ section .tile-container::-webkit-scrollbar-track {
   margin: 10px 0;
 }
 .modal .modal-content form .modal-datetime {
-  width: 250px;
+  width: 275px;
   height: 50px;
   cursor: text;
 }
@@ -544,7 +497,6 @@ section .tile-container::-webkit-scrollbar-track {
   width: 100px;
   height: 50px;
   cursor: pointer;
-  padding-top: 3px;
 }
 
 .detail-modal .dm-content {
@@ -575,7 +527,14 @@ section .tile-container::-webkit-scrollbar-track {
   cursor: pointer;
   z-index: 6;
 }
-.detail-modal .dm-details {
+.detail-modal .dm-edit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+.detail-modal .dm-details,
+.detail-modal .dm-edit {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -589,18 +548,24 @@ section .tile-container::-webkit-scrollbar-track {
   border-radius: 10px;
   border: solid 1px rgb(120, 175, 157);
 }
-.detail-modal .dm-details .dm-cancel {
+.detail-modal .dm-details .dm-cancel,
+.detail-modal .dm-edit .dm-cancel {
   position: absolute;
   top: 10px;
   left: 10px;
 }
-.detail-modal .dm-details .dm-save {
+.detail-modal .dm-details .dm-save,
+.detail-modal .dm-edit .dm-save {
   align-self: flex-end;
 }
 .detail-modal .dm-details .dm-edit,
 .detail-modal .dm-details .dm-delete,
 .detail-modal .dm-details .dm-save,
-.detail-modal .dm-details .dm-cancel {
+.detail-modal .dm-details .dm-cancel,
+.detail-modal .dm-edit .dm-edit,
+.detail-modal .dm-edit .dm-delete,
+.detail-modal .dm-edit .dm-save,
+.detail-modal .dm-edit .dm-cancel {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -617,11 +582,16 @@ section .tile-container::-webkit-scrollbar-track {
 .detail-modal .dm-details .dm-edit > img,
 .detail-modal .dm-details .dm-delete > img,
 .detail-modal .dm-details .dm-save > img,
-.detail-modal .dm-details .dm-cancel > img {
+.detail-modal .dm-details .dm-cancel > img,
+.detail-modal .dm-edit .dm-edit > img,
+.detail-modal .dm-edit .dm-delete > img,
+.detail-modal .dm-edit .dm-save > img,
+.detail-modal .dm-edit .dm-cancel > img {
   width: 30px;
   height: 30px;
 }
-.detail-modal .dm-details form {
+.detail-modal .dm-details form,
+.detail-modal .dm-edit form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -630,30 +600,39 @@ section .tile-container::-webkit-scrollbar-track {
   color: rgb(100, 129, 100);
   gap: 10px;
 }
-.detail-modal .dm-details form .dm-form-reminder {
+.detail-modal .dm-details form .dm-form-reminder,
+.detail-modal .dm-edit form .dm-form-reminder {
   height: 50px;
 }
-.detail-modal .dm-details form .dm-form-description {
+.detail-modal .dm-details form .dm-form-description,
+.detail-modal .dm-edit form .dm-form-description {
   resize: none;
   height: 10em;
 }
-.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar {
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar,
+.detail-modal .dm-edit form .dm-form-description::-webkit-scrollbar {
   width: 7px;
 }
-.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-thumb {
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-thumb,
+.detail-modal .dm-edit form .dm-form-description::-webkit-scrollbar-thumb {
   background-color: rgb(100, 129, 100);
   border-radius: 5px;
 }
-.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-track {
+.detail-modal .dm-details form .dm-form-description::-webkit-scrollbar-track,
+.detail-modal .dm-edit form .dm-form-description::-webkit-scrollbar-track {
   margin: 10px 0;
 }
-.detail-modal .dm-details form .dm-form-datetime {
+.detail-modal .dm-details form .dm-form-datetime,
+.detail-modal .dm-edit form .dm-form-datetime {
   flex-direction: row;
   cursor: text;
 }
 .detail-modal .dm-details form .dm-form-reminder,
 .detail-modal .dm-details form .dm-form-description,
-.detail-modal .dm-details form .dm-form-datetime {
+.detail-modal .dm-details form .dm-form-datetime,
+.detail-modal .dm-edit form .dm-form-reminder,
+.detail-modal .dm-edit form .dm-form-description,
+.detail-modal .dm-edit form .dm-form-datetime {
   background-color: rgb(206, 252, 236);
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
@@ -664,32 +643,41 @@ section .tile-container::-webkit-scrollbar-track {
 .detail-modal .dm-details .dm-reminder,
 .detail-modal .dm-details .dm-datetime,
 .detail-modal .dm-details .dm-description,
-.detail-modal .dm-details .dm-button-container {
+.detail-modal .dm-details .dm-button-container,
+.detail-modal .dm-edit .dm-reminder,
+.detail-modal .dm-edit .dm-datetime,
+.detail-modal .dm-edit .dm-description,
+.detail-modal .dm-edit .dm-button-container {
   font-size: 30px;
   width: 100%;
 }
-.detail-modal .dm-details .dm-reminder {
+.detail-modal .dm-details .dm-reminder,
+.detail-modal .dm-edit .dm-reminder {
   color: rgb(100, 129, 100);
   overflow: auto;
   overflow-y: hidden;
   white-space: nowrap;
   margin: 0;
 }
-.detail-modal .dm-details .dm-reminder::-webkit-scrollbar {
+.detail-modal .dm-details .dm-reminder::-webkit-scrollbar,
+.detail-modal .dm-edit .dm-reminder::-webkit-scrollbar {
   width: 5px;
   height: 5px;
   background-color: rgb(206, 252, 236);
   cursor: pointer;
 }
-.detail-modal .dm-details .dm-reminder::-webkit-scrollbar-thumb {
+.detail-modal .dm-details .dm-reminder::-webkit-scrollbar-thumb,
+.detail-modal .dm-edit .dm-reminder::-webkit-scrollbar-thumb {
   background-color: rgb(100, 129, 100);
   border-radius: 3px;
 }
-.detail-modal .dm-details .dm-datetime {
+.detail-modal .dm-details .dm-datetime,
+.detail-modal .dm-edit .dm-datetime {
   color: rgb(100, 129, 100);
   opacity: 0.5;
 }
-.detail-modal .dm-details .dm-description {
+.detail-modal .dm-details .dm-description,
+.detail-modal .dm-edit .dm-description {
   color: rgb(100, 129, 100);
   margin-top: 10px;
   height: 10em;
@@ -698,17 +686,20 @@ section .tile-container::-webkit-scrollbar-track {
   overflow-x: hidden;
   white-space: pre-wrap;
 }
-.detail-modal .dm-details .dm-description::-webkit-scrollbar {
+.detail-modal .dm-details .dm-description::-webkit-scrollbar,
+.detail-modal .dm-edit .dm-description::-webkit-scrollbar {
   width: 5px;
   height: 5px;
   background-color: rgb(206, 252, 236);
   cursor: pointer;
 }
-.detail-modal .dm-details .dm-description::-webkit-scrollbar-thumb {
+.detail-modal .dm-details .dm-description::-webkit-scrollbar-thumb,
+.detail-modal .dm-edit .dm-description::-webkit-scrollbar-thumb {
   background-color: rgb(100, 129, 100);
   border-radius: 3px;
 }
-.detail-modal .dm-details .dm-button-container {
+.detail-modal .dm-details .dm-button-container,
+.detail-modal .dm-edit .dm-button-container {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -718,7 +709,8 @@ section .tile-container::-webkit-scrollbar-track {
   align-self: center;
   padding: 10px;
 }
-.detail-modal .dm-details .dm-button-container h5 {
+.detail-modal .dm-details .dm-button-container h5,
+.detail-modal .dm-edit .dm-button-container h5 {
   color: rgb(100, 129, 100);
   text-align: center;
 }/*# sourceMappingURL=App.css.map */

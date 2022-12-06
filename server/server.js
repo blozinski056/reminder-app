@@ -20,10 +20,11 @@ app.post("/users", async (req, res) => {
     res.json(newLogin.rows[0].username);
   } catch (err) {
     console.error(err.message);
+    res.json({ duplicate: "duplicate" });
   }
 });
 
-// get a user ()
+// get a user
 app.get("/users/:username", async (req, res) => {
   try {
     const { username } = req.params;
@@ -32,7 +33,7 @@ app.get("/users/:username", async (req, res) => {
     ]);
     res.json(user.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    console.log("Wrong username or password");
   }
 });
 
@@ -73,10 +74,10 @@ app.delete("/users/:username", async (req, res) => {
 app.post("/users/:username/notes", async (req, res) => {
   try {
     const { username } = req.params;
-    const { title, description, dateTime } = req.body;
+    const { id, reminder, description, dateTime } = req.body;
     const newNote = await pool.query(
-      "INSERT INTO notes(title, description, datetime, username) VALUES($1, $2, $3, $4) RETURNING *",
-      [title, description, dateTime, username]
+      "INSERT INTO notes(id, reminder, description, datetime, username) VALUES($1, $2, $3, $4, $5)",
+      [id, reminder, description, dateTime, username]
     );
     res.json(newNote.rows[0]);
   } catch (err) {
@@ -99,29 +100,29 @@ app.get("/users/:username/notes", async (req, res) => {
 });
 
 // update note
-app.put("/users/:username/notes/:noteid", async (req, res) => {
+app.put("/users/:username/notes/:id", async (req, res) => {
   try {
-    const { username, noteid } = req.params;
-    const { title, description, dateTime } = req.body;
+    const { username, id } = req.params;
+    const { newId, reminder, description, dateTime } = req.body;
     await pool.query(
-      "UPDATE notes SET title = $1, description = $2, datetime = $3 WHERE noteid = $4 AND username = $5",
-      [title, description, dateTime, noteid, username]
+      "UPDATE notes SET id = $1, reminder = $2, description = $3, datetime = $4 WHERE id = $5 AND username = $6",
+      [newId, reminder, description, dateTime, id, username]
     );
-    res.json(`Note ${noteid} was updated!`);
+    res.json(`Note ${id} was updated!`);
   } catch (err) {
     console.error(err.message);
   }
 });
 
 // delete note
-app.delete("/users/:username/notes/:noteid", async (req, res) => {
+app.delete("/users/:username/notes/:id", async (req, res) => {
   try {
-    const { username, noteid } = req.params;
-    await pool.query("DELETE FROM notes WHERE noteid = $1 AND username = $2", [
-      noteid,
+    const { username, id } = req.params;
+    await pool.query("DELETE FROM notes WHERE id = $1 AND username = $2", [
+      id,
       username,
     ]);
-    res.json(`Deleted note ${noteid}!`);
+    res.json(`Deleted note ${id}!`);
   } catch (err) {
     console.error(err.message);
   }

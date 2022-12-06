@@ -99,7 +99,6 @@ body {
   padding-top: 10%;
   grid-template-columns: 500px 500px;
   grid-template-rows: 200px 300px;
-  grid-row-gap: solid 5px black;
   background-color: $bg-color;
   z-index: 20;
 
@@ -114,13 +113,18 @@ body {
     text-align: center;
   }
 
+  .homepage-login,
+  .homepage-signup {
+    @include flexbox($fd: column);
+  }
+
   h1 {
     font-weight: 900;
     -webkit-text-stroke: 1px $dark-green;
   }
 
   form {
-    @include flexbox($fd: column);
+    @include flexbox($fd: column, $jc: flex-start);
   }
 
   input {
@@ -155,29 +159,10 @@ body {
     opacity: 0;
 
     &.reveal1 {
+      color: red;
       opacity: 1;
       animation: reveal1 0.1s ease-in forwards;
     }
-  }
-
-  .homepage-login {
-    @include flexbox($fd: column);
-
-    .login-incorrect {
-      color: red;
-      margin-bottom: 5px;
-      pointer-events: none;
-      opacity: 0;
-
-      &.reveal1 {
-        opacity: 1;
-        animation: reveal1 0.1s ease-in forwards;
-      }
-    }
-  }
-
-  .homepage-signup {
-    @include flexbox($fd: column);
   }
 }
 
@@ -193,12 +178,46 @@ nav {
   padding: 0 5vw;
 
   .new-reminder,
-  .title {
+  .title,
+  .account-container {
     transform: translateY(20px);
+  }
+
+  .account-container {
+    justify-self: flex-end;
+    h3 {
+      margin-right: 3vw;
+      -webkit-text-stroke: 1px $dark-green;
+      text-shadow: 3px 3px 5px $dark-green;
+    }
+
+    span {
+      // color: $dark-green;
+      -webkit-text-stroke: 1px $dark-green;
+      text-shadow: 2px 2px 3px $dark-green;
+    }
   }
 
   .new-reminder {
     justify-self: flex-start;
+
+    &:hover {
+      box-shadow: 3px 3px 5px $dark-green;
+      transform: translate(-1px, 19px);
+      transition: 0.2s ease;
+    }
+  }
+
+  .sign-out {
+    &:hover {
+      box-shadow: 3px 3px 5px $dark-green;
+      transform: translate(-1px, -1px);
+      transition: 0.2s ease;
+    }
+  }
+
+  .new-reminder,
+  .sign-out {
     color: $dark-green;
     font-size: 20px;
     font-weight: 700;
@@ -209,12 +228,6 @@ nav {
     border-radius: 10px;
     transition: 0.3s ease;
     cursor: pointer;
-
-    &:hover {
-      box-shadow: 3px 3px 5px $dark-green;
-      transform: translate(-1px, 19px);
-      transition: 0.2s ease;
-    }
 
     &:active {
       box-shadow: inset 3px 3px 5px $dark-green;
@@ -228,149 +241,153 @@ nav {
     cursor: default;
   }
 
-  .login {
-    position: fixed;
-    z-index: 10;
-
-    .login-overlay {
-      position: fixed;
-      background-color: transparent;
-      height: 100vh;
-      width: 100vw;
-      top: 0;
-      left: 0;
-      z-index: 5;
-    }
-
-    .login-arrow {
-      @include w-h(40px, 40px);
-      position: fixed;
-      top: 85px;
-      right: 5vw;
-      background-color: $light-green;
-      border-top: solid 1px $dark-green;
-      border-left: solid 1px $dark-green;
-      border-radius: 10px;
-      box-shadow: -1px -1px 6px $dark-green;
-      opacity: 0;
-      z-index: 11;
-
-      animation: dropArrow 0.2s ease-in forwards;
-      transform-origin: top left;
-    }
-
-    .login-arrow-coverup {
-      @include w-h(65px, 35px);
-      position: fixed;
-      top: 109px;
-      right: 5.5vw;
-      background-color: $light-green;
-      border-radius: 10px;
-      opacity: 0;
-      z-index: 12;
-
-      animation: drop 0.2s ease-in forwards;
-      animation-delay: 50ms;
-      transform-origin: top;
-    }
-
-    .dropdown-container {
-      @include flexbox($fd: column);
-      @include w-h(300px, 200px);
-      position: fixed;
-      top: 108px;
-      right: 5vw;
-      background-color: $light-green;
-      color: $dark-green;
-      border: solid 1px $dark-green;
-      border-radius: 10px;
-      box-shadow: 3px 3px 9px 3px $dark-green;
-      padding: 20px;
-      z-index: 10;
-
-      animation: drop 0.2s ease-in forwards;
-      transform-origin: 0px -20px;
-    }
-
-    .login-verified.reveal2 {
-      font-size: 30px;
-      color: $dark-green;
-      text-align: center;
-      animation: reveal2 2s ease-out;
-
-      span {
-        color: rgb(158, 231, 207);
-        -webkit-text-stroke: 1px $dark-green;
-      }
-    }
-
-    // .login-form {
-    //   @include flexbox($fd: column);
-    //   @include w-h(300px, 200px);
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-
-    //   animation: drop 0.2s ease-in forwards;
-    //   transform-origin: 0px -20px;
-
-    //   .login-incorrect {
-    //     color: red;
-    //     margin-bottom: 10px;
-    //     pointer-events: none;
-    //     opacity: 0;
-    //   }
-
-    //   .login-incorrect.reveal1 {
-    //     opacity: 1;
-    //     animation: reveal1 0.1s ease-in forwards;
-    //   }
-
-    //   .input {
-    //     @include w-h(200px, 30px);
-    //     position: relative;
-    //     margin-bottom: 15px;
-    //   }
-
-    //   .login-username,
-    //   .login-password {
-    //     @include w-h(200px, 30px);
-    //     background-color: $light-green;
-    //     border: solid 1px $dark-green;
-    //     color: $dark-green;
-    //     border-radius: 10px;
-    //     padding-left: 10px;
-    //     outline: none;
-    //     z-index: 13;
-    //   }
-
-    //   .input span {
-    //     position: absolute;
-    //     left: 0;
-    //     padding: 8px;
-    //     padding-left: 10px;
-    //     font-size: 12px;
-    //     color: $dark-green;
-    //     pointer-events: none;
-    //     transition: 0.5s;
-    //   }
-
-    //   .input input:focus ~ span,
-    //   .input input:valid ~ span {
-    //     transform: translateY(-7px);
-    //     background-color: $light-green;
-    //     margin-left: 10px;
-    //     padding: 0;
-    //   }
-
-    //   .login-signin {
-    //     color: $dark-green;
-    //     border: none;
-    //     background-color: $light-green;
-    //     cursor: pointer;
-    //   }
-    // }
+  .account-container {
+    @include flexbox;
   }
+
+  // .login {
+  //   position: fixed;
+  //   z-index: 10;
+
+  //   .login-overlay {
+  //     position: fixed;
+  //     background-color: transparent;
+  //     height: 100vh;
+  //     width: 100vw;
+  //     top: 0;
+  //     left: 0;
+  //     z-index: 5;
+  //   }
+
+  //   .login-arrow {
+  //     @include w-h(40px, 40px);
+  //     position: fixed;
+  //     top: 85px;
+  //     right: 5vw;
+  //     background-color: $light-green;
+  //     border-top: solid 1px $dark-green;
+  //     border-left: solid 1px $dark-green;
+  //     border-radius: 10px;
+  //     box-shadow: -1px -1px 6px $dark-green;
+  //     opacity: 0;
+  //     z-index: 11;
+
+  //     animation: dropArrow 0.2s ease-in forwards;
+  //     transform-origin: top left;
+  //   }
+
+  //   .login-arrow-coverup {
+  //     @include w-h(65px, 35px);
+  //     position: fixed;
+  //     top: 109px;
+  //     right: 5.5vw;
+  //     background-color: $light-green;
+  //     border-radius: 10px;
+  //     opacity: 0;
+  //     z-index: 12;
+
+  //     animation: drop 0.2s ease-in forwards;
+  //     animation-delay: 50ms;
+  //     transform-origin: top;
+  //   }
+
+  //   .dropdown-container {
+  //     @include flexbox($fd: column);
+  //     @include w-h(300px, 200px);
+  //     position: fixed;
+  //     top: 108px;
+  //     right: 5vw;
+  //     background-color: $light-green;
+  //     color: $dark-green;
+  //     border: solid 1px $dark-green;
+  //     border-radius: 10px;
+  //     box-shadow: 3px 3px 9px 3px $dark-green;
+  //     padding: 20px;
+  //     z-index: 10;
+
+  //     animation: drop 0.2s ease-in forwards;
+  //     transform-origin: 0px -20px;
+  //   }
+
+  //   .login-verified.reveal2 {
+  //     font-size: 30px;
+  //     color: $dark-green;
+  //     text-align: center;
+  //     animation: reveal2 2s ease-out;
+
+  //     span {
+  //       color: rgb(158, 231, 207);
+  //       -webkit-text-stroke: 1px $dark-green;
+  //     }
+  //   }
+
+  // .login-form {
+  //   @include flexbox($fd: column);
+  //   @include w-h(300px, 200px);
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+
+  //   animation: drop 0.2s ease-in forwards;
+  //   transform-origin: 0px -20px;
+
+  //   .login-incorrect {
+  //     color: red;
+  //     margin-bottom: 10px;
+  //     pointer-events: none;
+  //     opacity: 0;
+  //   }
+
+  //   .login-incorrect.reveal1 {
+  //     opacity: 1;
+  //     animation: reveal1 0.1s ease-in forwards;
+  //   }
+
+  //   .input {
+  //     @include w-h(200px, 30px);
+  //     position: relative;
+  //     margin-bottom: 15px;
+  //   }
+
+  //   .login-username,
+  //   .login-password {
+  //     @include w-h(200px, 30px);
+  //     background-color: $light-green;
+  //     border: solid 1px $dark-green;
+  //     color: $dark-green;
+  //     border-radius: 10px;
+  //     padding-left: 10px;
+  //     outline: none;
+  //     z-index: 13;
+  //   }
+
+  //   .input span {
+  //     position: absolute;
+  //     left: 0;
+  //     padding: 8px;
+  //     padding-left: 10px;
+  //     font-size: 12px;
+  //     color: $dark-green;
+  //     pointer-events: none;
+  //     transition: 0.5s;
+  //   }
+
+  //   .input input:focus ~ span,
+  //   .input input:valid ~ span {
+  //     transform: translateY(-7px);
+  //     background-color: $light-green;
+  //     margin-left: 10px;
+  //     padding: 0;
+  //   }
+
+  //   .login-signin {
+  //     color: $dark-green;
+  //     border: none;
+  //     background-color: $light-green;
+  //     cursor: pointer;
+  //   }
+  // }
+  // }
 }
 
 ///////////////
@@ -558,16 +575,25 @@ section {
         border: solid 2px $dark-green;
         font-size: 20px;
         outline: none;
+        padding: 10px;
       }
 
       .modal-reminder {
         @include w-h(500px, 50px);
         overflow-x: auto;
+
+        &::placeholder {
+          opacity: 0.7;
+        }
       }
 
       .modal-description {
         @include w-h(500px, 200px);
         resize: none;
+
+        &::placeholder {
+          opacity: 0.7;
+        }
 
         &::-webkit-scrollbar {
           width: 7px;
@@ -584,14 +610,13 @@ section {
       }
 
       .modal-datetime {
-        @include w-h(250px, 50px);
+        @include w-h(275px, 50px);
         cursor: text;
       }
 
       .modal-submit {
         @include w-h(100px, 50px);
         cursor: pointer;
-        padding-top: 3px;
       }
     }
   }
@@ -624,7 +649,15 @@ section {
     z-index: 6;
   }
 
-  .dm-details {
+  .dm-edit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+  }
+
+  .dm-details,
+  .dm-edit {
     @include flexbox(column, flex-start, flex-start);
     @include w-h(500px, 500px);
     position: relative;

@@ -1,10 +1,14 @@
 import React from "react";
 
 export default function Modal({ setModal, getDateTime, createTile }) {
+  const [currentDT, setCurrentDT] = React.useState(minDT());
+
   // Gets current date and time
-  const minDate = new Date(new Date(getDateTime()).getTime() + 60000)
-    .toISOString()
-    .slice(0, -8);
+  function minDT() {
+    return new Date(new Date(getDateTime()).getTime() + 60000)
+      .toISOString()
+      .slice(0, -8);
+  }
 
   // Collects info for the new tile
   function submitClose(e) {
@@ -12,7 +16,6 @@ export default function Modal({ setModal, getDateTime, createTile }) {
     const reminder = document.querySelector(".modal-reminder").value;
     const description = document.querySelector(".modal-description").value;
     const dt = document.querySelector(".modal-datetime").value;
-    console.log(dt);
     createTile(reminder, description, dt);
     setModal(0);
   }
@@ -41,13 +44,14 @@ export default function Modal({ setModal, getDateTime, createTile }) {
           <input
             className="modal-datetime"
             type="datetime-local"
-            min={minDate}
-            defaultValue={minDate}
+            min={minDT()}
+            defaultValue={currentDT}
             required="required"
           />
           <input
             className="modal-submit"
             type="submit"
+            onClick={() => setCurrentDT(minDT())}
           />
         </form>
       </div>
