@@ -58,12 +58,21 @@ $bg-color: darkseagreen;
   }
 }
 
-@keyframes reveal2 {
+@keyframes rotate-up {
   0% {
-    opacity: 0;
+    transform: rotate(-90deg);
   }
   100% {
-    opacity: 1;
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes rotate-down {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(-90deg);
   }
 }
 
@@ -75,7 +84,6 @@ $bg-color: darkseagreen;
   font-family: "Overpass", sans-serif;
   color: $light-green;
   box-sizing: border-box;
-  // border: solid 1px gray;
 }
 
 body {
@@ -173,6 +181,7 @@ nav {
   @include w-h(100%, 100px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
   justify-items: center;
   align-items: center;
   padding: 0 5vw;
@@ -184,34 +193,102 @@ nav {
   }
 
   .account-container {
+    @include flexbox($jc: space-between);
     justify-self: flex-end;
+    min-width: 250px;
+    gap: 15px;
+
     h3 {
-      margin-right: 3vw;
       -webkit-text-stroke: 1px $dark-green;
       text-shadow: 3px 3px 5px $dark-green;
+      text-align: center;
     }
 
-    span {
-      // color: $dark-green;
-      -webkit-text-stroke: 1px $dark-green;
-      text-shadow: 2px 2px 3px $dark-green;
+    .dropdown-button {
+      @include w-h(30px, 30px);
+      @include flexbox;
+      min-width: 30px;
+      position: relative;
+      border: solid 1px $dark-green;
+      border-radius: 15px;
+      background-color: $light-green;
+      transition: 0.3s ease;
+      cursor: pointer;
+
+      .dropdown-arrow {
+        @include w-h(20px, 20px);
+        transform: rotate(-90deg);
+
+        &.rotate-up {
+          animation: rotate-up 0.2s ease forwards;
+        }
+
+        &.rotate-down {
+          animation: rotate-down 0.2s ease forwards;
+        }
+      }
+
+      &:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 1px 1px 3px $dark-green;
+        transition: 0.2s ease;
+      }
+
+      &:active {
+        box-shadow: inset 2px 2px 3px $dark-green;
+      }
+    }
+
+    .dropdown {
+      @include flexbox($fd: column);
+      position: fixed;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      gap: 5px;
+
+      &.reveal2 {
+        @include w-h(150px, 80px);
+        opacity: 1;
+        background-color: $light-green;
+        border: solid 1px $dark-green;
+        border-radius: 10px;
+        padding: 5px 0;
+      }
+
+      .change-pw,
+      .delete-acc {
+        @include w-h(100%, 30px);
+        background-color: transparent;
+        border: none;
+        color: $dark-green;
+        font-weight: 700;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(100, 129, 100, 0.5);
+        }
+      }
+    }
+
+    .sign-out {
+      min-width: 103px;
+      &:hover {
+        box-shadow: 3px 3px 5px $dark-green;
+        transform: translate(-1px, -1px);
+        transition: 0.2s ease;
+      }
     }
   }
 
   .new-reminder {
     justify-self: flex-start;
+    min-width: 176px;
 
     &:hover {
       box-shadow: 3px 3px 5px $dark-green;
       transform: translate(-1px, 19px);
-      transition: 0.2s ease;
-    }
-  }
-
-  .sign-out {
-    &:hover {
-      box-shadow: 3px 3px 5px $dark-green;
-      transform: translate(-1px, -1px);
       transition: 0.2s ease;
     }
   }
@@ -244,150 +321,6 @@ nav {
   .account-container {
     @include flexbox;
   }
-
-  // .login {
-  //   position: fixed;
-  //   z-index: 10;
-
-  //   .login-overlay {
-  //     position: fixed;
-  //     background-color: transparent;
-  //     height: 100vh;
-  //     width: 100vw;
-  //     top: 0;
-  //     left: 0;
-  //     z-index: 5;
-  //   }
-
-  //   .login-arrow {
-  //     @include w-h(40px, 40px);
-  //     position: fixed;
-  //     top: 85px;
-  //     right: 5vw;
-  //     background-color: $light-green;
-  //     border-top: solid 1px $dark-green;
-  //     border-left: solid 1px $dark-green;
-  //     border-radius: 10px;
-  //     box-shadow: -1px -1px 6px $dark-green;
-  //     opacity: 0;
-  //     z-index: 11;
-
-  //     animation: dropArrow 0.2s ease-in forwards;
-  //     transform-origin: top left;
-  //   }
-
-  //   .login-arrow-coverup {
-  //     @include w-h(65px, 35px);
-  //     position: fixed;
-  //     top: 109px;
-  //     right: 5.5vw;
-  //     background-color: $light-green;
-  //     border-radius: 10px;
-  //     opacity: 0;
-  //     z-index: 12;
-
-  //     animation: drop 0.2s ease-in forwards;
-  //     animation-delay: 50ms;
-  //     transform-origin: top;
-  //   }
-
-  //   .dropdown-container {
-  //     @include flexbox($fd: column);
-  //     @include w-h(300px, 200px);
-  //     position: fixed;
-  //     top: 108px;
-  //     right: 5vw;
-  //     background-color: $light-green;
-  //     color: $dark-green;
-  //     border: solid 1px $dark-green;
-  //     border-radius: 10px;
-  //     box-shadow: 3px 3px 9px 3px $dark-green;
-  //     padding: 20px;
-  //     z-index: 10;
-
-  //     animation: drop 0.2s ease-in forwards;
-  //     transform-origin: 0px -20px;
-  //   }
-
-  //   .login-verified.reveal2 {
-  //     font-size: 30px;
-  //     color: $dark-green;
-  //     text-align: center;
-  //     animation: reveal2 2s ease-out;
-
-  //     span {
-  //       color: rgb(158, 231, 207);
-  //       -webkit-text-stroke: 1px $dark-green;
-  //     }
-  //   }
-
-  // .login-form {
-  //   @include flexbox($fd: column);
-  //   @include w-h(300px, 200px);
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-
-  //   animation: drop 0.2s ease-in forwards;
-  //   transform-origin: 0px -20px;
-
-  //   .login-incorrect {
-  //     color: red;
-  //     margin-bottom: 10px;
-  //     pointer-events: none;
-  //     opacity: 0;
-  //   }
-
-  //   .login-incorrect.reveal1 {
-  //     opacity: 1;
-  //     animation: reveal1 0.1s ease-in forwards;
-  //   }
-
-  //   .input {
-  //     @include w-h(200px, 30px);
-  //     position: relative;
-  //     margin-bottom: 15px;
-  //   }
-
-  //   .login-username,
-  //   .login-password {
-  //     @include w-h(200px, 30px);
-  //     background-color: $light-green;
-  //     border: solid 1px $dark-green;
-  //     color: $dark-green;
-  //     border-radius: 10px;
-  //     padding-left: 10px;
-  //     outline: none;
-  //     z-index: 13;
-  //   }
-
-  //   .input span {
-  //     position: absolute;
-  //     left: 0;
-  //     padding: 8px;
-  //     padding-left: 10px;
-  //     font-size: 12px;
-  //     color: $dark-green;
-  //     pointer-events: none;
-  //     transition: 0.5s;
-  //   }
-
-  //   .input input:focus ~ span,
-  //   .input input:valid ~ span {
-  //     transform: translateY(-7px);
-  //     background-color: $light-green;
-  //     margin-left: 10px;
-  //     padding: 0;
-  //   }
-
-  //   .login-signin {
-  //     color: $dark-green;
-  //     border: none;
-  //     background-color: $light-green;
-  //     cursor: pointer;
-  //   }
-  // }
-  // }
 }
 
 ///////////////
@@ -396,6 +329,7 @@ nav {
 section {
   @include w-h(100%, 100%);
   @include flexbox($ai: center, $jc: center);
+  padding: 0 5vw;
 
   .empty {
     transform: translateY(-10vh);
@@ -404,6 +338,7 @@ section {
 
   .tile-container {
     @include w-h(90vw, 85vh);
+    min-width: 694px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 300px);
     grid-template-rows: repeat(auto-fit, 300px);
@@ -809,6 +744,108 @@ section {
         color: rgb(100, 129, 100);
         text-align: center;
       }
+    }
+  }
+}
+
+/////////////////
+// Account Modals
+/////////////////
+.change-password,
+.delete-account {
+  @include flexbox($fd: column);
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+
+  .dm-exit {
+    @include flexbox;
+    @include w-h(30px, 30px);
+    border: solid 1px $dark-green;
+    border-radius: 25px;
+    transform: rotate(45deg);
+    font-size: 30px;
+    padding-top: 6px;
+    padding-left: 6px;
+    color: $dark-green;
+    background-color: $light-green;
+    margin-bottom: 10px;
+    cursor: pointer;
+    z-index: 6;
+  }
+}
+
+.change-password {
+  form {
+    @include flexbox($fd: column, $jc: space-evenly);
+    @include w-h(250px, 250px);
+    position: relative;
+    background-color: $light-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    padding: 15px;
+
+    h3 {
+      color: $dark-green;
+      align-self: center;
+    }
+
+    h4 {
+      color: $dark-green;
+      align-self: flex-start;
+    }
+
+    .cp-form-incorrect {
+      align-self: center;
+      text-align: center;
+      color: red;
+      opacity: 1;
+      animation: reveal1 0.1s ease-in forwards;
+      // align-self: center;
+      // text-align: center;
+      // opacity: 0;
+
+      // &.reveal1 {
+      //   align-self: center;
+      //   text-align: center;
+      //   color: red;
+      //   opacity: 1;
+      //   animation: reveal1 0.1s ease-in forwards;
+      // }
+    }
+
+    .old-pw,
+    .new-pw {
+      @include w-h(100%, 25px);
+      background-color: $light-green;
+      border: solid 2px $dark-green;
+      border-radius: 10px;
+      padding: 0 5px;
+      outline: none;
+      color: $dark-green;
+
+      &::placeholder {
+        color: $dark-green;
+        opacity: 0.7;
+        font-weight: 500;
+      }
+    }
+
+    .cp-form-submit {
+      color: $dark-green;
+      background-color: $light-green;
+      border: solid 2px $dark-green;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .display {
+      opacity: 1;
+      z-index: 5;
+      transition: 0.3s;
+      animation: reveal1 0.1s ease-in forwards;
     }
   }
 }

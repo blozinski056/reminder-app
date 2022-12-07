@@ -14,6 +14,7 @@ export default function App() {
   const [username, setUsername] = React.useState("");
   const [modal, setModal] = React.useState(0);
   const [tileList, setTileList] = React.useState([]);
+  const [pwError, setPwError] = React.useState(0);
   const [details, setDetails] = React.useState({
     id: "",
     reminder: "",
@@ -149,6 +150,70 @@ export default function App() {
     }
   }
 
+  async function updatePassword(e) {
+    e.preventDefault();
+    const oldPW = document.querySelector(".old-pw").value;
+    const newPW = document.querySelector(".new-pw").value;
+
+    try {
+      const response = await fetch(`http://localhost:5000/users/${username}`);
+      const jsonData = await response.json();
+
+      if (jsonData.password !== oldPW) {
+        // if user input incorrect old password
+        setPwError(1);
+        // document
+        //   .querySelector(".cp-form-incorrect")
+        //   .classList.remove("reveal1");
+        // setTimeout(() => {
+        //   document.querySelector(".cp-form-incorrect").classList.add("reveal1");
+        // }, 100);
+      } else if (oldPW === newPW) {
+        // if user input same new password as old password
+        setPwError(2);
+        // document
+        //   .querySelector(".cp-form-incorrect")
+        //   .classList.remove("reveal1");
+        // setTimeout(() => {
+        //   document.querySelector(".cp-form-incorrect").classList.add("reveal1");
+        // }, 100);
+      } else {
+        // if password combination has no errors
+        try {
+          const body = { oldPassword: oldPW, newPassword: newPW };
+          const response = await fetch(
+            `http://localhost:5000/users/${username}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }
+          );
+          if (response) {
+            const formElm = document.querySelector(".cp-form");
+            while (formElm.firstChild) {
+              formElm.removeChild(formElm.firstChild);
+            }
+            const formElmChild = document.createElement("h3");
+            formElmChild.innerText = "Your password was updated!";
+            formElmChild.style.textAlign = "center";
+
+            formElm.appendChild(formElmChild);
+            formElmChild.classList.add("display");
+            setTimeout(() => {
+              setPwError(0);
+              setModal(0);
+            }, 1500);
+          }
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   // Turns current date and time to ISOString
   function getDateTime() {
     let today = new Date();
@@ -233,6 +298,59 @@ export default function App() {
               updateTile={updateTile}
               timeRemaining={timeRemaining}
             />
+          )}
+
+          {modal === 3 && (
+            <div className="change-password">
+              <button
+                className="dm-exit"
+                onClick={() => {
+                  setModal(0);
+                  setPwError(0);
+                }}
+              >
+                +
+              </button>
+              <form className="cp-form" onSubmit={(e) => updatePassword(e)}>
+                <h3>CHANGE PASSWORD</h3>
+                {pwError === 1 && (
+                  <h4 className="cp-form-incorrect">Incorrect password!</h4>
+                )}
+                {pwError === 2 && (
+                  <h4 className="cp-form-incorrect">
+                    Cannot use the same password!
+                  </h4>
+                )}
+                <h4>Old Password:</h4>
+                <input
+                  type="password"
+                  className="old-pw"
+                  placeholder="Old Password"
+                />
+                <h4>New Password:</h4>
+                <input
+                  type="password"
+                  className="new-pw"
+                  placeholder="New Password"
+                />
+                <input
+                  type="submit"
+                  className="cp-form-submit"
+                  value="Update"
+                />
+                {/* <div className="change-success">
+                  <h3>Your password was updated!</h3>
+                </div> */}
+              </form>
+            </div>
+          )}
+
+          {modal === 4 && (
+            <div className="delete-account">
+              <button className="dm-exit" onClick={() => setModal(0)}>
+                +
+              </button>
+            </div>
           )}
         </>
       ) : (

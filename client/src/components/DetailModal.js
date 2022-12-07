@@ -65,7 +65,7 @@ export default function DetailModal({
     updateTile(newDets);
     setEditing(false);
     setTimeLeft(timeRemaining(dtVal));
-    setModal(3);
+    setModal(10);
   }
 
   return (

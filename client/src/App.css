@@ -72,20 +72,36 @@
     transform: scale(100%, 100%);
   }
 }
-@-webkit-keyframes reveal2 {
+@-webkit-keyframes rotate-up {
   0% {
-    opacity: 0;
+    transform: rotate(-90deg);
   }
   100% {
-    opacity: 1;
+    transform: rotate(90deg);
   }
 }
-@keyframes reveal2 {
+@keyframes rotate-up {
   0% {
-    opacity: 0;
+    transform: rotate(-90deg);
   }
   100% {
-    opacity: 1;
+    transform: rotate(90deg);
+  }
+}
+@-webkit-keyframes rotate-down {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+@keyframes rotate-down {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(-90deg);
   }
 }
 * {
@@ -199,6 +215,8 @@ nav {
   height: 100px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  -moz-column-gap: 10px;
+       column-gap: 10px;
   justify-items: center;
   align-items: center;
   padding: 0 5vw;
@@ -209,28 +227,105 @@ nav .account-container {
   transform: translateY(20px);
 }
 nav .account-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   justify-self: flex-end;
+  min-width: 250px;
+  gap: 15px;
 }
 nav .account-container h3 {
-  margin-right: 3vw;
   -webkit-text-stroke: 1px rgb(100, 129, 100);
   text-shadow: 3px 3px 5px rgb(100, 129, 100);
+  text-align: center;
 }
-nav .account-container span {
-  -webkit-text-stroke: 1px rgb(100, 129, 100);
-  text-shadow: 2px 2px 3px rgb(100, 129, 100);
+nav .account-container .dropdown-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  position: relative;
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 15px;
+  background-color: rgb(200, 255, 200);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+nav .account-container .dropdown-button .dropdown-arrow {
+  width: 20px;
+  height: 20px;
+  transform: rotate(-90deg);
+}
+nav .account-container .dropdown-button .dropdown-arrow.rotate-up {
+  -webkit-animation: rotate-up 0.2s ease forwards;
+          animation: rotate-up 0.2s ease forwards;
+}
+nav .account-container .dropdown-button .dropdown-arrow.rotate-down {
+  -webkit-animation: rotate-down 0.2s ease forwards;
+          animation: rotate-down 0.2s ease forwards;
+}
+nav .account-container .dropdown-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 1px 1px 3px rgb(100, 129, 100);
+  transition: 0.2s ease;
+}
+nav .account-container .dropdown-button:active {
+  box-shadow: inset 2px 2px 3px rgb(100, 129, 100);
+}
+nav .account-container .dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  gap: 5px;
+}
+nav .account-container .dropdown.reveal2 {
+  width: 150px;
+  height: 80px;
+  opacity: 1;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 5px 0;
+}
+nav .account-container .dropdown .change-pw,
+nav .account-container .dropdown .delete-acc {
+  width: 100%;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  color: rgb(100, 129, 100);
+  font-weight: 700;
+  cursor: pointer;
+}
+nav .account-container .dropdown .change-pw:hover,
+nav .account-container .dropdown .delete-acc:hover {
+  background-color: rgba(100, 129, 100, 0.5);
+}
+nav .account-container .sign-out {
+  min-width: 103px;
+}
+nav .account-container .sign-out:hover {
+  box-shadow: 3px 3px 5px rgb(100, 129, 100);
+  transform: translate(-1px, -1px);
+  transition: 0.2s ease;
 }
 nav .new-reminder {
   justify-self: flex-start;
+  min-width: 176px;
 }
 nav .new-reminder:hover {
   box-shadow: 3px 3px 5px rgb(100, 129, 100);
   transform: translate(-1px, 19px);
-  transition: 0.2s ease;
-}
-nav .sign-out:hover {
-  box-shadow: 3px 3px 5px rgb(100, 129, 100);
-  transform: translate(-1px, -1px);
   transition: 0.2s ease;
 }
 nav .new-reminder,
@@ -270,6 +365,7 @@ section {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: 0 5vw;
 }
 section .empty {
   transform: translateY(-10vh);
@@ -278,6 +374,7 @@ section .empty {
 section .tile-container {
   width: 90vw;
   height: 85vh;
+  min-width: 694px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   grid-template-rows: repeat(auto-fit, 300px);
@@ -713,4 +810,108 @@ section .tile-container::-webkit-scrollbar-track {
 .detail-modal .dm-edit .dm-button-container h5 {
   color: rgb(100, 129, 100);
   text-align: center;
+}
+
+.change-password,
+.delete-account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+}
+.change-password .dm-exit,
+.delete-account .dm-exit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 25px;
+  transform: rotate(45deg);
+  font-size: 30px;
+  padding-top: 6px;
+  padding-left: 6px;
+  color: rgb(100, 129, 100);
+  background-color: rgb(200, 255, 200);
+  margin-bottom: 10px;
+  cursor: pointer;
+  z-index: 6;
+}
+
+.change-password form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 250px;
+  height: 250px;
+  position: relative;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 15px;
+}
+.change-password form h3 {
+  color: rgb(100, 129, 100);
+  align-self: center;
+}
+.change-password form h4 {
+  color: rgb(100, 129, 100);
+  align-self: flex-start;
+}
+.change-password form .cp-form-incorrect {
+  align-self: center;
+  text-align: center;
+  color: red;
+  opacity: 1;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
+}
+.change-password form .old-pw,
+.change-password form .new-pw {
+  width: 100%;
+  height: 25px;
+  background-color: rgb(200, 255, 200);
+  border: solid 2px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 0 5px;
+  outline: none;
+  color: rgb(100, 129, 100);
+}
+.change-password form .old-pw::-moz-placeholder, .change-password form .new-pw::-moz-placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.change-password form .old-pw:-ms-input-placeholder, .change-password form .new-pw:-ms-input-placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.change-password form .old-pw::placeholder,
+.change-password form .new-pw::placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.change-password form .cp-form-submit {
+  color: rgb(100, 129, 100);
+  background-color: rgb(200, 255, 200);
+  border: solid 2px rgb(100, 129, 100);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.change-password form .display {
+  opacity: 1;
+  z-index: 5;
+  transition: 0.3s;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
 }/*# sourceMappingURL=App.css.map */
