@@ -112,7 +112,7 @@ export default function App() {
     }
   }
 
-  // Updating a tile
+  // Update a tile
   async function updateTile(dets) {
     let newList = [];
     const updatedTile = {
@@ -150,6 +150,7 @@ export default function App() {
     }
   }
 
+  // Update password of account
   async function updatePassword(e) {
     e.preventDefault();
     const oldPW = document.querySelector(".old-pw").value;
@@ -161,22 +162,16 @@ export default function App() {
 
       if (jsonData.password !== oldPW) {
         // if user input incorrect old password
-        setPwError(1);
-        // document
-        //   .querySelector(".cp-form-incorrect")
-        //   .classList.remove("reveal1");
-        // setTimeout(() => {
-        //   document.querySelector(".cp-form-incorrect").classList.add("reveal1");
-        // }, 100);
+        setPwError(0);
+        setTimeout(() => {
+          setPwError(1);
+        }, 10);
       } else if (oldPW === newPW) {
         // if user input same new password as old password
-        setPwError(2);
-        // document
-        //   .querySelector(".cp-form-incorrect")
-        //   .classList.remove("reveal1");
-        // setTimeout(() => {
-        //   document.querySelector(".cp-form-incorrect").classList.add("reveal1");
-        // }, 100);
+        setPwError(0);
+        setTimeout(() => {
+          setPwError(2);
+        }, 10);
       } else {
         // if password combination has no errors
         try {
@@ -203,6 +198,58 @@ export default function App() {
             setTimeout(() => {
               setPwError(0);
               setModal(0);
+            }, 1500);
+          }
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  // Delete account
+  async function deleteAccount(e) {
+    e.preventDefault();
+    const pw = document.querySelector(".da-form-password").value;
+
+    try {
+      const response = await fetch(`http://localhost:5000/users/${username}`);
+      const jsonData = await response.json();
+      if (jsonData.password !== pw) {
+        // do somethng to show wrong pw
+        setPwError(0);
+        setTimeout(() => {
+          setPwError(3);
+        }, 10);
+      } else {
+        // if password is correct
+        try {
+          const body = { password: pw };
+          const response = await fetch(
+            `http://localhost:5000/users/${username}`,
+            {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }
+          );
+          if (response) {
+            const formElm = document.querySelector(".da-form");
+            while (formElm.firstChild) {
+              formElm.removeChild(formElm.firstChild);
+            }
+            const formElmChild = document.createElement("h3");
+            formElmChild.innerText = "Account deleted!";
+            formElmChild.style.textAlign = "center";
+
+            formElm.appendChild(formElmChild);
+            formElmChild.classList.add("display");
+            setTimeout(() => {
+              setPwError(0);
+              setModal(0);
+              setLoggedIn(0);
             }, 1500);
           }
         } catch (err) {
@@ -303,7 +350,7 @@ export default function App() {
           {modal === 3 && (
             <div className="change-password">
               <button
-                className="dm-exit"
+                className="exit"
                 onClick={() => {
                   setModal(0);
                   setPwError(0);
@@ -326,30 +373,45 @@ export default function App() {
                   type="password"
                   className="old-pw"
                   placeholder="Old Password"
+                  required
                 />
                 <h4>New Password:</h4>
                 <input
                   type="password"
                   className="new-pw"
                   placeholder="New Password"
+                  required
                 />
                 <input
                   type="submit"
                   className="cp-form-submit"
                   value="Update"
                 />
-                {/* <div className="change-success">
-                  <h3>Your password was updated!</h3>
-                </div> */}
               </form>
             </div>
           )}
 
           {modal === 4 && (
             <div className="delete-account">
-              <button className="dm-exit" onClick={() => setModal(0)}>
+              <button className="exit" onClick={() => setModal(0)}>
                 +
               </button>
+              <form className="da-form" onSubmit={(e) => deleteAccount(e)}>
+                <h3>DELETE ACCOUNT</h3>
+                <h5>
+                  If you would like to delete your account, enter your password:
+                </h5>
+                {pwError === 3 && (
+                  <h5 className="da-form-incorrect">Incorrect password!</h5>
+                )}
+                <input
+                  type="password"
+                  className="da-form-password"
+                  placeholder="Password"
+                  required
+                />
+                <input type="submit" className="da-form-submit" />
+              </form>
             </div>
           )}
         </>

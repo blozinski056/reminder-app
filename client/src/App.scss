@@ -760,7 +760,7 @@ section {
   transform: translate(-50%, -50%);
   z-index: 6;
 
-  .dm-exit {
+  .exit {
     @include flexbox;
     @include w-h(30px, 30px);
     border: solid 1px $dark-green;
@@ -781,7 +781,6 @@ section {
   form {
     @include flexbox($fd: column, $jc: space-evenly);
     @include w-h(250px, 250px);
-    position: relative;
     background-color: $light-green;
     border: solid 1px $dark-green;
     border-radius: 10px;
@@ -801,19 +800,7 @@ section {
       align-self: center;
       text-align: center;
       color: red;
-      opacity: 1;
       animation: reveal1 0.1s ease-in forwards;
-      // align-self: center;
-      // text-align: center;
-      // opacity: 0;
-
-      // &.reveal1 {
-      //   align-self: center;
-      //   text-align: center;
-      //   color: red;
-      //   opacity: 1;
-      //   animation: reveal1 0.1s ease-in forwards;
-      // }
     }
 
     .old-pw,
@@ -834,6 +821,60 @@ section {
     }
 
     .cp-form-submit {
+      color: $dark-green;
+      background-color: $light-green;
+      border: solid 2px $dark-green;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .display {
+      opacity: 1;
+      z-index: 5;
+      transition: 0.3s;
+      animation: reveal1 0.1s ease-in forwards;
+    }
+  }
+}
+
+.delete-account {
+  form {
+    @include flexbox($fd: column, $jc: space-evenly);
+    @include w-h(200px, 200px);
+    background-color: $light-green;
+    border: solid 1px $dark-green;
+    border-radius: 10px;
+    padding: 15px;
+
+    h3,
+    h5 {
+      color: $dark-green;
+      text-align: center;
+      align-self: center;
+    }
+
+    .da-form-incorrect {
+      color: red;
+      animation: reveal1 0.1s ease-in forwards;
+    }
+
+    .da-form-password {
+      @include w-h(100%, 25px);
+      background-color: $light-green;
+      border: solid 2px $dark-green;
+      border-radius: 10px;
+      padding: 0 5px;
+      outline: none;
+      color: $dark-green;
+
+      &::placeholder {
+        color: $dark-green;
+        opacity: 0.7;
+        font-weight: 500;
+      }
+    }
+
+    .da-form-submit {
       color: $dark-green;
       background-color: $light-green;
       border: solid 2px $dark-green;

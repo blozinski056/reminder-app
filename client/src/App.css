@@ -824,8 +824,8 @@ section .tile-container::-webkit-scrollbar-track {
   transform: translate(-50%, -50%);
   z-index: 6;
 }
-.change-password .dm-exit,
-.delete-account .dm-exit {
+.change-password .exit,
+.delete-account .exit {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -852,7 +852,6 @@ section .tile-container::-webkit-scrollbar-track {
   justify-content: space-evenly;
   width: 250px;
   height: 250px;
-  position: relative;
   background-color: rgb(200, 255, 200);
   border: solid 1px rgb(100, 129, 100);
   border-radius: 10px;
@@ -870,7 +869,6 @@ section .tile-container::-webkit-scrollbar-track {
   align-self: center;
   text-align: center;
   color: red;
-  opacity: 1;
   -webkit-animation: reveal1 0.1s ease-in forwards;
           animation: reveal1 0.1s ease-in forwards;
 }
@@ -909,6 +907,69 @@ section .tile-container::-webkit-scrollbar-track {
   cursor: pointer;
 }
 .change-password form .display {
+  opacity: 1;
+  z-index: 5;
+  transition: 0.3s;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
+}
+
+.delete-account form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 200px;
+  height: 200px;
+  background-color: rgb(200, 255, 200);
+  border: solid 1px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 15px;
+}
+.delete-account form h3,
+.delete-account form h5 {
+  color: rgb(100, 129, 100);
+  text-align: center;
+  align-self: center;
+}
+.delete-account form .da-form-incorrect {
+  color: red;
+  -webkit-animation: reveal1 0.1s ease-in forwards;
+          animation: reveal1 0.1s ease-in forwards;
+}
+.delete-account form .da-form-password {
+  width: 100%;
+  height: 25px;
+  background-color: rgb(200, 255, 200);
+  border: solid 2px rgb(100, 129, 100);
+  border-radius: 10px;
+  padding: 0 5px;
+  outline: none;
+  color: rgb(100, 129, 100);
+}
+.delete-account form .da-form-password::-moz-placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.delete-account form .da-form-password:-ms-input-placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.delete-account form .da-form-password::placeholder {
+  color: rgb(100, 129, 100);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.delete-account form .da-form-submit {
+  color: rgb(100, 129, 100);
+  background-color: rgb(200, 255, 200);
+  border: solid 2px rgb(100, 129, 100);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.delete-account form .display {
   opacity: 1;
   z-index: 5;
   transition: 0.3s;
