@@ -33,7 +33,7 @@ app.get("/users/:username", async (req, res) => {
     ]);
     res.json(user.rows[0]);
   } catch (err) {
-    console.log("Wrong username or password");
+    console.error(err.message);
   }
 });
 

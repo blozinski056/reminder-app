@@ -977,4 +977,16 @@ section .tile-container::-webkit-scrollbar-track {
   transition: 0.3s;
   -webkit-animation: reveal1 0.1s ease-in forwards;
           animation: reveal1 0.1s ease-in forwards;
+}
+
+.wrong-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.wrong-page h1 {
+  text-align: center;
 }/*# sourceMappingURL=App.css.map */

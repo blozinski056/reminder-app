@@ -1,13 +1,17 @@
 import React from "react";
+import { nanoid } from "nanoid";
 
 export default function DetailModal({
+  username,
   setModal,
   details,
+  setDetails,
   getDateTime,
   convertDT,
   removeTile,
-  updateTile,
   timeRemaining,
+  tileList,
+  setTileList,
 }) {
   const [editing, setEditing] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(
@@ -52,20 +56,59 @@ export default function DetailModal({
   // Send an updated tile
   function submit(e) {
     e.preventDefault();
+    const dtVal = document.querySelector(".dm-form-datetime").value;
+    // update list of tiles
+    updateTile();
+    setEditing(false);
+    setTimeLeft(timeRemaining(dtVal));
+    setModal(10);
+  }
+
+  // Update a tile
+  async function updateTile() {
     const remVal = document.querySelector(".dm-form-reminder").value;
     const descVal = document.querySelector(".dm-form-description").value;
     const dtVal = document.querySelector(".dm-form-datetime").value;
-    const newDets = {
+    const dets = {
       id: details.id,
       reminder: remVal,
       description: descVal,
       dateTime: dtVal,
     };
-    // update list of tiles
-    updateTile(newDets);
-    setEditing(false);
-    setTimeLeft(timeRemaining(dtVal));
-    setModal(10);
+    let newList = [];
+    const updatedTile = {
+      id: nanoid(),
+      reminder: dets.reminder,
+      description: dets.description,
+      dateTime: dets.dateTime,
+    };
+
+    try {
+      const body = {
+        newId: updatedTile.id,
+        reminder: dets.reminder,
+        description: dets.description,
+        dateTime: dets.dateTime,
+      };
+      await fetch(`http://localhost:5000/users/${username}/notes/${dets.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      tileList.forEach((tile) => {
+        if (tile.id === dets.id) {
+          // add to the front so edited note is at the top of UI
+          newList.unshift(updatedTile);
+          setDetails(updatedTile);
+        } else {
+          newList.push(tile);
+        }
+      });
+      setTileList(newList);
+      setModal(2);
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   return (

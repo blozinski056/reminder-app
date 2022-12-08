@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function HomePage() {
+export default function HomePage({ setLoggedIn }) {
   const [signupError, setSignupError] = React.useState(0);
   const [loginError, setLoginError] = React.useState(false);
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ export default function HomePage() {
       const jsonData = await response.json();
       // check if passwords match
       if (jsonData.password === pw) {
-        console.log("redirecting...");
-        navigate(`/${jsonData.username}`);
+        setLoggedIn(true);
+        navigate(`/${jsonData.username}`, { replace: true });
       } else {
         setLoginError(true);
         document.querySelector(".login-incorrect").classList.remove("reveal1");
@@ -67,9 +67,9 @@ export default function HomePage() {
             si.classList.add("reveal1");
           }, 100);
         } else {
-          console.log("redirecting...");
           // if username does not exist, then redirect to username page (login)
-          navigate(`/${jsonData.username}`);
+          setLoggedIn(true);
+          navigate(`/${jsonData.username}`, { replace: true });
         }
       } catch (err) {
         console.error(err.message);

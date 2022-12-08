@@ -892,3 +892,15 @@ section {
     }
   }
 }
+
+////////////
+// WrongPage
+////////////
+.wrong-page {
+  @include w-h(100vw, 100vh);
+  @include flexbox;
+
+  h1 {
+    text-align: center;
+  }
+}

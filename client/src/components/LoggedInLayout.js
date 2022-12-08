@@ -1,5 +1,4 @@
 import React from "react";
-import { nanoid } from "nanoid";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Navbar from "./Navbar";
@@ -10,7 +9,7 @@ import Tile from "./Tile.js";
 import ChangePasswordModal from "./ChangePasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 
-export default function LoggedInLayout() {
+export default function LoggedInLayout({ setLoggedIn }) {
   const navigate = useNavigate();
   const { username } = useParams();
   const [modal, setModal] = React.useState(0);
@@ -40,7 +39,6 @@ export default function LoggedInLayout() {
   });
 
   React.useEffect(() => {
-    // setTileList([]);
     getNotes(username);
   }, [username]);
 
@@ -65,29 +63,8 @@ export default function LoggedInLayout() {
   }
 
   function signOut() {
-    // setTileList([]);
-    navigate("/");
-  }
-
-  // Creates new info object and adds it to info tiles array
-  async function createTile(r, d, dt) {
-    const newtile = {
-      id: nanoid(),
-      reminder: r,
-      description: d,
-      dateTime: dt,
-    };
-    try {
-      const body = newtile;
-      await fetch(`http://localhost:5000/users/${username}/notes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      setTileList((prevTileList) => [newtile, ...prevTileList]);
-    } catch (err) {
-      console.error(err.message);
-    }
+    setLoggedIn(false);
+    navigate("/", { replace: true });
   }
 
   // Removes tile from list based on its ID number
@@ -105,155 +82,6 @@ export default function LoggedInLayout() {
       await fetch(`http://localhost:5000/users/${username}/notes/${idNum}`, {
         method: "DELETE",
       });
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  // Update a tile
-  async function updateTile(dets) {
-    let newList = [];
-    const updatedTile = {
-      id: nanoid(),
-      reminder: dets.reminder,
-      description: dets.description,
-      dateTime: dets.dateTime,
-    };
-
-    try {
-      const body = {
-        newId: updatedTile.id,
-        reminder: dets.reminder,
-        description: dets.description,
-        dateTime: dets.dateTime,
-      };
-      await fetch(`http://localhost:5000/users/${username}/notes/${dets.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      tileList.forEach((tile) => {
-        if (tile.id === dets.id) {
-          // add to the front so edited note is at the top of UI
-          newList.unshift(updatedTile);
-          setDetails(updatedTile);
-        } else {
-          newList.push(tile);
-        }
-      });
-      setTileList(newList);
-      setModal(2);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  // Update password of account
-  async function updatePassword(e) {
-    e.preventDefault();
-    const oldPW = document.querySelector(".old-pw").value;
-    const newPW = document.querySelector(".new-pw").value;
-
-    try {
-      const response = await fetch(`http://localhost:5000/users/${username}`);
-      const jsonData = await response.json();
-
-      if (jsonData.password !== oldPW) {
-        // if user input incorrect old password
-        setPwError(0);
-        setTimeout(() => {
-          setPwError(1);
-        }, 10);
-      } else if (oldPW === newPW) {
-        // if user input same new password as old password
-        setPwError(0);
-        setTimeout(() => {
-          setPwError(2);
-        }, 10);
-      } else {
-        // if password combination has no errors
-        try {
-          const body = { oldPassword: oldPW, newPassword: newPW };
-          const response = await fetch(
-            `http://localhost:5000/users/${username}`,
-            {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
-          if (response) {
-            const formElm = document.querySelector(".cp-form");
-            while (formElm.firstChild) {
-              formElm.removeChild(formElm.firstChild);
-            }
-            const formElmChild = document.createElement("h3");
-            formElmChild.innerText = "Your password was updated!";
-            formElmChild.style.textAlign = "center";
-
-            formElm.appendChild(formElmChild);
-            formElmChild.classList.add("display");
-            setTimeout(() => {
-              setPwError(0);
-              setModal(0);
-            }, 1500);
-          }
-        } catch (err) {
-          console.error(err.message);
-        }
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  // Delete account
-  async function deleteAccount(e) {
-    e.preventDefault();
-    const pw = document.querySelector(".da-form-password").value;
-
-    try {
-      const response = await fetch(`http://localhost:5000/users/${username}`);
-      const jsonData = await response.json();
-      if (jsonData.password !== pw) {
-        // do somethng to show wrong pw
-        setPwError(0);
-        setTimeout(() => {
-          setPwError(3);
-        }, 10);
-      } else {
-        // if password is correct
-        try {
-          const body = { password: pw };
-          const response = await fetch(
-            `http://localhost:5000/users/${username}`,
-            {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
-          if (response) {
-            const formElm = document.querySelector(".da-form");
-            while (formElm.firstChild) {
-              formElm.removeChild(formElm.firstChild);
-            }
-            const formElmChild = document.createElement("h3");
-            formElmChild.innerText = "Account deleted!";
-            formElmChild.style.textAlign = "center";
-
-            formElm.appendChild(formElmChild);
-            formElmChild.classList.add("display");
-            setTimeout(() => {
-              setPwError(0);
-              setModal(0);
-              navigate("/");
-            }, 1500);
-          }
-        } catch (err) {
-          console.error(err.message);
-        }
-      }
     } catch (err) {
       console.error(err.message);
     }
@@ -322,36 +150,40 @@ export default function LoggedInLayout() {
       {modal !== 0 && <div className="modal-background"></div>}
       {modal === 1 && (
         <Modal
+          username={username}
           setModal={setModal}
           getDateTime={getDateTime}
-          createTile={createTile}
+          setTileList={setTileList}
         />
       )}
       {modal === 2 && (
         <DetailModal
+          username={username}
           setModal={setModal}
           details={details}
+          setDetails={setDetails}
           getDateTime={getDateTime}
           convertDT={convertDT}
           removeTile={removeTile}
-          updateTile={updateTile}
           timeRemaining={timeRemaining}
+          tileList={tileList}
+          setTileList={setTileList}
         />
       )}
       {modal === 3 && (
         <ChangePasswordModal
+          username={username}
           setModal={setModal}
           pwError={pwError}
           setPwError={setPwError}
-          updatePassword={updatePassword}
         />
       )}
       {modal === 4 && (
         <DeleteAccountModal
+          username={username}
           setModal={setModal}
           pwError={pwError}
           setPwError={setPwError}
-          deleteAccount={deleteAccount}
         />
       )}
     </>
