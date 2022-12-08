@@ -123,6 +123,8 @@ body {
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  min-width: 775px;
+  min-height: 775px;
 }
 
 .homepage {
@@ -374,7 +376,7 @@ section .empty {
 section .tile-container {
   width: 90vw;
   height: 85vh;
-  min-width: 694px;
+  min-width: 775px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   grid-template-rows: repeat(auto-fit, 300px);

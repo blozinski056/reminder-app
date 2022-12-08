@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import { nanoid } from "nanoid";
 
 import "./App.css";
@@ -8,10 +9,13 @@ import ReminderWall from "./components/ReminderWall";
 import Modal from "./components/Modal";
 import DetailModal from "./components/DetailModal";
 import Tile from "./components/Tile.js";
+import ChangePasswordModal from "./components/ChangePasswordModal";
+import DeleteAccountModal from "./components/DeleteAccountModal";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [username, setUsername] = React.useState("");
+
   const [modal, setModal] = React.useState(0);
   const [tileList, setTileList] = React.useState([]);
   const [pwError, setPwError] = React.useState(0);
@@ -348,71 +352,21 @@ export default function App() {
           )}
 
           {modal === 3 && (
-            <div className="change-password">
-              <button
-                className="exit"
-                onClick={() => {
-                  setModal(0);
-                  setPwError(0);
-                }}
-              >
-                +
-              </button>
-              <form className="cp-form" onSubmit={(e) => updatePassword(e)}>
-                <h3>CHANGE PASSWORD</h3>
-                {pwError === 1 && (
-                  <h4 className="cp-form-incorrect">Incorrect password!</h4>
-                )}
-                {pwError === 2 && (
-                  <h4 className="cp-form-incorrect">
-                    Cannot use the same password!
-                  </h4>
-                )}
-                <h4>Old Password:</h4>
-                <input
-                  type="password"
-                  className="old-pw"
-                  placeholder="Old Password"
-                  required
-                />
-                <h4>New Password:</h4>
-                <input
-                  type="password"
-                  className="new-pw"
-                  placeholder="New Password"
-                  required
-                />
-                <input
-                  type="submit"
-                  className="cp-form-submit"
-                  value="Update"
-                />
-              </form>
-            </div>
+            <ChangePasswordModal
+              setModal={setModal}
+              pwError={pwError}
+              setPwError={setPwError}
+              updatePassword={updatePassword}
+            />
           )}
 
           {modal === 4 && (
-            <div className="delete-account">
-              <button className="exit" onClick={() => setModal(0)}>
-                +
-              </button>
-              <form className="da-form" onSubmit={(e) => deleteAccount(e)}>
-                <h3>DELETE ACCOUNT</h3>
-                <h5>
-                  If you would like to delete your account, enter your password:
-                </h5>
-                {pwError === 3 && (
-                  <h5 className="da-form-incorrect">Incorrect password!</h5>
-                )}
-                <input
-                  type="password"
-                  className="da-form-password"
-                  placeholder="Password"
-                  required
-                />
-                <input type="submit" className="da-form-submit" />
-              </form>
-            </div>
+            <DeleteAccountModal
+              setModal={setModal}
+              pwError={pwError}
+              setPwError={setPwError}
+              deleteAccount={deleteAccount}
+            />
           )}
         </>
       ) : (
