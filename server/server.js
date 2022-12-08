@@ -17,7 +17,7 @@ app.post("/users", async (req, res) => {
       "INSERT INTO users(username, password) VALUES($1, $2) RETURNING *",
       [username, password]
     );
-    res.json(newLogin.rows[0].username);
+    res.json(newLogin.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.json({ duplicate: "duplicate" });
