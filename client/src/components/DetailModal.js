@@ -90,7 +90,7 @@ export default function DetailModal({
         description: dets.description,
         dateTime: dets.dateTime,
       };
-      await fetch(`http://localhost:5000/users/${username}/notes/${dets.id}`, {
+      await fetch(`/api/users/${username}/notes/${dets.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

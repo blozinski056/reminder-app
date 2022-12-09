@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const pool = require("./db");
-require("dotenv").config();
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -11,7 +12,7 @@ app.use(express.json()); // converts body of client doc to json file
 // USER ROUTES
 
 // create user
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     const { username, password } = req.body;
     const newLogin = await pool.query(
@@ -26,7 +27,7 @@ app.post("/users", async (req, res) => {
 });
 
 // get a user
-app.get("/users/:username", async (req, res) => {
+app.get("/api/users/:username", async (req, res) => {
   try {
     const { username } = req.params;
     const user = await pool.query("SELECT * FROM users WHERE username = $1", [
@@ -39,7 +40,7 @@ app.get("/users/:username", async (req, res) => {
 });
 
 // update user's password
-app.put("/users/:username", async (req, res) => {
+app.put("/api/users/:username", async (req, res) => {
   try {
     const { username } = req.params;
     const { oldPassword, newPassword } = req.body;
@@ -54,7 +55,7 @@ app.put("/users/:username", async (req, res) => {
 });
 
 // delete user
-app.delete("/users/:username", async (req, res) => {
+app.delete("/api/users/:username", async (req, res) => {
   try {
     const { username } = req.params;
     const { password } = req.body;
@@ -72,7 +73,7 @@ app.delete("/users/:username", async (req, res) => {
 // NOTES ROUTES
 
 // create note
-app.post("/users/:username/notes", async (req, res) => {
+app.post("/api/users/:username/notes", async (req, res) => {
   try {
     const { username } = req.params;
     const { id, reminder, description, dateTime } = req.body;
@@ -87,7 +88,7 @@ app.post("/users/:username/notes", async (req, res) => {
 });
 
 // get all notes
-app.get("/users/:username/notes", async (req, res) => {
+app.get("/api/users/:username/notes", async (req, res) => {
   try {
     const { username } = req.params;
     const allNotes = await pool.query(
@@ -101,7 +102,7 @@ app.get("/users/:username/notes", async (req, res) => {
 });
 
 // update note
-app.put("/users/:username/notes/:id", async (req, res) => {
+app.put("/api/users/:username/notes/:id", async (req, res) => {
   try {
     const { username, id } = req.params;
     const { newId, reminder, description, dateTime } = req.body;
@@ -116,7 +117,7 @@ app.put("/users/:username/notes/:id", async (req, res) => {
 });
 
 // delete note
-app.delete("/users/:username/notes/:id", async (req, res) => {
+app.delete("/api/users/:username/notes/:id", async (req, res) => {
   try {
     const { username, id } = req.params;
     await pool.query("DELETE FROM notes WHERE id = $1 AND username = $2", [
@@ -129,6 +130,6 @@ app.delete("/users/:username/notes/:id", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log("Server started...");
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });

@@ -45,7 +45,7 @@ export default function LoggedInLayout({ setLoggedIn }) {
   // Populate existing notes based on user
   async function getNotes(un) {
     try {
-      const response = await fetch(`http://localhost:5000/users/${un}/notes`);
+      const response = await fetch(`/api/users/${un}/notes`);
       const jsonData = await response.json();
       const newTiles = [];
       jsonData.forEach((data) => {
@@ -79,7 +79,7 @@ export default function LoggedInLayout({ setLoggedIn }) {
     setTileList(newTileList);
 
     try {
-      await fetch(`http://localhost:5000/users/${username}/notes/${idNum}`, {
+      await fetch(`/api/${username}/notes/${idNum}`, {
         method: "DELETE",
       });
     } catch (err) {

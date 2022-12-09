@@ -36,7 +36,7 @@ export default function Modal({
     };
     try {
       const body = newtile;
-      await fetch(`http://localhost:5000/users/${username}/notes`, {
+      await fetch(`/api/users/${username}/notes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

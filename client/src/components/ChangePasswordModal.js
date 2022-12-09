@@ -13,7 +13,7 @@ export default function ChangePasswordModal({
     const newPW = document.querySelector(".new-pw").value;
 
     try {
-      const response = await fetch(`http://localhost:5000/users/${username}`);
+      const response = await fetch(`/api/users/${username}`);
       const jsonData = await response.json();
 
       if (jsonData.password !== oldPW) {
@@ -32,14 +32,11 @@ export default function ChangePasswordModal({
         // if password combination has no errors
         try {
           const body = { oldPassword: oldPW, newPassword: newPW };
-          const response = await fetch(
-            `http://localhost:5000/users/${username}`,
-            {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
+          const response = await fetch(`/api/users/${username}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
           if (response) {
             const formElm = document.querySelector(".cp-form");
             while (formElm.firstChild) {

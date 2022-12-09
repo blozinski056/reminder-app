@@ -11,7 +11,7 @@ export default function HomePage({ setLoggedIn }) {
     try {
       const un = document.querySelector(".login-username").value;
       const pw = document.querySelector(".login-password").value;
-      const response = await fetch(`http://localhost:5000/users/${un}`);
+      const response = await fetch(`/api/users/${un}`);
       const jsonData = await response.json();
       // check if passwords match
       if (jsonData.password === pw) {
@@ -53,7 +53,7 @@ export default function HomePage({ setLoggedIn }) {
       // if passwords match then fetch data in try-catch
       try {
         const body = { username: un, password: pw };
-        const response = await fetch("http://localhost:5000/users", {
+        const response = await fetch("/api/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

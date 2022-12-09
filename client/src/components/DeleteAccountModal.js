@@ -15,7 +15,7 @@ export default function DeleteAccountModal({
     const pw = document.querySelector(".da-form-password").value;
 
     try {
-      const response = await fetch(`http://localhost:5000/users/${username}`);
+      const response = await fetch(`/api/users/${username}`);
       const jsonData = await response.json();
       if (jsonData.password !== pw) {
         // do somethng to show wrong pw
@@ -27,14 +27,11 @@ export default function DeleteAccountModal({
         // if password is correct
         try {
           const body = { password: pw };
-          const response = await fetch(
-            `http://localhost:5000/users/${username}`,
-            {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
+          const response = await fetch(`/api/users/${username}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
           if (response) {
             const formElm = document.querySelector(".da-form");
             while (formElm.firstChild) {
