@@ -199,6 +199,7 @@ nav {
     justify-self: flex-end;
     min-width: 250px;
     gap: 15px;
+    z-index: 5;
 
     h3 {
       -webkit-text-stroke: 1px $dark-green;
@@ -380,7 +381,6 @@ section {
   border: solid 1px rgb(120, 175, 157);
   border-radius: 5px;
   padding: 5px;
-  z-index: 5;
   cursor: pointer;
 
   transition: all 0.2s ease;
@@ -469,7 +469,7 @@ section {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 10;
   background-color: rgba(30, 30, 30, 0.5); // FOR TESTING
 }
 
@@ -480,7 +480,7 @@ section {
     top: 40%;
     left: 50%;
     transform: translateX(-50%) translateY(-15vh);
-    z-index: 6;
+    z-index: 11;
 
     .modal-exit {
       @include flexbox;
@@ -569,7 +569,7 @@ section {
     top: 15%;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 6;
+    z-index: 11;
   }
 
   .dm-exit {
@@ -583,7 +583,7 @@ section {
     color: $dark-green;
     background-color: rgb(206, 252, 236);
     cursor: pointer;
-    z-index: 6;
+    z-index: 11;
   }
 
   .dm-edit {
@@ -760,7 +760,7 @@ section {
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 6;
+  z-index: 11;
 
   .exit {
     @include flexbox;
@@ -775,7 +775,7 @@ section {
     background-color: $light-green;
     margin-bottom: 10px;
     cursor: pointer;
-    z-index: 6;
+    z-index: 11;
   }
 }
 

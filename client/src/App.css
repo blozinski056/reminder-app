@@ -236,6 +236,7 @@ nav .account-container {
   justify-self: flex-end;
   min-width: 250px;
   gap: 15px;
+  z-index: 5;
 }
 nav .account-container h3 {
   -webkit-text-stroke: 1px rgb(100, 129, 100);
@@ -409,7 +410,6 @@ section .tile-container::-webkit-scrollbar-track {
   border: solid 1px rgb(120, 175, 157);
   border-radius: 5px;
   padding: 5px;
-  z-index: 5;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -496,7 +496,7 @@ section .tile-container::-webkit-scrollbar-track {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 10;
   background-color: rgba(30, 30, 30, 0.5);
 }
 
@@ -509,7 +509,7 @@ section .tile-container::-webkit-scrollbar-track {
   top: 40%;
   left: 50%;
   transform: translateX(-50%) translateY(-15vh);
-  z-index: 6;
+  z-index: 11;
 }
 .modal .modal-content .modal-exit {
   display: flex;
@@ -607,7 +607,7 @@ section .tile-container::-webkit-scrollbar-track {
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 6;
+  z-index: 11;
 }
 .detail-modal .dm-exit {
   display: flex;
@@ -624,7 +624,7 @@ section .tile-container::-webkit-scrollbar-track {
   color: rgb(100, 129, 100);
   background-color: rgb(206, 252, 236);
   cursor: pointer;
-  z-index: 6;
+  z-index: 11;
 }
 .detail-modal .dm-edit {
   position: absolute;
@@ -824,7 +824,7 @@ section .tile-container::-webkit-scrollbar-track {
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 6;
+  z-index: 11;
 }
 .change-password .exit,
 .delete-account .exit {
@@ -844,7 +844,7 @@ section .tile-container::-webkit-scrollbar-track {
   background-color: rgb(200, 255, 200);
   margin-bottom: 10px;
   cursor: pointer;
-  z-index: 6;
+  z-index: 11;
 }
 
 .change-password form {

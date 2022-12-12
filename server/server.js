@@ -3,7 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const pool = require("./db");
-const port = process.env.PORT || 5000;
+const port = 5000;
+// const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -23,6 +24,16 @@ app.post("/api/users", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.json({ duplicate: "duplicate" });
+  }
+});
+
+// get all users
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await pool.query("SELECT * FROM users");
+    res.json(users.rows);
+  } catch (err) {
+    console.error(err.message);
   }
 });
 

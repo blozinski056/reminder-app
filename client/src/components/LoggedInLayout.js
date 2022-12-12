@@ -79,7 +79,7 @@ export default function LoggedInLayout({ setLoggedIn }) {
     setTileList(newTileList);
 
     try {
-      await fetch(`/api/${username}/notes/${idNum}`, {
+      await fetch(`/api/users/${username}/notes/${idNum}`, {
         method: "DELETE",
       });
     } catch (err) {
