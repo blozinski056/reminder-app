@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const pool = require("./db");
-const port = 5000;
-// const port = process.env.PORT || 5000;
+// const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
