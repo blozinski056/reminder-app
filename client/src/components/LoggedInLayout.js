@@ -45,7 +45,9 @@ export default function LoggedInLayout({ setLoggedIn }) {
   // Populate existing notes based on user
   async function getNotes(un) {
     try {
-      const response = await fetch(`/api/users/${un}/notes`);
+      const response = await fetch(
+        `https://reminder-app-bloz.herokuapp.com/api/users/${un}/notes`
+      );
       const jsonData = await response.json();
       const newTiles = [];
       jsonData.forEach((data) => {
@@ -79,9 +81,12 @@ export default function LoggedInLayout({ setLoggedIn }) {
     setTileList(newTileList);
 
     try {
-      await fetch(`/api/users/${username}/notes/${idNum}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://reminder-app-bloz.herokuapp.com/api/users/${username}/notes/${idNum}`,
+        {
+          method: "DELETE",
+        }
+      );
     } catch (err) {
       console.error(err.message);
     }

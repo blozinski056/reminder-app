@@ -36,11 +36,14 @@ export default function Modal({
     };
     try {
       const body = newtile;
-      await fetch(`/api/users/${username}/notes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      await fetch(
+        `https://reminder-app-bloz.herokuapp.com/api/users/${username}/notes`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
       setTileList((prevTileList) => [newtile, ...prevTileList]);
     } catch (err) {
       console.error(err.message);

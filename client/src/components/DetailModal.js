@@ -90,11 +90,14 @@ export default function DetailModal({
         description: dets.description,
         dateTime: dets.dateTime,
       };
-      await fetch(`/api/users/${username}/notes/${dets.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      await fetch(
+        `https://reminder-app-bloz.herokuapp.com/api/users/${username}/notes/${dets.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
       tileList.forEach((tile) => {
         if (tile.id === dets.id) {
           // add to the front so edited note is at the top of UI
