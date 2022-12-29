@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function HomePage({ setLoggedIn }) {
+export default function HomePage() {
   const [signupError, setSignupError] = React.useState(0);
   const [loginError, setLoginError] = React.useState(false);
   const navigate = useNavigate();
@@ -15,9 +15,15 @@ export default function HomePage({ setLoggedIn }) {
         `https://reminder-app-bloz.herokuapp.com/api/users/${un}`
       );
       const jsonData = await response.json();
+
       // check if passwords match
       if (jsonData.password === pw) {
-        setLoggedIn(true);
+        window.localStorage.setItem(
+          "username",
+          JSON.stringify(jsonData.username)
+        );
+        window.localStorage.setItem("loggedIn", true);
+
         navigate(`/${jsonData.username}`, { replace: true });
       } else {
         setLoginError(true);
@@ -64,6 +70,7 @@ export default function HomePage({ setLoggedIn }) {
           }
         );
         const jsonData = await response.json();
+
         // check if username already exists
         if (jsonData.duplicate === "duplicate") {
           setSignupError(1);
@@ -73,7 +80,12 @@ export default function HomePage({ setLoggedIn }) {
           }, 100);
         } else {
           // if username does not exist, then redirect to username page (login)
-          setLoggedIn(true);
+          window.localStorage.setItem(
+            "username",
+            JSON.stringify(jsonData.username)
+          );
+          window.localStorage.setItem("loggedIn", true);
+
           navigate(`/${jsonData.username}`, { replace: true });
         }
       } catch (err) {

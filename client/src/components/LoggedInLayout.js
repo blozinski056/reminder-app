@@ -9,7 +9,7 @@ import Tile from "./Tile.js";
 import ChangePasswordModal from "./ChangePasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 
-export default function LoggedInLayout({ setLoggedIn }) {
+export default function LoggedInLayout() {
   const navigate = useNavigate();
   const { username } = useParams();
   const [modal, setModal] = React.useState(0);
@@ -39,6 +39,14 @@ export default function LoggedInLayout({ setLoggedIn }) {
   });
 
   React.useEffect(() => {
+    const storedUsername = JSON.parse(window.localStorage.getItem("username"));
+    const storedLoggedIn = JSON.parse(window.localStorage.getItem("loggedIn"));
+    if (!storedLoggedIn || storedUsername !== username) {
+      navigate("/redirect", { replace: true });
+    }
+  }, [navigate, username]);
+
+  React.useEffect(() => {
     getNotes(username);
   }, [username]);
 
@@ -65,7 +73,9 @@ export default function LoggedInLayout({ setLoggedIn }) {
   }
 
   function signOut() {
-    setLoggedIn(false);
+    window.localStorage.setItem("loggedIn", JSON.stringify(false));
+    window.localStorage.setItem("username", JSON.stringify(""));
+
     navigate("/", { replace: true });
   }
 
